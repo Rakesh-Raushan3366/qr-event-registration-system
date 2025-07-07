@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="{% static 'register_samautkarsh/assets/img/Samutkarsh_logo.png' %}" type="image/x-icon" />
+  <title>Admin Dashboard</title>
+
+  <!-- ========== All CSS files linkup ========= -->
+  <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/lineicons.css' %}" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="{% static 'assets/css/materialdesignicons.min.css' %}" rel="stylesheet"
+    type="text/css" />
+  <!-- ======== Ajax Scripts =========== -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="{% static 'assets/css/fullcalendar.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/fullcalendar.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />  
+
+
+  <style>
+    
+    .table tbody tr {
+    padding: 0rem;
+    /* background-color : #fff3cd;  */
+    }
+      .table thead tr th h6 {
+      font-weight: 700;
+    }
+  
+    .table tbody tr:first-child > * {
+      padding-top: 10px;
+    }
+
+  
+    .card-style {
+      padding: 5px;
+    }
+
+    .gap-5{
+      gap: 2rem !important;
+    }
+  
+
+  @media (max-width: 767.98px) {
+    .left {
+      margin-bottom: 10px;
+    }
+    .table-responsive {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .table thead {
+      display: none;
+    }
+    .table tbody tr {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 5px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), 
+                  -2px -2px 5px rgba(255, 255, 255, 0.5);
+    }
+    .table tbody td {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 0.1rem 0;
+      border-bottom: 1px solid #ddd;
+      word-break: break-word;
+    }
+    .table tbody td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      margin-right: 1rem;
+      flex: 1;
+      min-width: 100px;
+    }
+    .table tbody td:last-child {
+      border-bottom: none;
+    }
+    .table tbody td[data-label="अनुमति"] {
+      flex-direction: column;
+      /* align-items: center; Center-align the action buttons */
+      gap: 0.5rem;
+    }
+    /* .gap-5{
+      gap: 5rem !important;
+    } */
+    .actions {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center; /* Center-align buttons horizontally */
+    }
+    .actions button {
+      width: auto;
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+    .status {
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    .status.waiting {
+      background-color: orange; /* Changed from yellow to orange */
+      color: #333;
+    }
+    .status.approved {
+      background-color: #28a745; /* Green for Approved */
+      color: white;
+    }
+    .status.rejected {
+      background-color: #dc3545; /* Red for Rejected */
+      color: white;
+    }
+
+
+
+    /* Row Colors */
+    tr[data-id] {
+      transition: background-color 0.3s ease;
+    }
+  }
+  .pagination-controls {
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .pagination-buttons button {
+      min-width: 80px;
+  }
+
+  #showing-entries {
+      font-size: 14px;
+      color: #6c757d;
+  }
+  </style>
+</head>
+
+
+<body>
+
+  <!-- ======== sidebar-nav start =========== -->
+  <aside class="sidebar-nav-wrapper">
+    <div class="navbar-logo text-center"
+      style="display: flex; align-items: center; justify-content: center; padding: 10px 0;">
+
+      <a href="{% url 'core:superadmin_dashboard' %}" style="text-decoration: none;">
+        <!-- <img src="{% static 'assets/images/logo/logo.svg' %}" alt="logo" /> -->
+        <h1 class="logo-text text-center" style="font-size: 28px; font-weight: bold; color: #4A148C; 
+                    letter-spacing: 1px; 
+                    transition: color 0.3s ease;">
+          समुत्कर्ष Admin
+        </h1>
+      </a>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li class="nav-item nav-item-has-children">
+          <a href="#0" data-bs-toggle="collapse" data-bs-target="#ddmenu_1" aria-controls="ddmenu_1"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M8.74999 18.3333C12.2376 18.3333 15.1364 15.8128 15.7244 12.4941C15.8448 11.8143 15.2737 11.25 14.5833 11.25H9.99999C9.30966 11.25 8.74999 10.6903 8.74999 10V5.41666C8.74999 4.7263 8.18563 4.15512 7.50586 4.27556C4.18711 4.86357 1.66666 7.76243 1.66666 11.25C1.66666 15.162 4.83797 18.3333 8.74999 18.3333Z" />
+                <path
+                  d="M17.0833 10C17.7737 10 18.3432 9.43708 18.2408 8.75433C17.7005 5.14918 14.8508 2.29947 11.2457 1.75912C10.5629 1.6568 10 2.2263 10 2.91665V9.16666C10 9.62691 10.3731 10 10.8333 10H17.0833Z" />
+              </svg>
+            </span>
+            <span class="text">Dashboard</span>
+          </a>
+          <ul id="ddmenu_1" class="collapse show dropdown-nav">
+            <!-- Separate <li> for each filter -->
+              <!-- <li style="list-style: none; margin-bottom: 15px;">
+                <label for="referralCode-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">रेफरल कोड:</label>
+                <select id="referralCode-filter" 
+                    style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                    <option value="">Select referralCode...</option>
+                </select>
+            </li> -->
+
+              <!-- <li style="list-style: none; margin-bottom: 15px;">
+                <label for="gender-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">लैंगिक जानकारी:</label>
+                <select id="gender-filter" 
+                    style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                    <option value="">Select gender...</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </li> -->
+
+              <li style="list-style: none; margin-bottom: 15px;">
+                <label for="prant-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">प्रान्त:</label>
+                <select id="prant-filter" 
+                    style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                    <option value="">Select Prant...</option>
+                </select>
+            </li>
+             
+            <li style="list-style: none; margin-bottom: 15px;">
+                <label for="vibhag-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">विभाग:</label>
+                <select id="vibhag-filter" disabled
+                    style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                    <option value="">Select Vibhag...</option>
+                </select>
+            </li>
+            
+            <li style="list-style: none; margin-bottom: 15px;">
+                <label for="jila-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">जिला:</label>
+                <select id="jila-filter" disabled
+                    style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                    <option value="">Select Jila...</option>
+                </select>
+            </li>
+            
+            <li style="list-style: none; margin-bottom: 15px;">
+                <label for="nagar-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">नगर:</label>
+                <select id="nagar-filter" disabled
+                    style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                    <option value="">Select Nagar...</option>
+                </select>
+            </li>
+          <hr>
+            <li style="list-style: none; margin-bottom: 15px;">
+              <label for="ekai-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">दायित्व की इकाई:</label>
+              <select id="ekai-filter" 
+                  style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                  <option value="">Select ekai...</option>
+                  <option value="प्रांत">प्रांत</option>
+                  <option value="विभाग">विभाग</option>
+                  <option value="जिला">जिला</option>
+                  <option value="नगर">नगर</option>
+              </select>
+          </li>
+
+            <li style="list-style: none; margin-bottom: 15px;">
+              <label for="dayitva-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">दायित्व:</label>
+              <select id="dayitva-filter"
+                  style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                  <option value="">Select dayitva...</option>
+              </select>
+          </li>
+
+          <hr>
+          <li style="list-style: none; margin-bottom: 15px;">
+            <label for="profession-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">श्रेणी:</label>
+            <select id="profession-filter" 
+                style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                <option value="">Select profession...</option><option value="स्कूल-विद्यार्थी">स्कूल-विद्यार्थी</option>
+                <option value="कॉलेज-विद्यार्थी">कॉलेज-विद्यार्थी</option>
+                <option value="अध्यापक">अध्यापक</option>
+                <option value="प्राध्यापक">प्राध्यापक</option>
+                <option value="कर्मचारी (सरकारी)">कर्मचारी (सरकारी)</option>
+                <option value="कर्मचारी (अन्य)">कर्मचारी (अन्य)</option>
+                <option value="व्यवसायी">व्यवसायी</option>
+                <option value="उद्योगपति">उद्योगपति</option>
+                <option value="प्रोफेशनल">प्रोफेशनल</option>
+                <option value="सेवा-निवृत्त">सेवा-निवृत्त</option>
+                <option value="गृहिणी">गृहिणी</option>
+                <option value="श्रमिक">श्रमिक</option>
+                <option value="कृषक (किसान)">कृषक (किसान)</option>
+                <option value="प्रचारक">प्रचारक</option>
+                <option value="विस्तारक">विस्तारक</option>
+                <option value="पूर्णकालिक">पूर्णकालिक</option>
+            </select>
+          </li>
+          <!-- <li style="list-style: none; margin-bottom: 15px;">
+            <label for="otherDayitva-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">अन्य दायित्व:</label>
+            <select id="otherDayitva-filter"
+                style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                <option value="">Select otherDayitva...</option>
+            </select>
+          </li> -->
+
+          <!-- <li style="list-style: none; margin-bottom: 15px;">
+            <label for="vividhSangathan-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">विविध संगठन:</label>
+            <select id="vividhSangathan-filter"
+                style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                <option value="">Select vividhsangathan...</option>
+                <option value="राष्ट्रीय स्वयंसेवक संघ">राष्ट्रीय स्वयंसेवक संघ</option>
+                <option value="अखिल भारतीय विद्यार्थी परिषद">अखिल भारतीय विद्यार्थी परिषद</option>
+                <option value="विद्याभारती">विद्याभारती</option>
+                <option value="भारतीय शिक्षण मंडल">भारतीय शिक्षण मंडल</option>
+                <option value="अखिल भारतीय शैक्षिक महासंघ">अखिल भारतीय शैक्षिक महासंघ</option>
+                <option value="संस्कृत भारती">संस्कृत भारती</option>
+                <option value="शिक्षा संस्कृति उत्थान न्यास">शिक्षा संस्कृति उत्थान न्यास</option>
+                <option value="वनवासी कल्याण आश्रम">वनवासी कल्याण आश्रम</option>
+                <option value="विश्व हिन्दू परिषद्">विश्व हिन्दू परिषद्</option>
+                <option value="भारतीय जनता पार्टी">भारतीय जनता पार्टी</option>
+                <option value="राष्ट्रीय सिक्ख संगत">राष्ट्रीय सिक्ख संगत</option>
+                <option value="क्रीडा भारती">क्रीडा भारती</option>
+                <option value="संस्कार भारती">संस्कार भारती</option>
+                <option value="सक्षम">सक्षम</option>
+                <option value="आरोग्य भारती">आरोग्य भारती</option>
+                <option value="एन्. एम्. ओ. (नैशनल मैडिकल आर्गेनाइजेशन)">एन्. एम्. ओ. (नैशनल मैडिकल आर्गेनाइजेशन)
+                </option>
+                <option value="भारत विकास परिषद">भारत विकास परिषद</option>
+                <option value="दीनदयाल शोध संस्थान">दीनदयाल शोध संस्थान</option>
+                <option value="राष्ट्रीय सेवा भारती">राष्ट्रीय सेवा भारती</option>
+                <option value="भारतीय किसान संघ">भारतीय किसान संघ</option>
+                <option value="भारतीय मजदूर संघ">भारतीय मजदूर संघ</option>
+                <option value="स्वदेशी जागरण मंच">स्वदेशी जागरण मंच</option>
+                <option value="सहकार भारती">सहकार भारती </option>
+                <option value="ग्राहक पंचायत">ग्राहक पंचायत</option>
+                <option value="लघु उद्योग भारती">लघु उद्योग भारती </option>
+                <option value="अखिल भारतीय साहित्य परिषद">अखिल भारतीय साहित्य परिषद </option>
+                <option value="अधिवक्ता परिषद">अधिवक्ता परिषद </option>
+                <option value="प्रज्ञा प्रवाह">प्रज्ञा प्रवाह </option>
+                <option value="विज्ञान भारती">विज्ञान भारती </option>
+                <option value="अखिल भारतीय इतिहास संकलन समिति">इतिहास संकलन योजना </option>
+                <option value="पूर्व सैनिक सेवा परिषद">पूर्व सैनिक सेवा परिषद </option>
+                <option value="हिन्दु जागरण मंच">हिन्दु जागरण मंच </option>
+                <option value="सीमा जागरण मंच">सीमा जागरण मंच </option>
+                <option value="स्वामी विवेकानन्द मेडिकल मिशन">स्वामी विवेकानन्द मेडिकल मिशन </option>
+                <option value="दिल्ली अध्यापक परिषद्">दिल्ली अध्यापक परिषद् </option>
+                <option value="सुरूचि प्रकाशन">सुरूचि प्रकाशन </option>
+                <option value="इंद्रप्रस्थ विश्व संवाद केंद्र">इंद्रप्रस्थ विश्व संवाद केंद्र </option>
+                <option value="राष्ट्र सेविका समिति">राष्ट्र सेविका समिति </option>
+                <option value="हिन्दुस्थान समाचार">हिन्दुस्थान समाचार </option>
+                <option value="SUYASH">SUYASH</option>
+            </select>
+          </li> -->
+
+          <!-- <li style="list-style: none; margin-bottom: 15px;">
+            <label for="otherVividhSangathan-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">अन्य विविध संगठन:</label>
+            <select id="otherVividhSangathan-filter"
+                style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                <option value="">Select other vividhsangathan name...</option>
+            </select>
+          </li> -->
+
+            <li style="list-style: none; margin-bottom: 15px;">
+              <label for="status-filter" style="display: block;font-size: 14px; font-weight: bold; color: #5A2D82; margin-bottom: 5px; text-align: center  ;">Status</label>
+              <select id="status-filter"
+                  style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid #5A2D82; border-radius: 8px; background-color: #F4F1FA; color: #5A2D82;">
+                  <option value="">Select status</option>
+                                      
+                  <option value="Pending">Pending</option>
+                  <option value="Approve">Approve</option>
+                  <option value="Reject">Reject</option>
+              </select>
+            </li>
+            <li style="list-style: none; margin-bottom: 15px;">
+
+            <!-- Back Button -->
+            </li>
+              <button onclick="window.history.back();" class="btn btn-warning btn-xs mt-10" style="width: 100%; padding: 8px; font-size: 12px; border-radius: 8px; font-weight: bolder;">Back</button> 
+            </li>
+            
+          </ul>
+        </li>
+      </ul>
+    </nav>
+   
+  </aside>
+  <div class="overlay"></div>
+  
+  <main class="main-wrapper">
+    {% include 'Navigation/navbar.html' %}
+  
+    {% block content %}
+    <section class="section mt-30">
+      <div class="container-fluid">
+          <div class="col-lg-12">
+              <div class="card-style mb-30">
+                  <div class="title d-flex flex-wrap align-items-center justify-content-between p-3 mb-3"
+                      style="background: #f8f9fa; border-radius: 8px; box-shadow: 0px 2px 5px rgba(0,0,0,0.1);">
+  
+                      <!-- Left Section: Heading -->
+                      <div class="left">
+                          <h6 class="text-medium mb-0" style="font-size: 18px; font-weight: bold; color: #333;">
+                              अनुमति सम्बन्धी आवेदन (Approval Request)
+                          </h6>
+                      </div>
+                      
+                      <!-- Pending/Approved Status Badges -->
+                      <div class="d-flex flex-wrap gap-2 gap-md-3 me-2 me-md-3 align-items-center" style="font-size: clamp(14px, 1.5vw, 16px);">
+                        <!-- Overall Count -->
+                        <div class="d-flex align-items-center flex-grow-1 flex-md-grow-0">
+                          <span class="badge bg-info rounded-pill me-2 py-2"style="font-size:16px" id="total-count">{{total_count}}</span>
+                          <span class="text-bold">Overall</span>
+                        </div>
+                        
+                        <!-- Approved Count -->
+                        <div class="d-flex align-items-center flex-grow-1 flex-md-grow-0">
+                          <span class="badge bg-success rounded-pill me-2 py-2"style="font-size:16px" id="approve-count">{{approve_count}}</span>
+                          <span class="text-bold">Approved</span>
+                        </div>
+                        
+                        <!-- Pending Count -->
+                        <div class="d-flex align-items-center flex-grow-1 flex-md-grow-0">
+                          <span class="badge bg-warning rounded-pill me-2 py-2"style="font-size:16px" id="pending-count">{{pending_count}}</span>
+                          <span class="text-bold">Pending</span>
+                        </div>
+                        
+                        <!-- Reject Count -->
+                        <div class="d-flex align-items-center flex-grow-1 flex-md-grow-0">
+                          <span class="badge bg-danger rounded-pill me-2 py-2"style="font-size:16px" id="reject-count">{{reject_count}}</span>
+                          <span class="text-bold">Reject</span>
+                        </div>
+                      </div>
+  
+                      <!-- Search Bar - Now below for mobile, right on desktop -->
+                      <div class="order-0 order-md-1 flex-grow-1 flex-md-grow-0 mt-10" style="min-width: 200px; max-width: 400px;">
+                        <div class="input-group">
+                          <input type="text" id="search-input" class="form-control"
+                                style="font-size: 14px; padding: 8px 12px; border-radius: 6px; border: 2px solid #000; transition: border 0.3s ease;"
+                                placeholder="नाम या मोबाइल नंबर से खोजें" 
+                                onfocus="this.style.borderColor='#007bff';"
+                                onblur="this.style.borderColor='#ccc';">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Title -->
+  
+                  <div class="table-responsive">
+                      <table class="table top-selling-table">
+                          <thead>
+  
+                              <tr>
+                                  <th class="text-center">
+                                    <h6 class="text-sm text-medium">अनुमति</h6>
+                                  </th>
+                                  <th>
+                                      <h6 class="text-sm text-medium">रेफरल कोड</h6>
+                                  </th>
+                                  <th>
+                                      <h6 class="text-sm text-medium">नाम</h6>
+                                  </th>
+                                  <th>
+                                      <h6 class="text-sm text-medium">मोबाइल नम्बर</h6>
+                                  </th>
+                                  <th>
+                                    <h6 class="text-sm text-medium">लैंगिक जानकारी</h6>
+                                  </th>
+                                  <th>
+                                    <h6 class="text-sm text-medium">श्रेणी</h6>
+                                  </th>
+                                  <!-- <th>
+                                    <h6 class="text-sm text-medium">अन्य श्रेणी</h6>
+                                  </th> -->
+                                  <th>
+                                    <h6 class="text-sm text-medium">निवास का प्रान्त</h6>
+                                </th>
+                                  <th>
+                                    <h6 class="text-sm text-medium">निवास का विभाग</h6>
+                                </th>
+                                  <th>
+                                    <h6 class="text-sm text-medium">निवास का जिला</h6>
+                                  </th>
+                                  <th>
+                                      <h6 class="text-sm text-medium">निवास का नगर</h6>
+                                  </th>
+
+                                  <th>
+                                    <h6 class="text-sm text-medium">दायित्व की इकाई</h6>
+                                  </th>
+                                  
+                                  <th>
+                                      <h6 class="text-sm text-medium">दायित्व</h6>
+                                  </th>
+                                  
+                                <th>
+                                  <h6 class="text-sm text-medium">विविध संगठन</h6>
+                                  </th>
+                                  <!-- <th>
+                                    <h6 class="text-sm text-medium">अन्य विविध संगठन</h6>
+                                  </th> -->
+                                  
+                                  <th style="display: none;">
+                                      <h6 class="text-sm text-medium">अनुमति की स्थिति</h6>
+                                  </th>
+                                  
+                              </tr>
+                          </thead>
+                          <tbody id = "tableBody">
+                             {% for data in registrations %}
+                              <!-- {{data}} -->
+
+                              <tr data-id='{{data.0}}'>
+                                <td data-label="अनुमति" style="font-size: 14px !important;">
+                                  <div class="actions d-flex gap-5">
+                                      <button class="btn btn-outline-warning btn-xs {% if data.9|lower == 'pending' %}active{% endif %}"
+                                          style="padding:5px; font-size:12px;font-weight:700; color:#333;"
+                                          onclick="updateStatus(this, 'Pending')">Pending</button>
+                              
+                                      <button class="btn btn-outline-success btn-xs {% if data.9 == 'Approve' %}active{% endif %}"
+                                          style="padding:5px; font-size:12px;font-weight:700;color:#333;"
+                                          onclick="updateStatus(this, 'Approve')">Approve</button>
+                              
+                                      <button class="btn btn-outline-danger btn-xs {% if data.9 == 'Reject' %}active{% endif %}"
+                                          style="padding:5px; font-size:12px;font-weight:700;color:#333;"
+                                          onclick="updateStatus(this, 'Reject')">Reject</button>
+                                  </div>
+                                </td>
+                                  <td data-label="रेफरल कोड" style="font-size: 14px !important;">
+                                      <p class="text-sm">{{data.11}}</p>
+                                  </td>
+                                  <td data-label="नाम" style="font-size: 14px !important;">
+                                      <p class="text-sm">{{data.1}}</p>
+                                  </td>
+                                  <td data-label="मोबाइल नम्बर" style="font-size: 14px !important;">
+                                      <p class="text-sm">{{data.2}}</p>
+                                  </td>
+                                  <td data-label="लैंगिक जानकारी" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{data.3}}</p>
+                                </td>
+                                <td data-label="श्रेणी" style="font-size: 14px !important;">
+                                  <p class="text-sm">{{data.12}}</p>
+                                  </td>
+                                <!-- <td data-label="अन्य श्रेणी" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{data.14}}</p>
+                                </td> -->
+                                  <td data-label="निवास का प्रांत" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{data.4}}</p>
+                                </td>
+                                  <td data-label="निवास का विभाग" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{data.5}}</p>
+                                </td>
+                                  <td data-label="निवास का जिला" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{data.6}}</p>
+                                </td>
+                                  <td data-label="निवास का नगर" style="font-size: 14px !important;">
+                                      <p class="text-sm">{{data.7}}</p>
+                                  </td>
+                                  <td data-label="दायित्व की इकाई" style="font-size: 14px !important;">
+                                      <p class="text-sm">{% if data.10 %}{{ data.10 }}{% else %}Not Available{% endif %}</p>
+                                  </td>
+                                  
+                                  <td data-label="दायित्व" style="font-size: 14px !important;">
+                                      <p class="text-sm">{% if data.8 %}{{ data.8 }}{% else %}Not Available{% endif %}</p>
+                                  </td>
+                                  
+                                  <!-- <td data-label="अन्य दायित्व" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{data.12}}</p>
+                                  </td> -->
+                                <td data-label="विविध संगठन" style="font-size: 14px !important;">
+                                  <p class="text-sm">{% if data.13 %}{{ data.13 }}{% else %}Not Available{% endif %}</p>
+                              </td>
+                                <!-- <td data-label="अन्य विविध संगठन" style="font-size: 14px !important;">
+                                  <p class="text-sm">{{data.16}}</p>
+                                </td> -->
+                                    <td data-label="अनुमति की स्थिति" style="font-size: 14px !important; display: none;">
+                                      <p class="text-sm status ">{{data.9}}</p>
+                                    </td>                                  
+                              </tr>
+                              {% endfor %}
+                              
+                          </tbody>
+                      </table>
+                      <!-- End Table -->
+
+                      <!-- Pagination -->
+                      {% if registrations.has_other_pages %}
+                        <nav aria-label="Page navigation" class="mt-4 mb-4">
+                          <ul class="pagination justify-content-center">
+
+                            <!-- Previous Button -->
+                            {% if registrations.has_previous %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ registrations.previous_page_number }}">Previous</a>
+                              </li>
+                            {% else %}
+                              <li class="page-item disabled">
+                                <span class="page-link">Previous</span>
+                              </li>
+                            {% endif %}
+
+                            <!-- Page Numbers -->
+                            {% for page_num in registrations.paginator.page_range %}
+                              {% if page_num >= registrations.number|add:'-1' and page_num <= registrations.number|add:'1' %}
+                                {% if page_num == registrations.number %}
+                                  <li class="page-item active">
+                                    <span class="page-link bg-primary border-primary text-white">{{ page_num }}</span>
+                                  </li>
+                                {% else %}
+                                  <li class="page-item">
+                                    <a class="page-link text-primary" href="?page={{ page_num }}">{{ page_num }}</a>
+                                  </li>
+                                {% endif %}
+                              {% endif %}
+                            {% endfor %}
+
+
+                            <!-- Next Button -->
+                            {% if registrations.has_next %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ registrations.next_page_number }}">Next</a>
+                              </li>
+                            {% else %}
+                              <li class="page-item disabled">
+                                <span class="page-link">Next</span>
+                              </li>
+                            {% endif %}
+
+                          </ul>
+                        </nav>
+                      {% endif %}
+                      <!-- End Pagination -->
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+    {% endblock %}
+  
+    {% include 'Navigation/footer.html' %}
+  </main>
+  <!-- ======== main-wrapper end =========== -->
+
+  <!-- ========= All viavascript files linkup ======== -->
+  <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/js/Chart.min.js' %}"></script>
+  <script src="{% static 'assets/js/dynamic-pie-chart.' %}"></script>
+  <script src="{% static 'assets/js/moment.min.js' %}"></script>
+  <script src="{% static 'assets/js/fullcalendar.js' %}"></script>
+  <script src="{% static 'assets/js/jvectormap.min.js' %}"></script>
+  <script src="{% static 'assets/js/world-merc.js' %}"></script>
+  <script src="{% static 'assets/js/polyfill.js' %}"></script>
+  <script src="{% static 'assets/js/main.js' %}"></script>
+  <!-- SweetAlert2 JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.21/dist/sweetalert2.all.min.js"></script>
+
+  <script>
+    
+    function updateStatus(button, status) {
+        const row = button.closest("tr");
+        const registerId = row.getAttribute("data-id");
+
+        // Convert status to lowercase for comparison
+        const statusLower = status.toLowerCase();
+
+        // Define alert messages based on the status
+        let alertTitle = 'क्या आप सुनिश्चित हैं?';
+        let alertText = '';
+        let confirmButtonText = '';
+
+        if (statusLower === "approve") {
+            alertText = "आप इस अनुरोध को स्वीकृत करने जा रहे हैं!";
+            confirmButtonText = 'हाँ, स्वीकृत करें!';
+        } else if (statusLower === "reject") {
+            alertText = "आप इस अनुरोध को अस्वीकार करने जा रहे हैं!";
+            confirmButtonText = 'हाँ, अस्वीकार करें!';
+        } else if (statusLower === "pending") {
+            alertText = "आप इस अनुरोध को लंबित करने जा रहे हैं!";
+            confirmButtonText = 'हाँ, लंबित करें!';
+        } else {
+            // Invalid status
+            console.warn("Unknown status:", status);
+            return;
+        }
+
+        // Show confirmation dialog
+        Swal.fire({
+            title: alertTitle,
+            text: alertText,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: confirmButtonText
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // User confirmed, proceed with the update
+                sendStatusUpdate(row, registerId, status, button);
+            }
+        });
+    }
+
+    // Separate function to handle the actual status update
+    function sendStatusUpdate(row, registerId, status, button) {
+        const formData = new FormData();
+        formData.append('register_id', registerId);
+        formData.append('status', status);
+        console.log(status, registerId);
+        fetch('/dashboard/admin/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: formData,
+        })
+        .then(response => {
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                const statusCell = row.querySelector(".status");
+                statusCell.textContent = status;
+                statusCell.className = `text-sm status ${status.toLowerCase()}`;
+
+                const actionButtons = row.querySelectorAll(".actions button");
+                actionButtons.forEach((btn) => {
+                    btn.classList.remove("active");
+                    if (btn.textContent.trim() === status) {
+                        btn.classList.add("active");
+                    }
+                });
+
+                switch (status.toLowerCase()) {
+                    case "pending":
+                        row.style.backgroundColor = "#fff3cd";
+                        break;
+                    case "approve":
+                        row.style.backgroundColor = "#d4edda";
+                        Swal.fire(
+                            'स्वीकृत!',
+                            'अनुरोध स्वीकृत कर दिया गया है।',
+                            'success'
+                        );
+                        break;
+                    case "reject":
+                        row.style.backgroundColor = "#f8d7da";
+                        break;
+                    default:
+                        row.style.backgroundColor = "fff3cd";
+                }
+            } else {
+                Swal.fire(
+                    'त्रुटि!',
+                    'स्थिति अपडेट करने में विफल रहा।',
+                    'error'
+                );
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire(
+                'त्रुटि!',
+                'स्थिति अपडेट करते समय एक त्रुटि हुई।',
+                'error'
+            );
+        });
+    }
+
+   // Function to get the CSRF token from cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+  </script> 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const data_from_backend = {{ mappings | safe }};
+        
+         const string_convert = JSON.stringify(data_from_backend);
+        
+         const mappings = JSON.parse(string_convert);
+        
+         console.log(mappings)
+        const mappingsss = {
+            prantToVibhag: {
+                'Prant_1': ['Vibhag 1-1', 'Vibhag 1-2'],
+                'Prant_2': ['Vibhag 2-1', 'Vibhag 2-2'],
+            },
+            vibhagToJila: {
+                'Vibhag 1-1': ['Jila 1-1-1', 'Jila 1-1-2'],
+                'Vibhag 1-2': ['Jila 1-2-1', 'Jila 1-2-2'],
+                'Vibhag 2-1': ['Jila 2-1-1', 'Jila 2-1-2'],
+                'Vibhag 2-2': ['Jila 2-2-1', 'Jila 2-2-2'],
+            },
+            jilaToNagar: {
+                'Jila 1-1-1': ['Nagar 1-1-1-1', 'Nagar 1-1-1-2'],
+                'Jila 1-1-2': ['Nagar 1-1-2-1', 'Nagar 1-1-2-2'],
+            },
+            dayitvaMapping: {
+              Prant: ['दायित्व प्रांत 1', 'दायित्व प्रांत 2'],
+              Vibhag: ['दायित्व विभाग 1', 'दायित्व विभाग 2'],
+              Jila: ['दायित्व जिला 1', 'दायित्व जिला 2'],
+              Nagar: ['दायित्व नगर 1', 'दायित्व नगर 2'],
+          },
+          user_type :["स्कूल-विद्यार्थी", "कॉलेज-विद्यार्थी", "अध्यक्षक", "प्राध्यापक",
+               "कर्मचारी (सरकारी)", "कर्मचारी (अन्य)", "व्यवसायी", "उद्योगपति",
+               "प्रोफेशनल", "सेवा-निवृत्त", "गृहिणी", "श्रमिक", "कृषक (किसान)", "प्रचारक", "विस्तारक", "पूर्णकालिक"] ,
+          // other_user_type:['profession1', 'profession2', 'profession3'],
+          referral_code:['code1','code2','code3'],
+          // other_dayitv_name:['dayitva1', 'dayitva2','dayitva3'],
+          // other_vividhsangathan_name:['vividh1', 'vividh2', 'vividh3']
+         
+        };
+        const fieldToHindiMapping = {
+            prant: "प्रांत",vibhag: "विभाग",jila: "जिला",nagar: "नगर",address_nagar:"नगर",mandal:"मंडल", basti:"बस्ती",upbasti:"उपबस्ती",ekai_nagar:"नगर",
+            sakha_milan:"शाखा / मिलन",vividhSangathan:"विविध संगठन", "akhilbhartiya": "अखिलभारतीय","chetra": "क्षेत्र",};
+        const hindiToEnglishMapping= {
+          "प्रांत": "Prant", "विभाग": "Vibhag","जिला":"Jila", "नगर":"Nagar","मंडल" :"mandal", "बस्ती" :"basti","उपबस्ती" : "upbasti",
+        "शाखा / मिलन" :"sakha_milan","विविध संगठन" : "vividhSangathan",  "अखिलभारतीय": "akhilbhartiya", "क्षेत्र":"chetra",};
+  
+   
+        // Get dropdown elements
+        const filters = {
+            // gender: document.getElementById("gender-filter"),
+            prant: document.getElementById("prant-filter"),
+            vibhag: document.getElementById("vibhag-filter"),
+            jila: document.getElementById("jila-filter"),
+            nagar: document.getElementById("nagar-filter"),
+            ekai: document.getElementById("ekai-filter"),
+            dayitva: document.getElementById("dayitva-filter"),
+            status: document.getElementById("status-filter"),
+            // referralCode: document.getElementById("referralCode-filter"),
+            // otherDayitva: document.getElementById("otherDayitva-filter"),
+            profession: document.getElementById("profession-filter"),
+            // otherProfession: document.getElementById("otherProfession-filter"),
+            // vividhSangathan:document.getElementById("vividhSangathan-filter"),
+            // otherVividhSanagathan:document.getElementById("otherVividhSangathan-filter"),
+            
+        };
+  
+        // Function to update dropdown options dynamically
+        function updateDropdown(filterElement, optionsArray, selectedValue = null) {
+            filterElement.innerHTML = '<option value="">Select...</option>'; // Reset options
+            optionsArray.forEach(option => {
+                let newOption = document.createElement("option");
+                newOption.value = option;
+                newOption.textContent = option;
+                if (selectedValue && selectedValue === option) {
+                    newOption.selected = true;
+                }
+                filterElement.appendChild(newOption);
+            });
+            filterElement.disabled = optionsArray.length === 0;
+        }
+  
+        // Simulated user role and assigned value (Replace with actual user data)
+        const userRole = 'Prant'; // Options: "Prant", "Vibhag", "Jila", "Nagar"
+        let assignedValue = "दिल्ली"; // The fixed value for the user (if applicable)
+      
+        function autoFillAndLockDropdowns() {
+            if (userRole === "Prant") {
+                updateDropdown(filters.prant, [assignedValue], assignedValue);
+                filters.prant.disabled = true;
+                updateDropdown(filters.vibhag, mappings.prantToVibhag[assignedValue] || []);
+                updateDropdown(filters.jila, []);
+                updateDropdown(filters.nagar, []);
+                // updateDropdown(filters.dayitva, mappings.dayitvaMapping[userRole]||[]);               
+            } 
+            else if (userRole === "Vibhag") {
+                let prant = Object.keys(mappings.prantToVibhag).find(p => mappings.prantToVibhag[p].includes(assignedValue));
+                // console.log(mappings.prantToVibhag)
+                updateDropdown(filters.prant, [prant], prant);
+                updateDropdown(filters.vibhag, [assignedValue], assignedValue);
+                filters.prant.disabled = true;
+                filters.vibhag.disabled = true;
+                updateDropdown(filters.jila, mappings.vibhagToJila[assignedValue] || []);
+                updateDropdown(filters.nagar, []);
+                // updateDropdown(filters.dayitva, mappings.dayitvaMapping[userRole]||[]);
+                
+            } 
+            else if (userRole === "Jila") {
+                let vibhag = Object.keys(mappings.vibhagToJila).find(v => mappings.vibhagToJila[v].includes(assignedValue));
+                let prant = Object.keys(mappings.prantToVibhag).find(p => mappings.prantToVibhag[p].includes(vibhag));
+                updateDropdown(filters.prant, [prant], prant);
+                updateDropdown(filters.vibhag, [vibhag], vibhag);
+                updateDropdown(filters.jila, [assignedValue], assignedValue);
+                filters.prant.disabled = true;
+                filters.vibhag.disabled = true;
+                filters.jila.disabled = true;
+                updateDropdown(filters.nagar, mappings.jilaToNagar[assignedValue] || []);
+                // updateDropdown(filters.dayitva, mappings.dayitvaMapping[userRole]||[]);
+                
+            } 
+            else if (userRole === "Nagar") {
+                let jila = Object.keys(mappings.jilaToNagar).find(j => mappings.jilaToNagar[j].includes(assignedValue));
+                let vibhag = Object.keys(mappings.vibhagToJila).find(v => mappings.vibhagToJila[v].includes(jila));
+                let prant = Object.keys(mappings.prantToVibhag).find(p => mappings.prantToVibhag[p].includes(vibhag));
+                updateDropdown(filters.prant, [prant], prant);
+                updateDropdown(filters.vibhag, [vibhag], vibhag);
+                updateDropdown(filters.jila, [jila], jila);
+                updateDropdown(filters.nagar, [assignedValue], assignedValue);
+                filters.prant.disabled = true;
+                filters.vibhag.disabled = true;
+                filters.jila.disabled = true;
+                filters.nagar.disabled = true;
+                // updateDropdown(filters.dayitva, mappings.dayitvaMapping[userRole]||[]);
+                
+            }
+            // updateDropdown(filters.referralCode, mappings.referral_code||[]);
+            // updateDropdown(filters.otherProfession, mappings.other_user_type||[]);
+            // updateDropdown(filters.otherDayitva, mappings.other_dayitv_name||[]);
+            // updateDropdown(filters.otherVividhSanagathan, mappings.other_vividhsangathan_name||[]);
+            updateTable(); // Ensure the table updates on load
+        }
+  
+        // Automatically fill dropdowns based on user role
+        autoFillAndLockDropdowns();
+  
+        // Function to update table based on selected filters
+        function updateTable() {
+            const rows = document.querySelectorAll("#tableBody tr");
+            rows.forEach(row => {
+
+              const statusElement = row.querySelector(".status");
+              // console.log(statusElement);
+              if (statusElement) {
+                const status = statusElement.textContent.trim(); // Get the status text
+
+                // Apply background color based on the status
+                // console.log(status);
+                switch (status) {
+                 
+                  case "Pending":
+                    // console.log("pending executed");
+                    row.style.backgroundColor = "#fff3cd"; // Light yellow for Pending
+                    break;
+                  case "Approve":
+                    row.style.backgroundColor = "#d4edda"; // Light green for Approve
+                    break;
+                  case "Reject":
+                    row.style.backgroundColor = "#f8d7da"; // Light red for Reject
+                    break;
+                  default:
+                    row.style.backgroundColor = "#fff3cd"; // Default white
+                    break;
+                }
+              }
+                const cells = row.getElementsByTagName("td");
+                const matches = 
+                    
+                    (!filters.profession.value || cells[5].querySelector("p").textContent.trim() === filters.profession.value)&&
+                    (!filters.prant.value || cells[6].querySelector("p").textContent.trim() === filters.prant.value) &&
+                    (!filters.vibhag.value || cells[7].querySelector("p").textContent.trim() === filters.vibhag.value) &&
+                    (!filters.jila.value || cells[8].querySelector("p").textContent.trim() === filters.jila.value) &&
+                    (!filters.nagar.value || cells[9].querySelector("p").textContent.trim() === filters.nagar.value)&&
+                    (!filters.ekai.value || cells[10].querySelector("p").textContent.trim().toLowerCase() === filters.ekai.value.toLowerCase())
+                    &&
+                    (!filters.dayitva.value || cells[11].querySelector("p").textContent.trim() === filters.dayitva.value)&&
+                    (!filters.status.value || cells[13].querySelector("p").textContent.trim() === filters.status.value);
+                row.style.display = matches ? "" : "none";
+                console.log(cells[13].querySelector("p").textContent.trim());
+            });
+        }
+        // Attach event listeners to dropdowns for filtering
+        Object.values(filters).forEach(filter => {
+            filter.addEventListener("change", updateTable);
+        });
+  
+        // Normal dropdown behavior for higher-level users
+        if (userRole === "Prant" || userRole === "Vibhag" || userRole === "Nagar") {
+            filters.prant.addEventListener("change", function () {
+                let selectedPrant = filters.prant.value;
+                updateDropdown(filters.vibhag, mappings.prantToVibhag[selectedPrant] || []);
+                updateDropdown(filters.jila, []);
+                updateDropdown(filters.nagar, []);
+                updateTable();
+            });
+  
+            filters.vibhag.addEventListener("change", function () {
+                let selectedVibhag = filters.vibhag.value;
+                updateDropdown(filters.jila, mappings.vibhagToJila[selectedVibhag] || []);
+                updateDropdown(filters.nagar, []);
+                updateTable();
+            });
+  
+            filters.jila.addEventListener("change", function () {
+                let selectedJila = filters.jila.value;
+                updateDropdown(filters.nagar, mappings.jilaToNagar[selectedJila] || []);
+                updateTable();
+            });
+            filters.ekai.addEventListener("change", function () {
+                let selectedEkai = filters.ekai.value;
+                selectedEkai = `${hindiToEnglishMapping[selectedEkai]}`;
+                updateDropdown(filters.dayitva, mappings.dayitvaMapping[selectedEkai] || []);
+                updateTable();
+            });
+  
+            filters.nagar.addEventListener("change", updateTable);
+        }
+    
+        // Ensure the table updates immediately on page load
+        updateTable();
+      // Search Functionality
+        document.getElementById("search-input").addEventListener("input", function () {
+          const searchValue = this.value.toLowerCase(); 
+          const rows = document.querySelectorAll("tbody tr");
+
+          rows.forEach((row) => {
+            // Get the text content of the "Name" and "Mobile Number" columns
+            // Assuming Name is in the 2nd column
+            const name = row.querySelector("td:nth-child(4)").textContent.toLowerCase();
+            const mobile = row.querySelector("td:nth-child(5)").textContent.toLowerCase();
+
+            // Check if the search value matches either Name or Mobile Number
+            if (name.includes(searchValue) || mobile.includes(searchValue)) {
+              row.style.display = ""; // Show the row if there's a match
+            } else {
+              row.style.display = "none"; // Hide the row if there's no match
+            }
+          });
+        });
+    });
+  </script>
+</body>
+</html>

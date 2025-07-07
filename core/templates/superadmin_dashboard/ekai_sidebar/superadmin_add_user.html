@@ -1,0 +1,710 @@
+{% extends 'superadmin_dashboard/superadmin_dashboard.html' %}
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<input type="text" id="user_id" value="{{ approving_person }}" hidden>
+
+<style>
+    :root {
+        --primary-color: #4e73df;
+        --secondary-color: #1cc88a;
+        --danger-color: #e74a3b;
+        --warning-color: #f6c23e;
+        --info-color: #36b9cc;
+        --light-bg: #f8f9fc;
+        --dark-text: #5a5c69;
+    }
+    
+    .card {
+        border-radius: 0.35rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        margin-bottom: 1.5rem;
+        border: none;
+        margin-left: 2rem;
+        margin-right: 2rem;
+    }
+    
+    .card-header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        font-weight: 600;
+        padding: 1rem 1.35rem;
+        background-color: #f8f9fc;
+    }
+    
+    .bg-primary {
+        background-color: var(--primary-color) !important;
+    }
+    
+    .bg-success {
+        background-color: var(--secondary-color) !important;
+    }
+    
+    .bg-info {
+        background-color: var(--info-color) !important;
+    }
+    
+    .badge {
+        font-weight: 500;
+        padding: 0.35em 0.65em;
+    }
+    
+    .user-info-card {
+        background: linear-gradient(135deg, #f8f9fc 0%, #e9ecef 100%);
+        border-left: 4px solid var(--primary-color);
+    }
+    
+    .user-detail-label {
+        font-weight: 600;
+        color: #000;
+        min-width: 120px;
+    }
+    
+    .nav-tabs .nav-link {
+        color: var(--dark-text);
+        font-weight: 500;
+        border: none;
+        padding: 0.75rem 1.25rem;
+    }
+    
+    .nav-tabs .nav-link.active {
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+        background: transparent;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+    }
+    
+    .table th {
+        background-color: var(--light-bg);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .table td {
+        vertical-align: middle;
+        padding: 0.75rem;
+    }
+    
+    .table tr:nth-child(even) {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+    
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    /* Two column layout */
+    @media (min-width: 992px) {
+        .two-column-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .full-width {
+            grid-column: span 2;
+        }
+    }
+    
+    /* Mobile responsive adjustments */
+    @media (max-width: 991.98px) {
+        .mobile-stack {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mobile-mb-3 {
+            margin-bottom: 1rem !important;
+        }
+    }
+    
+    /* Small screen table adjustments */
+    @media (max-width: 767.98px) {
+        .table-responsive {
+            border: 0;
+        }
+        
+        .table thead {
+            display: none;
+        }
+        
+        .table tr {
+            display: block;
+            margin-bottom: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+        }
+        
+        .table td {
+            /* display: flex;
+            justify-content: space-between; */
+            /* align-items: center; */
+            padding: 0.5rem;
+            border-bottom: 1px solid #dee2e6;
+            /* text-align: right; */
+        }
+        
+        .table td:before {
+            content: attr(data-label);
+            font-weight: 600;
+            /* margin-right: 1rem; */
+            color: var(--dark-text);
+        }
+        
+        .table td:last-child {
+            border-bottom: 0;
+        }
+        
+        .actions {
+            justify-content: flex-end !important;
+        }
+    }
+    
+    /* Status badges */
+    .badge-waiting {
+        background-color: #f6c23e;
+        color: #000;
+    }
+    
+    .badge-approved {
+        background-color: var(--secondary-color);
+    }
+    
+    .badge-rejected {
+        background-color: var(--danger-color);
+    }
+    
+    /* Form elements */
+    .form-label {
+        font-weight: 600;
+        color: var(--dark-text);
+    }
+    
+    .required-field:after {
+        content: " *";
+        color: var(--danger-color);
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+</style>
+
+<!-- Search Form -->
+<div class="card full-width animate-fade mt-3" style="animation-delay: 0.1s;">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fas fa-search me-2"></i>Search User</h5>
+    </div>
+    <div class="card-body">
+        <form method="get" class="row g-3 align-items-center">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    <input type="text" name="phone_number" class="form-control" 
+                           placeholder="Search Mobile No." value="{{ searched_phone }}" required>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="scannerToggle" 
+                           name="is_scanner" {% if is_scanner %}checked{% endif %}>
+                    <label class="form-check-label" for="scannerToggle">Scanner User</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search me-2"></i>Search
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Two Column Layout -->
+<div class="one-column-layout mt-4">
+    {% if registration_info %}
+    <!-- Left Column - User Information -->
+    <div class="left-column">
+        <div class="card user-info-card animate-fade">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="mb-0"><i class="fas fa-user-circle me-2"></i>User Details</h4>
+                {% if registration_info %}
+                <span class="badge bg-success">Registered</span>
+                {% else %}
+                <span class="badge bg-secondary">Not Found</span>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                {% if registration_info %}
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td class="user-detail-label" >नाम (First Name):</td>
+                                <td >{{ registration_info.name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="user-detail-label">मोबाइल नंबर:</td>
+                                <td>{{ registration_info.phone_number }}</td>
+                            </tr>
+                            <tr>
+                                <td class="user-detail-label">लैंगिक जानकारी:</td>
+                                <td>{{ registration_info.gender }}</td>
+                            </tr>
+                            <tr>
+                                <td class="user-detail-label">जन्मतिथि:</td>
+                                <td>{{ registration_info.dob }}</td>
+                            </tr>
+                            <tr>
+                                <td class="user-detail-label">वर्तमान पता:</td>
+                                <td>{{ registration_info.corress_address }}</td>
+                            </tr>
+                            <tr>
+                                <td class="user-detail-label">दायित्व:</td>
+                                <td>{{ registration_info.dayitv }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-warning mb-0">
+                    <i class="fas fa-exclamation-triangle me-2"></i>No user found with the provided details
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- In the role assignment form section -->
+        {% if is_scanner or registration_info %}
+        <!-- Role Assignment Form -->
+        <div class="card mt-4 animate-fade" style="animation-delay: 0.1s;">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-user-tag me-2"></i>{% if is_scanner %}Scanner{% else %}Admin + Scanner{% endif %} Role Assignment</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" id="roleForm" class="needs-validation" enctype="multipart/form-data" autofocus >
+                    {% csrf_token %}
+                    
+                    <input type="hidden" name="role_type" value="{% if is_scanner %}scanner{% else %}admin{% endif %}">
+                    <input type="hidden" name="phone_number" value="{{ registration_info.phone_number }}">
+                    <input type="hidden" name="scanner_name" value="{{ registration_info.name }}">
+                    
+                    {% if is_scanner %}
+                        <!-- Scanner Specific Fields -->
+                        <div class="mb-3">
+                            <label class="form-label">Scanner Name</label>
+                            <input type="text" class="form-control" name="scanner_name" 
+                                value="{{ registration_info.name }}" required>
+                            <small class="text-muted">Using registered name as scanner name</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">User's Registered Name</label>
+                            <input type="text" class="form-control" name="name" value="{{ registration_info.name }}" disabled>
+                            <small class="text-muted">Fetched from registration data</small>
+                        </div>
+                    {% else %}
+                        <!-- Role Field -->
+                        <div class="mb-3">
+                            <label class="form-label">User's Name (for both roles)</label>
+                            <input type="text" class="form-control" name="name" value="{{ registration_info.name }}" readonly>
+                            <small class="text-muted">Fetched from registration data</small>
+                        </div>
+                        
+
+                        <div class="mb-4">
+                            <label for="role" class="form-label required-field">Admin Role Type</label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="" disabled selected>Select Admin Role</option>
+                                <option value="SUPERADMIN">SUPERADMIN</option>
+                                <option value="SUBADMIN">SUBADMIN</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a role.
+                            </div>
+                        </div>
+
+                        <!-- Role Level Field -->
+                        <div class="mb-4" id="role_level_div" style="display: none;">
+                            <label for="role-level" class="form-label">Admin Role Level</label>
+                            <select class="form-select" id="role-level" name="role_level" required>
+                                <option value="" selected>Select Role Level</option>
+                                <option value="Prant">प्रांत</option>
+                                <option value="Vibhag">विभाग</option>
+                                <option value="Jila">जिला</option>
+                                <option value="Nagar">नगर</option>
+                                <option value="Mandal">मंडल</option>
+                                <option value="Basti">बस्ती</option>
+                                <option value="Upbasti">उपबस्ती</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Role Sublevel Field -->
+                        <div class="mb-4" id="role_sublevel_div" style="display: none;">
+                            <label for="role-sublevel" class="form-label">Admin Sublevel</label>
+                            <select class="form-select" id="role-sublevel" name="role_sublevel" required>
+                                <option value="" selected>Select Sublevel</option>
+                            </select>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Assigning an admin role will automatically create a corresponding scanner role with the same name.
+                        </div>
+                    {% endif %}
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary" 
+                                id="saveRoleBtn">
+                            <i class="fas fa-save me-2"></i>{% if is_scanner %}Save Scanner Role{% else %}Save Admin + Scanner Roles{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Right Column - Approved Roles -->
+    <div class="right-column">
+        <!-- Assigned Roles by Current Approver -->
+        <div class="card animate-fade" style="animation-delay: 0.2s;">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-user-shield me-2"></i>Roles Approved by You ({{ approving_person }})</h5>
+            </div>
+            <div class="card-body p-0">
+                <ul class="nav nav-tabs" id="roleTabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="admin-tab" data-bs-toggle="tab" href="#adminRoles">
+                            <i class="fas fa-users-cog me-2"></i>Admin ({{ admin_roles.count }})
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="scanner-tab" data-bs-toggle="tab" href="#scannerRoles">
+                            <i class="fas fa-qrcode me-2"></i>Scanner ({{ scanner_roles.count }})
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content p-3">
+                    <!-- Admin Roles Tab -->
+                    <div class="tab-pane fade show active" id="adminRoles">
+                        {% if admin_roles %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>Role</th>
+                                        <th>Level</th>
+                                        <th>Sublevel</th>
+                                        <th>Approver</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for role in admin_roles %}
+                                    <tr>
+                                        <td>{{ role.name }}</td>
+                                        <td>{{ role.mobile }}</td>
+                                        <td><span class="badge bg-info">{{ role.role }}</span></td>
+                                        <td>{{ role.role_level|default:"-" }}</td>
+                                        <td>{{ role.role_sublevel|default:"-" }}</td>
+                                        <td>{{ role.person_approving|default:"-" }}</td>
+                                        <td class="actions d-flex gap-2">
+                                            <form method="post" action="{% url 'core:delete_admin_role' role.id %}" 
+                                                  class="d-inline" onsubmit="return confirmDelete()">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle me-2"></i>No admin roles approved by you yet.
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Scanner Roles Tab -->
+                    <div class="tab-pane fade" id="scannerRoles">
+                        {% if scanner_roles %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Scanner Name</th>
+                                        <th>Phone</th>
+                                        <th>Status</th>
+                                        <th>Approver</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for scanner in scanner_roles %}
+                                    <tr>
+                                        <td>{{ scanner.scanner_name }}</td>
+                                        <td>{{ scanner.phone_number }}</td>
+                                        <td>
+                                            <span class="badge bg-success">{{ scanner.role }}</span>
+                                        </td>
+                                        <td>{{ scanner.person_approving|default:"-" }}</td>
+                                        <td class="actions">
+                                            <form method="post" action="{% url 'core:delete_scanner_role' scanner.scanner_id %}" 
+                                                  class="d-inline" onsubmit="return confirmDelete()">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle me-2"></i>No scanner roles approved by you yet.
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmDelete() {
+    return confirm("Are you sure you want to delete this role? This action cannot be undone.");
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const data_from_backend = {{ mappings | safe }};
+    const string_convert = JSON.stringify(data_from_backend);
+    const mappings = JSON.parse(string_convert);
+
+    const fieldToHindiMapping = {
+        Prant: "प्रांत",
+        Vibhag: "विभाग",
+        Jila: "जिला",
+        Nagar: "नगर",
+        Mandal: "मंडल",
+        Basti: "बस्ती",
+        Upbasti: "उपबस्ती",
+    };
+    
+    // Toggle between scanner and admin modes
+    const scannerToggle = document.getElementById('scannerToggle');
+    if (scannerToggle) {
+        scannerToggle.addEventListener('change', function() {
+            const searchForm = document.querySelector('form[method="get"]');
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'is_scanner';
+            hiddenInput.value = this.checked ? 'true' : 'false';
+            
+            const existingInput = searchForm.querySelector('input[name="is_scanner"]');
+            if (existingInput) {
+                searchForm.removeChild(existingInput);
+            }
+            
+            if (this.checked) {
+                searchForm.appendChild(hiddenInput);
+            }
+        });
+    }
+
+    let isResetting = false;
+
+    function resetDropdowns(field) {
+        if(isResetting) return;
+        isResetting = true;
+        
+        try {
+            if (field === "role") {
+                document.getElementById("role-level").value = "";
+                populateDropdown("role-sublevel", [], "Select Sublevel");
+                document.getElementById("role_level_div").style.display = "none";
+                document.getElementById("role_sublevel_div").style.display = "none";
+            } 
+            else if (field === "role-level") {
+                populateDropdown("role-sublevel", [], "Select Sublevel");
+            }
+        } finally {
+            isResetting = false;
+        }
+    }
+
+    function populateDropdown(field, options, placeholder) {
+        let dropdown = document.getElementById(field);
+
+        dropdown.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
+
+        options.forEach(option => {
+            const opt = document.createElement("option");
+            opt.value = option;
+            opt.textContent = fieldToHindiMapping[option.toLowerCase()] || option;
+            dropdown.appendChild(opt);
+        });
+    }
+
+    {% if not is_scanner %}
+       // Role Selection Logic
+    document.getElementById("role").addEventListener("change", function () {
+        resetDropdowns("role");
+        let selectedRole = this.value;
+    
+        if(selectedRole === "ADMIN"){
+            document.getElementById("role_level_div").style.display = "block";
+            document.getElementById("role_sublevel_div").style.display = "none";
+        }else if(selectedRole === "SUBADMIN"){
+            document.getElementById("role_level_div").style.display = "block";
+            document.getElementById("role_sublevel_div").style.display = "block";
+        }
+    });
+
+        // Role Level Selection Logic
+    document.getElementById("role-level").addEventListener("change", function () {
+        resetDropdowns("role-level");
+        let selectedRoleLevel = this.value;
+        
+        let options = mappings[selectedRoleLevel] || [];
+        if (options.length > 0) {
+            populateDropdown("role-sublevel", options, `${fieldToHindiMapping[selectedRoleLevel]}`);
+        } else {
+            populateDropdown("role-sublevel", [], "Select Sublevel");
+        }
+    });
+
+   // Bootstrap form validation
+        (function() {
+            'use strict';
+            
+            const form = document.getElementById('myform');
+            
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+            
+            const mobileInput = document.getElementById('id_mobile');
+            mobileInput.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '').slice(0, 10);
+            });
+        })();
+
+    {% endif %}
+    
+    // Form validation
+    const roleForm = document.getElementById('roleForm');
+    if (roleForm) {
+        roleForm.addEventListener('submit', function(e) {
+            if (!this.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            this.classList.add('was-validated');
+        });
+    }
+    
+    // Initialize tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+// Handle form submission
+document.getElementById('roleForm')?.addEventListener('submit', function(e) {
+    if (document.getElementById('saveRoleBtn').disabled) {
+        e.preventDefault();
+        return;
+    }
+    
+    e.preventDefault();
+    const roleType = '{% if is_scanner %}Scanner{% else %}Role{% endif %}';
+    
+    Swal.fire({
+        title: `Confirm ${roleType} Assignment`,
+        text: `Are you sure you want to assign this ${roleType.toLowerCase()}?`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: `Yes, assign ${roleType}`,
+        cancelButtonText: "Cancel"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Show loading and submit
+            Swal.fire({
+                title: 'Processing',
+                html: 'Please wait...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                    e.target.submit();
+                }
+            });
+        }
+    });
+});
+
+// Handle Django messages
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+        Swal.fire({
+            title: 'Success!',
+            text: '{{ message }}',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#3085d6'
+        });
+        {% elif message.tags == 'error' %}
+        Swal.fire({
+            title: 'Error!',
+            text: '{{ message }}',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#d33'
+        });
+        {% endif %}
+    {% endfor %}
+{% endif %}
+</script>
+
+{% endblock %}

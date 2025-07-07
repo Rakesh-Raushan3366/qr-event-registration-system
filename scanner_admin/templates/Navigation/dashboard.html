@@ -1,0 +1,501 @@
+<style>
+  /* Custom CSS to add orange border to all cards */
+  .icon-card {
+    border: 2px solid orange;
+    border-radius: 8px;
+    background-color: wheat;
+  }
+</style>
+
+<!-- ========== section start ========== -->
+<section class="section">
+  <div class="container-fluid">
+    <!-- ========== title-wrapper start ========== -->
+    <div class="title-wrapper pt-30">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+          <div class="title">
+            <h2 class="text-bold mb-30 text-primary text-center"><u>Samutarksh Dashboard</u></h2>
+          </div>
+        </div>
+        <!-- end col -->
+      
+        <!-- end col
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- ========== title-wrapper end ========== -->
+    
+    <div class="row g-2">
+      <!-- Card 1: समग्र संख्या -->
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="background-color: hsl(0, 0%, 100%);">
+        <div class="d-flex flex-column h-100 border rounded"
+          style="box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+          <div class="d-flex align-items-center p-2" style="border-bottom: 1px solid #f0f0f0;">
+            <div class="d-flex align-items-center justify-content-center rounded me-2"
+              style="width:40px; height:40px; background-color:#28a74520;">
+              <i class="mdi mdi-home-city" style="color:#28a745; font-size:1.2rem;"></i>
+            </div>
+            <div>
+              <h6 class="mb-0 fw-bold" style="font-size:0.9rem;">समग्र संख्या</h6>
+              <h3 class="mb-0 fw-bold" style="font-size:1.5rem;">{{ total_count }}</h3>
+            </div>
+          </div>
+          <div class="p-2">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small class="text-success"><i class="mdi mdi-check-circle"></i> Approve</small>
+              <small class="fw-bold">{{ approve_count }}</small>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small class="text-warning"><i class="mdi mdi-clock"></i> Pending</small>
+              <small class="fw-bold">{{ pending_count }}</small>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-danger"><i class="mdi mdi-close-circle"></i> Reject</small>
+              <small class="fw-bold">{{ reject_count }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Card 2: क्षेत्र -->
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="background-color: hsl(0, 0%, 100%);">
+        <div class="d-flex flex-column h-100 border rounded"
+          style="box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+          <div class="d-flex align-items-center p-2" style="border-bottom: 1px solid #f0f0f0;">
+            <div class="d-flex align-items-center justify-content-center rounded me-2"
+              style="width:40px; height:40px; background-color:#28a74520;">
+              <i class="mdi mdi-home-city" style="color:#28a745; font-size:1.2rem;"></i>
+            </div>
+            <div>
+              <h6 class="mb-0 fw-bold" style="font-size:0.9rem;">क्षेत्र</h6>
+              <h3 class="mb-0 fw-bold" style="font-size:1.5rem;">{{ chetracount }}</h3>
+            </div>
+          </div>
+          <div class="p-2">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small class="text-success"><i class="mdi mdi-check-circle"></i> Approve</small>
+              <small class="fw-bold">{{ chetrapprovecount }}</small>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small class="text-warning"><i class="mdi mdi-clock"></i> Pending</small>
+              <small class="fw-bold">{{ chetrpendingcount }}</small>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-danger"><i class="mdi mdi-close-circle"></i> Reject</small>
+              <small class="fw-bold">{{ chetrrejectcount }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Card 3: प्रान्त -->
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="background-color: hsl(0, 0%, 100%);">
+        <div class="d-flex flex-column h-100 border rounded"
+          style="box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+          <div class="d-flex align-items-center p-2" style="border-bottom: 1px solid #f0f0f0;">
+            <div class="d-flex align-items-center justify-content-center rounded me-2"
+              style="width:40px; height:40px; background-color:#007bff20;">
+              <i class="mdi mdi-map-marker-multiple" style="color:#007bff; font-size:1.2rem;"></i>
+            </div>
+            <div>
+              <h6 class="mb-0 fw-bold" style="font-size:0.9rem;">प्रान्त</h6>
+              <h3 class="mb-0 fw-bold" style="font-size:1.5rem;">{{ prantcount }}</h3>
+            </div>
+          </div>
+          <div class="p-2">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small class="text-success"><i class="mdi mdi-check-circle"></i> Approve</small>
+              <small class="fw-bold">{{ prantapprovecount }}</small>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small class="text-warning"><i class="mdi mdi-clock"></i> Pending</small>
+              <small class="fw-bold">{{ prantpendingcount }}</small>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-danger"><i class="mdi mdi-close-circle"></i> Reject</small>
+              <small class="fw-bold">{{ prantrejectcount }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Card 4: विभाग -->
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="background-color: hsl(0, 0%, 100%);">
+        <div class="d-flex flex-column h-100 border rounded"
+          style="box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+          <div class="d-flex align-items-center p-2" style="border-bottom: 1px solid #f0f0f0;">
+            <div class="d-flex align-items-center justify-content-center rounded me-2"
+              style="width:40px; height:40px; background-color:#6f42c120;">
+              <i class="mdi mdi-domain" style="color:#6f42c1; font-size:1.2rem;"></i>
+            </div>
+            <div>
+              <h6 class="mb-0 fw-bold" style="font-size:0.9rem;">विभाग</h6>
+              <h3 class="mb-0 fw-bold" style="font-size:1.5rem;">{{ vibhagcount }}</h3>
+            </div>
+          </div>
+          <div class="p-2">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small class="text-success"><i class="mdi mdi-check-circle"></i> Approve</small>
+              <small class="fw-bold">{{ vibhagapprovecount }}</small>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small class="text-warning"><i class="mdi mdi-clock"></i> Pending</small>
+              <small class="fw-bold">{{ vibhagpendingcount }}</small>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-danger"><i class="mdi mdi-close-circle"></i> Reject</small>
+              <small class="fw-bold">{{ vibhagrejectcount }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <!-- 2nd Row card -->
+  <div class="row g-2 mt-10">
+    <!-- Card 5: जिला --> 
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="background-color: hsl(0, 0%, 100%);">
+      <div class="d-flex flex-column h-100 border rounded"
+        style="box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+        <div class="d-flex align-items-center p-2" style="border-bottom: 1px solid #f0f0f0;">
+          <div class="d-flex align-items-center justify-content-center rounded me-2"
+            style="width:40px; height:40px; background-color:#28a74520;">
+            <i class="mdi mdi-home-city" style="color:#28a745; font-size:1.2rem;"></i>
+          </div>
+          <div>
+            <h6 class="mb-0 fw-bold" style="font-size:0.9rem;">जिला</h6>
+            <h3 class="mb-0 fw-bold" style="font-size:1.5rem;">{{ jilacount }}</h3>
+          </div>
+        </div>
+        <div class="p-2">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <small class="text-success"><i class="mdi mdi-check-circle"></i> Approve</small>
+            <small class="fw-bold">{{ jilaapprovecount }}</small>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <small class="text-warning"><i class="mdi mdi-clock"></i> Pending</small>
+            <small class="fw-bold">{{ jilapendingcount }}</small>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <small class="text-danger"><i class="mdi mdi-close-circle"></i> Reject</small>
+            <small class="fw-bold">{{ jilarejectcount }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Card 6: नगर -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="background-color: hsl(0, 0%, 100%);">
+      <div class="d-flex flex-column h-100 border rounded"
+        style="box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+        <div class="d-flex align-items-center p-2" style="border-bottom: 1px solid #f0f0f0;">
+          <div class="d-flex align-items-center justify-content-center rounded me-2"
+            style="width:40px; height:40px; background-color:#28a74520;">
+            <i class="mdi mdi-home-city" style="color:#28a745; font-size:1.2rem;"></i>
+          </div>
+          <div>
+            <h6 class="mb-0 fw-bold" style="font-size:0.9rem;">नगर</h6>
+            <h3 class="mb-0 fw-bold" style="font-size:1.5rem;">{{ nagarcount }}</h3>
+          </div>
+        </div>
+        <div class="p-2">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <small class="text-success"><i class="mdi mdi-check-circle"></i> Approve</small>
+            <small class="fw-bold">{{ nagarapprovecount }}</small>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <small class="text-warning"><i class="mdi mdi-clock"></i> Pending</small>
+            <small class="fw-bold">{{ nagarpendingcount }}</small>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <small class="text-danger"><i class="mdi mdi-close-circle"></i> Reject</small>
+            <small class="fw-bold">{{ nagarrejectcount }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Card 7: अन्य -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="background-color: hsl(0, 0%, 100%);">
+      <div class="d-flex flex-column h-100 border rounded"
+        style="box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+        <div class="d-flex align-items-center p-2" style="border-bottom: 1px solid #f0f0f0;">
+          <div class="d-flex align-items-center justify-content-center rounded me-2"
+            style="width:40px; height:40px; background-color:#007bff20;">
+            <i class="mdi mdi-map-marker-multiple" style="color:#007bff; font-size:1.2rem;"></i>
+          </div>
+          <div>
+            <h6 class="mb-0 fw-bold" style="font-size:0.9rem;">अन्य</h6>
+            <h3 class="mb-0 fw-bold" style="font-size:1.5rem;">{{ anyacount }}</h3>
+          </div>
+        </div>
+        <div class="p-2">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <small class="text-success"><i class="mdi mdi-check-circle"></i> Approve</small>
+            <small class="fw-bold">{{ anyaapprovecount }}</small>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <small class="text-warning"><i class="mdi mdi-clock"></i> Pending</small>
+            <small class="fw-bold">{{ anyapendingcount }}</small>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <small class="text-danger"><i class="mdi mdi-close-circle"></i> Reject</small>
+            <small class="fw-bold">{{ anyarejectcount }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Card 8: अखिल भारतीय -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="background-color: hsl(0, 0%, 100%);">
+      <div class="d-flex flex-column h-100 border rounded"
+        style="box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+        <div class="d-flex align-items-center p-2" style="border-bottom: 1px solid #f0f0f0;">
+          <div class="d-flex align-items-center justify-content-center rounded me-2"
+            style="width:40px; height:40px; background-color:#28a74520;">
+            <i class="mdi mdi-home-city" style="color:#28a745; font-size:1.2rem;"></i>
+          </div>
+          <div>
+            <h6 class="mb-0 fw-bold" style="font-size:0.9rem;">अखिल भारतीय</h6>
+            <h3 class="mb-0 fw-bold" style="font-size:1.5rem;">{{ akhilbhartiya_count }}</h3>
+          </div>
+        </div>
+        <div class="p-2">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <small class="text-success"><i class="mdi mdi-check-circle"></i> Approve</small>
+            <small class="fw-bold">{{ approvecount }}</small>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <small class="text-warning"><i class="mdi mdi-clock"></i> Pending</small>
+            <small class="fw-bold">{{ pendingcount }}</small>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <small class="text-danger"><i class="mdi mdi-close-circle"></i> Reject</small>
+            <small class="fw-bold">{{ rejectcount }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    <!-- End Row -->
+    <div class="row mt-20">
+      <div class="col-lg-6">
+        <div class="card-style mb-30">
+          <div class="title d-flex flex-wrap justify-content-between">
+            <div class="left">
+              <h6 class="text-medium mb-10">विभाग</h6>
+              <h3 class="text-bold">{{vibhag_count}}</h3>
+            </div>
+            <div class="right">
+              <div class="select-style-1">
+                <div class="select-position select-sm">
+                  <select class="light-bg">
+                    <option value="">सभी विभाग</option>
+                    {% for data in vibhag %}
+                      <option value="{{ data.vibhag_hindi }}">{{ data.vibhag_hindi }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <!-- end select -->
+            </div>
+          </div>
+          <!-- End Title -->
+          <div class="chart">
+            <canvas id="Chart1" style="width: 100%; height: 250px; margin-left: -35px;"></canvas>
+          </div>
+          <!-- End Chart -->
+        </div>
+      </div>
+      <!-- End Col -->
+      <div class="col-lg-6">
+        <div class="card-style mb-30 border border-warning">
+          <div class="title d-flex flex-wrap align-items-center justify-content-between">
+            <div class="left">
+              <h6 class="text-medium mb-10">नगर</h6>
+              <h3 class="text-bold">{{nagarcount}}</h3>
+            </div>
+            <!-- {{nagar_addresses}} -->
+            <div class="right">
+              <div class="select-style-1">
+                <div class="select-position select-sm">
+                  <select class="light-bg" id="nagarDropdown">
+                    <option value="">सभी नगर</option>
+                      {% for data in nagar_addresses %}
+                          <option value="{{ data }}">{{ data }}</option>
+                          <!-- <option value="{{ data.nagar_hindi }}">{{ data.nagar_hindi }}</option> -->
+                      {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <!-- end select -->
+            </div>
+          </div>
+          <!-- End Title -->
+          <div class="chart">
+            <canvas id="Chart2" style="width: 100%; height: 240px; margin-left: -45px;"></canvas>
+          </div>
+          
+          <!-- End Chart -->
+        </div>
+      </div>
+      <!-- End Col -->
+    </div>
+    <!-- End Row -->
+    <div class="row">
+      <!-- <div class="col-lg-5">
+        <div class="card-style mb-30">
+          <div class="title d-flex justify-content-between align-items-center">
+            <div class="left">
+              <h6 class="text-medium mb-30">Sells by State</h6>
+            </div>
+          </div> -->
+          <!-- End Title -->
+          <!-- <div id="map" style="width: 100%; height: 400px; overflow: hidden;"></div>
+          <p>Last updated: 7 days ago</p>
+        </div>
+      </div> -->
+      <!-- End Col -->
+      
+
+
+      <!-- End Col -->
+    </div>
+    <!-- End Row -->
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card-style mb-30">
+          <div class="title d-flex flex-wrap align-items-center justify-content-between">
+            <div class="left">
+              <h6 class="text-medium mb-2">प्रान्त</h6>
+              <h3 class="text-bold">{{ prant_count }}</h3>
+            </div>
+            <div class="right">
+              <div class="select-style-1 mb-2">
+                <div class="select-position select-sm">
+                  <select class="light-bg">
+                    {% for data in prant %}
+                      <option value="{{ data.prant_hindi }}">{{ data.prant_hindi }}</option>
+                    {% endfor %}
+                    <!-- <option value="">Pending</option>
+                    <option value="">Waiting</option> -->
+                  </select>
+                </div>
+              </div>
+              <!-- end select -->
+            </div>
+          </div>
+          <!-- End Title -->
+          {% comment %} <div class="chart">
+            <div id="legend3">
+              <ul class="legend3 d-flex flex-wrap align-items-center mb-30">
+                <li>
+                  <div class="d-flex">
+                    <span class="bg-color primary-bg"> </span>
+                    <div class="text">
+                      <p class="text-sm text-success">
+                        <span class="text-dark">Revenue</span> +25.55%
+                        <i class="lni lni-arrow-up"></i>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="d-flex">
+                    <span class="bg-color purple-bg"></span>
+                    <div class="text">
+                      <p class="text-sm text-success">
+                        <span class="text-dark">Net Profit</span> +45.55%
+                        <i class="lni lni-arrow-up"></i>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="d-flex">
+                    <span class="bg-color orange-bg"></span>
+                    <div class="text">
+                      <p class="text-sm text-danger">
+                        <span class="text-dark">Order</span> -4.2%
+                        <i class="lni lni-arrow-down"></i>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div> {% endcomment %}
+          <canvas id="Chart3" style="width: 100%; height: 250px; margin-left: -35px;"></canvas>
+        </div>
+      </div>
+      <!-- End Col -->
+      <div class="col-lg-6">
+        <div class="card-style mb-30">
+          <div class="title d-flex flex-wrap align-items-center justify-content-between">
+            <div class="left">
+              <h6 class="text-medium mb-2">जिला</h6>
+              <h3 class="text-bold">{{ zilla_count }}</h3>
+            </div>
+            <div class="right">
+              <div class="select-style-1 mb-2">
+                <div class="select-position select-sm">
+                  <select class="bg-ligh">
+                    <option value="">सभी जिला</option>
+                      {% for data in zilla %}
+                          <option value="{{ data.jila_hindi }}">{{ data.jila_hindi }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <!-- end select -->
+            </div>
+          </div>
+          <!-- End Title -->
+          {% comment %} <div class="chart">
+            <div id="legend4">
+              <ul class="legend3 d-flex flex-wrap gap-3 gap-sm-0 align-items-center mb-30">
+                <li>
+                  <div class="d-flex">
+                    <span class="bg-color primary-bg"> </span>
+                    <div class="text">
+                      <p class="text-sm text-success">
+                        <span class="text-dark">Store Visits</span>
+                        +25.55%
+                        <i class="lni lni-arrow-up"></i>
+                      </p>
+                      <h2>3456</h2>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="d-flex">
+                    <span class="bg-color danger-bg"></span>
+                    <div class="text">
+                      <p class="text-sm text-danger">
+                        <span class="text-dark">Visitors</span> -2.05%
+                        <i class="lni lni-arrow-down"></i>
+                      </p>
+                      <h2>3456</h2>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div> {% endcomment %}
+          <canvas id="Chart4" style="width: 100%; height: 258px; margin-left: -35px;"></canvas>
+          <!-- End Chart -->
+        </div>
+      </div>
+      <!-- End Col -->
+    </div>
+    <!-- End Row -->
+
+    <!-- End Row -->
+  </div>
+  <!-- end container -->
+</section>
+<!-- ========== section end ========== -->
+

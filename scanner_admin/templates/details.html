@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Details</title>
+</head>
+<body>
+    <h1>Details for {{ status.name }}</h1>
+    <p>Barcode Scan ID: {{ status.barcode_scan_id }}</p>
+    <p>Phone Number: {{ status.phone_number }}</p>
+    <p>Status: {{ status.status }}</p>
+    <p>Updated At: {{ status.updated_at }}</p>
+
+    <!-- Include the status actions snippet -->
+    <div>
+        {% include 'status_actions.html' with pk=status.pk action='approve' %}
+        {% include 'status_actions.html' with pk=status.pk action='pending' %}
+        {% include 'status_actions.html' with pk=status.pk action='waiting' %}
+    </div>
+</body>
+</html>

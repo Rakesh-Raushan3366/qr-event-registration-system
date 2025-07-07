@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code History</title>
+</head>
+<body>
+    <h1>Scanned QR Code History</h1>
+    <a href="{% url 'scan_qr' %}">Back to Scanner</a>
+    <ul>
+        {% for qr in qr_codes %}
+            <li>{{ qr.data }} - Scanned at: {{ qr.scanned_at }}</li>
+        {% empty %}
+            <p>No QR codes scanned yet.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<div class="table-responsive">
+    <table class="table top-selling-table">
+        <thead>
+
+            <tr>
+                <th>
+                <h6 class="text-sm text-medium text-end">Overall</h6>
+                </th>
+                <th>
+                    <h6 class="text-sm text-medium">Approved</h6>
+                </th>
+                <th>
+                    <h6 class="text-sm text-medium">Pending</h6>
+                </th>  
+                <th>
+                <h6 class="text-sm text-medium">Reject</h6>
+                </th>                                
+            </tr>
+        </thead>
+        <tbody id = "tableBody">
+            {% for data in registrations %}
+            <!-- {{data}} -->
+            <tr data-id='{{data.0}}'>
+                
+                <td data-label="Overall" style="font-size: 14px !important;">
+                    <p class="text-sm">{{total_count}}</p>
+                </td>
+                <td data-label="Approve" style="font-size: 14px !important;">
+                    <p class="text-sm">{{approve_count}}</p>
+                </td>
+                <td data-label="Pending" style="font-size: 14px !important;">
+                    <p class="text-sm">{{pending_count}}</p>
+                </td>
+                <td data-label="Reject" style="font-size: 14px !important;">
+                <p class="text-sm">{{reject_count}}</p>
+                </td>
+
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+    <!-- End Table -->
+</div>

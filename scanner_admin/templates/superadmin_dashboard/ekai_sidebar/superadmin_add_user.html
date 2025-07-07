@@ -1,0 +1,374 @@
+{% extends 'superadmin_dashboard/superadmin_dashboard.html' %}{% block content %}
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"> 
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #ff4500;
+            --primary-hover: #e63e00;
+            --secondary-color: #495057;
+            --light-gray: #f8f9fa;
+        }
+        body {
+            background-color: var(--light-gray);
+            padding: 20px;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), #ff6b00);
+            color: white;
+            border-radius: 0;
+            padding: 1rem;
+        }
+        .card-title {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 12px 15px;
+            transition: all 0.3s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(255, 69, 0, 0.25);
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            width: auto;
+            min-width: 150px;
+        }
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 69, 0, 0.3);
+        }
+        .alert-info {
+            background-color: #fff; /* Light orange background */
+            border-color: #ffd9b3; /* Light orange border */
+            color: #cc6600; /* Dark orange text */
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .text-danger {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .mb-3 {
+            margin-bottom: 30px !important; /* Increased margin between fields */
+        }
+        /* Lighten placeholder options in dropdowns */
+        .form-select option[value=""] {
+            color: #333 !important; /* Light gray color for placeholder options */
+        }
+
+        /* Custom checkbox styling */
+        .form-check-input {
+            width: 1.2em;
+            height: 1.2em;
+            margin-top: 0.2em;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            transition: all 0.3s ease-in-out;
+        }
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-hover);
+        }
+        
+        /* Hover effect */
+        .form-check-label:hover {
+            color: #0d6efd;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .d-flex.flex-wrap {
+                gap: 1.5rem !important;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .d-flex.flex-wrap {
+                gap: 1rem !important;
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            .form-check-inline {
+                display: block !important;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container mt-100">
+        <div class="card">
+            <div class="card-header text-center">
+                <h1 class="card-title">Role Assign Management!</h1>
+            </div>
+            
+            {% if messages %}
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        {% for message in messages %}
+                            Swal.fire({
+                                title: "{{ message.tags|default_if_none:'Info'|title }}",
+                                html: "<strong>{{ message }}</strong>",
+                                icon: "{{ message.tags|default_if_none:'info' }}",
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                timer: 3000,
+                                timerProgressBar: true,
+                                position: 'top-end',
+                                toast: true,
+                                showConfirmButton: false,
+                                background: 'var(--light-gray)',
+                                backdrop: false
+                            });
+                        {% endfor %}
+                    });
+                </script>
+            {% endif %}
+            <div class="card-body">
+                <form method="post" action="" id="myform" enctype="application/x-www-form-urlencoded" class="needs-validation" novalidate>
+                    {% csrf_token %}
+
+                    <!-- Mobile Number Field -->
+                    <div class="mb-4">
+                        <label for="id_mobile" class="form-label required-field">Mobile Number</label>
+                        <input type="tel" class="form-control" id="id_mobile" name="mobile" placeholder="Enter 10-digit mobile number" 
+                               pattern="[0-9]{10}" maxlength="10" required>
+                        <div class="invalid-feedback">
+                            Please enter a valid 10-digit mobile number.
+                        </div>
+                    </div>
+                    
+                    <!-- Role Field -->
+                    <div class="mb-4">
+                        <label for="role" class="form-label required-field">Select Role</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="" disabled selected>Select Role</option>
+                            <option value="SUPERADMIN">SUPERADMIN</option>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="SUBADMIN">SUBADMIN</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a role.
+                        </div>
+                    </div>
+
+
+                      
+                    <!-- Role Level Field -->
+                    <div class="mb-4" id="role_level_div" style="display: none;">
+                        <label for="role-level" class="form-label">Select Role Level</label>
+                        <select class="form-select" id="role-level" name="role_level">
+                            <option value="" selected>Select Role Level</option>
+                            <option value="Prant">प्रांत</option>
+                            <option value="Vibhag">विभाग</option>
+                            <option value="Jila">जिला</option>
+                            <option value="Nagar">नगर</option>
+                            <option value="Mandal">मंडल</option>
+                            <option value="Basti">बस्ती</option>
+                            <option value="Upbasti">उपबस्ती</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Role Sublevel Field -->
+                    <div class="mb-4" id="role_sublevel_div" style="display: none;">
+                        <label for="role-sublevel" class="form-label">Select Sublevel</label>
+                        <select class="form-select" id="role-sublevel" name="role_sublevel">
+                            <option value="" selected>Select Sublevel </option>
+                        </select>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-user-check me-2"></i> Assign Role
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- {{mappings}} -->
+    <!-- Add Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+    <!-- Form Validation Script -->
+    <script>
+
+    const data_from_backend = {{ mappings | safe }};
+        const string_convert = JSON.stringify(data_from_backend);
+        const mappings = JSON.parse(string_convert);
+
+    const mappingss = {
+        prant: ['प्रांत 1', 'प्रांत 2'],
+        vibhag: ['विभाग 1', 'विभाग 2'],
+        jila: ['जिला 1', 'जिला 2'],
+        nagar: ['नगर 1', 'नगर 2'],
+        mandal: ['मंडल 1', 'मंडल 2'],
+        basti: ['बस्ती 1', 'बस्ती 2'],
+        upbasti: ['उपबस्ती 1', 'उपबस्ती 2']
+    };
+
+    const fieldToHindiMapping = {
+        Prant: "प्रांत",
+        Vibhag: "विभाग",
+        Jila: "जिला",
+        Nagar: "नगर",
+        Mandal: "मंडल",
+        Basti: "बस्ती",
+        Upbasti: "उपबस्ती",
+    };
+
+
+    let isResetting = false;
+
+    function resetDropdowns(field) {
+        if (isResetting) return;
+        isResetting = true;
+        
+        try {
+            if (field === "role") {
+                document.getElementById("role-level").value = "";
+                populateDropdown("role-sublevel", [], "Select Sublevel");
+                document.getElementById("role_level_div").style.display = "none";
+                document.getElementById("role_sublevel_div").style.display = "none";
+            } 
+            else if (field === "role-level") {
+                populateDropdown("role-sublevel", [], "Select Sublevel");
+            }
+        } finally {
+            isResetting = false;
+        }
+    }
+
+    // Create options for all other fields
+    function populateDropdown(field, options, placeholder) {
+        let dropdown = document.getElementById(field);
+
+        // Clear the dropdown first
+        dropdown.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
+
+        options.forEach(option => {
+            const opt = document.createElement("option");
+            opt.value = option;
+            opt.textContent = fieldToHindiMapping[option.toLowerCase()] || option; // Correct mapping
+            dropdown.appendChild(opt);
+    });
+}
+
+    // Role  Selection Logic
+    document.getElementById("role").addEventListener("change", function () {
+        resetDropdowns("role");
+        let selectedRole = this.value; // Get the selected role in lowercase
+        
+    
+        if(selectedRole === "ADMIN"){
+            document.getElementById("role_level_div").style.display = "block";
+            document.getElementById("role_sublevel_div").style.display = "none";
+        }else if(selectedRole === "SUBADMIN"){
+            document.getElementById("role_level_div").style.display = "block";
+            document.getElementById("role_sublevel_div").style.display = "block";
+        }
+    });
+
+
+    // Role Level Selection Logic
+    document.getElementById("role-level").addEventListener("change", function () {
+        resetDropdowns("role-level");
+        let selectedRoleLevel = this.value; // Get the selected role in lowercase
+        
+        // console.log(selectedRoleLevel);
+        let options = mappings[selectedRoleLevel] || []; // Get corresponding options
+        if (options.length > 0) {
+            populateDropdown("role-sublevel", options, `${fieldToHindiMapping[selectedRoleLevel]}`);
+        } else {
+            // If no valid options, clear the dropdown
+            populateDropdown("role-sublevel", [], "Select Sublevel");
+        }
+    });
+
+
+  // Bootstrap form validation
+        (function() {
+            'use strict';
+            
+            const form = document.getElementById('myform');
+            
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+            
+            // Mobile number validation
+            const mobileInput = document.getElementById('id_mobile');
+            mobileInput.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '').slice(0, 10);
+            });
+        })();
+    </script>
+    <script>
+        document.querySelectorAll('.form-check-input').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    document.querySelectorAll('.form-check-input').forEach(other => {
+                        if (other !== this) other.checked = false;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}

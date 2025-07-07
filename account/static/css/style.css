@@ -1,0 +1,159 @@
+:root {
+  --primary-color: #0d6efd;
+  --secondary-color: #0056b3;
+  --background-color: #f8f9fa;
+  --border-color: #ced4da;
+  --text-color: #212529;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  line-height: 1.6;
+}
+
+#othersInput,
+#otherTreatmentInput,
+#otherTypeInput,
+#otherDrugInput,
+#specify,
+#noSpecifyInput,
+#yesDetails {
+  display: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 15px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: var(--background-color);
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+tr {
+  font-weight: bold;
+  border-color: var(--primary-color);
+}
+
+input,
+select,
+textarea {
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.5s ease-out;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+}
+
+input:optional,
+select:optional,
+textarea:optional,
+checkbox:optional {
+  border-color: gray;
+}
+
+.btn-link {
+  font-size: 0.9rem;
+  padding: 0.2rem 0.4rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  border: none; 
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.btn-link:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table th {
+    display: none;
+  }
+
+  .form-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+input,
+select,
+textarea,
+checkbox {
+  border: 2px solid;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin: 0.25rem;
+  padding: 0.5rem;
+  transition: border-color 0.5s ease-out;
+}
+
+input:optional {
+  border-color: gray;
+}
+
+select:optional {
+  border-color: gray;
+}
+
+textarea:optional {
+  border-color: gray;
+}
+
+checkbox:optional {
+  border-color: gray;
+}
+
+.btn-link {
+  font-size: 0.9rem;
+  padding: 0.2rem 0.4rem;
+  color: #0d6efd;
+  text-decoration: none;
+  border: none; 
+  background: transparent;
+}
+
+.btn-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="{% static 'register_samautkarsh/assets/img/Samutkarsh_logo.png' %}" type="image/x-icon" />
+    <title>Registration Verification</title>
+</head>
+<body>
+    {% if verification_success %}
+        <h1>Registration Verified Successfully!</h1>
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Nagar:</strong> {{ nagar }}</p>
+        <h2>Your QR Code:</h2>
+        <img src="data:image/png;base64,{{ qr_code_base64 }}" alt="QR Code">
+    {% else %}
+        <h1>Verification Failed</h1>
+    {% endif %}
+
+
+<script type="text/javascript">
+    // Push the current state to the history stack
+    history.pushState(null, null, window.location.href);
+
+    // Listen for the popstate event, which is triggered by back/forward navigation
+    window.addEventListener('popstate', function () {
+        // Push the state again to prevent back navigation
+        history.pushState(null, null, window.location.href);
+    });
+</script></body>
+</html>
+
+
+

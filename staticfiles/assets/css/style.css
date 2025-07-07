@@ -1,0 +1,105 @@
+
+    .table tbody tr {
+    padding: 0rem;
+    background-color : #fff3cd; 
+  }
+  .table thead tr th h6 {
+  font-weight: 700;
+}
+ 
+  .table tbody tr:first-child > * {
+    padding-top: 10px;
+  }
+
+  
+    .card-style {
+      padding: 5px;
+    }
+
+    .gap-5{
+      gap: 2rem !important;
+    }
+  
+
+  @media (max-width: 767.98px) {
+    .left {
+      margin-bottom: 10px;
+    }
+    .table-responsive {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .table thead {
+      display: none;
+    }
+    .table tbody tr {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 5px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), 
+                  -2px -2px 5px rgba(255, 255, 255, 0.5);
+    }
+    .table tbody td {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 0.1rem 0;
+      border-bottom: 1px solid #ddd;
+      word-break: break-word;
+    }
+    .table tbody td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      margin-right: 1rem;
+      flex: 1;
+      min-width: 100px;
+    }
+    .table tbody td:last-child {
+      border-bottom: none;
+    }
+    .table tbody td[data-label="अनुमति"] {
+      flex-direction: column;
+      /* align-items: center; Center-align the action buttons */
+      gap: 0.5rem;
+    }
+    /* .gap-5{
+      gap: 5rem !important;
+    } */
+    .actions {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center; /* Center-align buttons horizontally */
+    }
+    .actions button {
+      width: auto;
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+    .status {
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    .status.waiting {
+      background-color: orange; /* Changed from yellow to orange */
+      color: #333;
+    }
+    .status.approved {
+      background-color: #28a745; /* Green for Approved */
+      color: white;
+    }
+    .status.rejected {
+      background-color: #dc3545; /* Red for Rejected */
+      color: white;
+    }
+
+
+
+    /* Row Colors */
+tr[data-id] {
+  transition: background-color 0.3s ease;
+}
+  }

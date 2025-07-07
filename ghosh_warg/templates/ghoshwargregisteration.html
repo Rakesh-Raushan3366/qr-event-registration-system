@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="hi">
+<!-- {% load static %} -->
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="shortcut icon" href="{% static 'register_samautkarsh/assets/img/Samutkarsh_logo.png' %}"
+      type="image/x-icon" />
+   <title>पंजीकरण फॉर्म</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Arya:wght@400;700&family=Caudex:ital,wght@0,400;0,700;1,400;1,700&family=Forum&family=Hind:wght@300;400;500;600;700&family=Laila:wght@300;400;500;600;700&family=Palanquin+Dark:wght@400;500;600;700&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Yatra+One&display=swap" rel="stylesheet">
+
+   <!-- SweetAlert2 CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.21/dist/sweetalert2.min.css" rel="stylesheet">
+
+   <!-- Select2 CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+   <!-- Bootstrap 5 CSS (For table styling) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+   <!-- Font Awesome CDN -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+   <style>
+      body {
+         margin: 0;
+         padding: 0;
+         overflow-x: hidden;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         min-height: 100vh;
+         padding: 20px 10px;
+         /* background-image: url('/static/register_samautkarsh/assets/img/bg_img.jpg'); */
+         background-repeat: no-repeat;
+         background-size: contain;
+         background-size: 100% 100%;
+         background-position: center center;
+         font-family: 'Hind', sans-serif;
+         background: linear-gradient(135deg, #B22222 10%, #FFA500 30%, #FF4500 50%);
+
+      }
+
+      .card-body {
+         height: 0;
+         opacity: 0;
+         padding: 0;
+         overflow: hidden;
+         background-color: #FFF8E1;
+      }
+      .card-header {
+         margin: 10px;
+         color: rgb(235, 77, 77);
+         font-weight: 700;
+         background-color: #FFF8E1;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         cursor: pointer;
+         user-select: none; 
+      }
+   
+      .card-header.disabled {
+         color: rgb(239, 118, 118);;
+         background-color: #f0f0f0;
+         cursor: not-allowed; 
+         opacity: 0.6;
+         pointer-events: none; 
+      }
+      .card-title{
+         font-size: 16px !important;
+        text-decoration: underline;
+        color: #8B0000 !important;
+      }
+
+      .toggle-icon {
+         font-size: 16px;
+         margin-left: 8px;
+      }
+
+      #particles {
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         z-index: 0;
+         opacity: 0.7;
+         pointer-events: none;
+      }
+
+      .particle {
+         position: absolute;
+         background: rgba(255, 255, 255, 0.5);
+         border-radius: 50%;
+         will-change: transform;
+      }
+
+      .form-container {
+         background: rgba(255, 255, 255, 0.9);
+         width: 100%;
+         border-radius: 12px;
+         padding: 30px;
+         max-width: 768px;
+         margin: auto;
+         transition: transform 0.3s ease-in-out;
+      }
+
+      .form-label {
+         font-size: 16px !important;
+         font-weight: 900;
+         color: #333;
+      }
+
+      .required::after {
+         content: "*";
+         color: red;
+      }
+
+      .form-control,
+      .form-select {
+         font-size: 16px;
+         color: #868686;
+      }
+
+      .form-select input {
+         font-size: 14px;
+      }
+
+      .form-select option {
+         font-size: 14px;
+         color: #868686;
+      }
+
+      .form-control:focus {
+         border-color: #ff9800 !important;
+         box-shadow: 0px 0px 5px rgba(255, 152, 0, 0.75) !important;
+      }
+
+      .form-select:focus {
+         border-color: #ff9800 !important;
+         box-shadow: 0px 0px 5px rgba(255, 152, 0, 0.75) !important;
+         outline: none !important;
+      }
+
+      .hidden {
+         display: none;
+      }
+
+      /* Remove focus outline for both radio buttons and checkboxes */
+      .form-check-input:focus {
+         box-shadow: none !important;
+         outline: none !important;
+         border-color: transparent !important;
+      }
+
+      /* Common styling for both checkboxes and radio buttons */
+      .form-check-input {
+         width: 16px;
+         height: 16px;
+         border: 2px solid #ccc !important;
+         background-color: white !important;
+         transition: all 0.3s ease-in-out;
+         appearance: none;
+         -webkit-appearance: none;
+         -moz-appearance: none;
+         cursor: pointer;
+         position: relative;
+      }
+
+      .form-check-input[type="checkbox"] {
+         border-radius: 4px;
+      }
+
+      .form-check-input[type="radio"] {
+         border-radius: 50%;
+      }
+
+      .form-check-input:not(:checked) {
+         background-color: white !important;
+         border: 2px solid #ccc !important;
+      }
+
+      .form-check-input:checked {
+         border-color: #ff9800 !important;
+         background-color: #ff9800 !important;
+      }
+
+      .form-check-input[type="checkbox"]:checked::before {
+         content: "";
+         width: 10px;
+         height: 10px;
+         background-color: white;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+      }
+
+      /* Inner dot for checked radio button */
+      .form-check-input[type="radio"]:checked::before {
+         content: "";
+         width: 8px;
+         height: 8px;
+         background-color: white;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         border-radius: 50%;
+         /* Circular inner dot */
+      }
+
+      /* Modal Styles */
+      .modal-content {
+         background: #f8f9fa;
+         /* Light gray background */
+         border-radius: 8px;
+         padding: 20px;
+      }
+
+      .table-striped tbody tr:nth-of-type(odd) {
+         background-color: #f2f2f2;
+         /* Custom alternate row color */
+      }
+
+      .table td {
+         vertical-align: middle;
+      }
+
+      .modal-footer {
+         background: #e9ecef;
+         /* Light gray footer */
+         padding: 15px;
+         border-top: 1px solid #dee2e6;
+      }
+
+      .modal {
+         display: none;
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.5);
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         z-index: 1000;
+         padding: 10px;
+         /* Adds spacing on small screens */
+         box-sizing: border-box;
+         /* Prevents content overflow */
+      }
+
+      .modal-content {
+         background: white;
+         padding: 20px;
+         border-radius: 10px;
+         width: 50%;
+         /* Default width */
+         max-height: 80vh;
+         /* Prevents excessive height */
+         overflow-y: auto;
+         /* Enables scrolling if needed */
+         margin: 5% auto;
+         /* Adds top & bottom margin */
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+         transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+         .modal-content {
+            width: 70%;
+            /* Adjust width for tablets */
+         }
+      }
+
+      @media (max-width: 768px) {
+         .modal-content {
+            width: 90%;
+            /* Adjust width for smaller screens */
+            max-height: 90vh;
+            /* Increase max height */
+         }
+      }
+
+      @media (max-width: 480px) {
+         .modal-content {
+            width: 95%;
+            /* Almost full width for mobile */
+            padding: 15px;
+            /* Reduce padding */
+         }
+      }
+
+      /* .modal-content {
+         background: white;
+         padding: 20px;
+         border-radius: 8px;
+         width: 50%;
+         max-width: 600px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      } */
+      .modal-title {
+         color: #8B0000;
+         font-weight: bold;
+         text-align: center;
+         margin-bottom: 20px;
+      }
+
+      .modal-body p {
+         margin: 10px 0;
+         font-size: 14px;
+      }
+
+      .modal-footer {
+         display: flex;
+         justify-content: flex-end;
+         margin-top: 20px;
+      }
+
+      .btn {
+         padding: 8px 16px;
+         margin-left: 10px;
+         border: none;
+         border-radius: 4px;
+         cursor: pointer;
+         font-size: 14px;
+      }
+
+      /* .btn-edit {
+         background-color: #f0ad4e;
+         color: white;
+      }
+      .btn-submit {
+         background-color: #5cb85c;
+         color: white;
+      } */
+      .close-modal {
+         float: left;
+         font-size: 40px;
+         cursor: pointer;
+      }
+
+      .form-control,
+      .form-select {
+         font-size: 16px !important;
+         color: #2d3748 !important;
+         /* More sophisticated dark color */
+         font-weight: 400 !important;
+         /* Fixed font-weight value (100px was incorrect) */
+         padding: 10px 15px !important;
+         border: 1px solid #e2e8f0 !important;
+         /* Lighter border */
+         border-radius: 8px !important;
+         /* Slightly rounded corners */
+         background: rgba(255, 255, 255, 1);
+         /* Very light background */
+         transition: all 0.3s ease !important;
+         /* Smooth transitions */
+         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+         /* Subtle shadow */
+      }
+
+      /* Hover state */
+      .form-control:hover,
+      .form-select:hover {
+         border-color: #cbd5e0 !important;
+         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+      }
+
+      /* Focus state */
+      .form-control:focus,
+      .form-select:focus {
+         border-color: #FF9800 !important;
+         /* Nice blue focus color */
+         box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2) !important;
+         outline: none !important;
+         background-color: #ffffff !important;
+      }
+
+      /* Hide specific checkboxes by default using a class */
+      .hidden-checkbox {
+         display: none;
+      }
+   </style>
+</head>
+
+<body>
+   <!-- This is Header Section -->
+   <div id="particles"></div>
+   <div class="form-container">
+      <div class="text-center mb-5">
+         <!-- Logo Image Section -->
+         <div class="text-center mb-3" style="display: flex; justify-content: center; align-items: center;">
+            <img src="{% static '/register_samautkarsh/assets/img/Samutkarsh_logo.png' %}" alt="RSS Delhi Prant"
+               style="width: 150px; height: 150px; margin-right: 10px; border-radius: 50%; object-fit: cover;">
+         </div>
+         <!-- Main Image Section -->
+         <!-- <img src="{% static 'register_samautkarsh/assets/img/updated_banner.jpeg' %}" alt="Registration Image"
+            style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 3%;"> -->
+      </div>
+      <hr style="border: none; height: 2px; background-color: #FF9800; margin: 20px 0;">
+      <!-- End Header Section -->
+
+      <form id="myForm" method="POST" action="" enctype="multipart/form-data" autofocus>
+         {% csrf_token %}
+         <!-- Hidden Phone Number Passing -->
+         <input type="text" name="phone_number" style="display: none;" value={{phone_number}} hidden>
+
+         <div class="row">
+            <div class="col-md-12 mb-3" id="referralCode-container">
+               <label for="referralCode" class="form-label"
+                  style="font-size: 16px !important; font-weight: 700; color: #333;">
+                  रेफरल कोड <i><small class="text-secondary text-italic">(Referral Code) </small></i> <span class="text-danger">*</span>
+               </label>
+
+               <input type="text" id="referralCode" class="form-control" placeholder="रेफरल कोड (यदि कोई हो तो)"
+                  name="referral_code" maxlength="6" autofocus>
+               <small id="referralCodeError" class="text-danger" style="display: none; font-size: 12px;">"Please enter
+                  valid referral code."</small>
+            </div>
+         </div>
+         <!-- <hr style="border: none; height: 2px; background-color: #FF9800; margin: 20px 0;">
+            <div class="mb-3" style="margin-bottom: 16px;">
+               <h4 style="text-decoration: underline; text-align: center; color: #FF9800; font-size: 24px; font-weight: bold;">
+                  व्यक्तिगत जानकारी
+               </h4>
+            </div> -->
+
+         <div class="card mb-3">
+            <div class="card-header fw-bold " data-toggle-target="card_body_1" id="personal_tab"><span>व्यक्तिगत जानकारी
+                  / Personal Information</span>
+               <span class="toggle-icon">
+                  <i class="fas fa-plus"></i>
+               </span>
+            </div>
+            <div class="card-body" id="card_body_1">
+               <!-- <h5 class="card-title">Warning card title</h5> -->
+               <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+
+               <div class="row">
+                  <!-- First Name -->
+                  <div class="col-md-6 mb-3" id="name-container">
+                     <label for="name" class="form-label"
+                        style="font-size: 16px !important;font-weight: 700; color: #333;">नाम <i><small class="text-secondary text-italic">(First Name) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="name" class="form-control" placeholder="example: Ramesh" name="name"
+                        autofocus>
+                     <small id="nameError" class="text-danger" style="display: none;font-size: 12px !important;">Please
+                        enter a valid First Name (only alphabets and spaces are allowed).</small>
+                  </div>
+
+                  <!-- Last Name -->
+                  <div class="col-md-6 mb-3" id="lastName-container">
+                     <label for="lastName" class="form-label"style="font-size: 16px !important;font-weight: 700; color: #333;">उप-नाम <i><small class="text-secondary text-">(Last Name) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="lastName" class="form-control" placeholder="example: Sharma"name="last_name" autofocus>
+                     <small id="lastNameError" class="text-danger"style="display: none;font-size: 12px !important;">Please enter a valid उप-नाम (Last Name) (only  alphabets and spaces are allowed).</small>
+                  </div>
+
+                  <!-- Blood Group -->
+                  <div class="col-md-6 mb-3" id="blood_group-container">
+                     <label for="blood_group" class="form-label"
+                        style="font-size: 16px !important;font-weight: 700; color: #333;">रक्त-गट <i><small class="text-secondary text-">(Blood Group) </small></i> <span class="text-danger">*</span></label>
+                     <select id="blood_group" name="blood_group" class="form-control">
+                        <option value="" selected disabled>example: A+, O-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="जानकारी नहीं है">जानकारी नहीं है</option>
+                     </select>
+                     <small id="blood_groupError" class="text-danger"
+                        style="display: none;font-size: 12px !important;">Please enter blood group.</small>
+                  </div>
+
+                  <!-- श्रेणी (Profession) -->
+                  <div class="col-md-6 mb-3" id="profession-container">
+                     <label for="profession" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">श्रेणी <i><small class="text-secondary text-italic">(Profession) </small></i><span class="text-danger"> *</span></label>
+                     <select id="profession" name="user_type" class="form-control">
+                        <option value="" selected disabled>exapmle: प्राध्यापक, व्यवसायी</option>
+                        <option value="स्कूल-विद्यार्थी">स्कूल-विद्यार्थी</option>
+                        <option value="कॉलेज-विद्यार्थी">कॉलेज-विद्यार्थी</option>
+                        <option value="अध्यापक">अध्यापक</option>
+                        <option value="प्राध्यापक">प्राध्यापक</option>
+                        <!-- <option value="कर्मचारी (सरकारी)">कर्मचारी (सरकारी)</option> -->
+                        <!-- <option value="कर्मचारी (अन्य)">कर्मचारी (अन्य)</option> -->
+                        <option value="सामाजिक संस्थान में कार्यरत">सामाजिक संस्थान में कार्यरत</option>
+                        <option value="सरकारी संस्थान में कार्यरत">सरकारी संस्थान में कार्यरत</option>
+                        <option value="निजी संस्थान में कार्यरत">निजी संस्थान में कार्यरत</option>
+                        <option value="व्यवसायी">व्यवसायी</option>
+                        <option value="उद्योगपति">उद्योगपति</option>
+                        <option value="प्रोफेशनल">प्रोफेशनल</option>
+                        <option value="सेवा-निवृत्त">सेवा-निवृत्त</option>
+                        <option value="गृहिणी">गृहिणी</option>
+                        <option value="श्रमिक">श्रमिक</option>
+                        <option value="कृषक (किसान)">कृषक (किसान)</option>
+                        <option value="अन्य">अन्य</option>
+                     </select>
+                     <small id="professionError" class="text-danger"
+                        style="display: none;font-size: 12px !important;">Please enter profession.</small>
+                  </div>
+
+                  <div class="col-md-6 mb-3" id="studentType-container" style="display: none;">
+                     <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">स्कूल विद्यार्थी <i><small class="text-secondary text-italic">(School Student) </small></i><span class="text-danger"> *</span></label>
+                     <select name="student_type" id="studentType" class="form-control" style="font-size: 16px !important;">
+                        <option value="" selected disabled>कक्षा चुनें</option>
+                        <option value="अन्य">अन्य</option>
+                        <option value="कक्षा 5 व उससे नीचे">कक्षा 5 व उससे नीचे</option>
+                        <option value="कक्षा 6">कक्षा 6</option>
+                        <option value="कक्षा 7">कक्षा 7</option>
+                        <option value="कक्षा 8">कक्षा 8</option>
+                        <option value="कक्षा 9">कक्षा 9</option>
+                        <option value="कक्षा 10">कक्षा 10</option>
+                        <option value="कक्षा 11">कक्षा 11</option>
+                        <option value="कक्षा 12">कक्षा 12</option>
+                     </select>
+                     <small id="studentTypeError" class="text-danger" style="display: none; font-size: 12px !important;">Please select an option.</small>
+                  </div>
+
+                  <!-- University Dropdown --> 
+                  <div class="col-md-6 mb-3" id="university-container" style="display: none;">
+                     <label for="university" class="form-label" style="font-size: 16px; font-weight: 700; color: #333;">विश्वविद्यालय  <i><small class="text-secondary text-italic">(University) </small></i><span class="text-danger">*</span></label>
+                     <select class="form-control" id="university" name="affilated_by">
+                        <option value="" selected disabled>विश्वविद्यालय</option>
+                     </select>
+                     <small id="universityError" class="text-danger" style="display: none; font-size: 12px;">Please select an option.</small>
+                  </div>
+
+                  <!-- Institute Name -->
+                  <div class="col-md-6 mb-3" id="institute-container" style="display: none;">
+                     <label for="institute" class="form-label" style="font-size: 16px; font-weight: 700; color: #333;">संस्थान <i><small class="text-secondary text-italic">(Institute) </small></i><span class="text-danger"> *</span></label>
+                     <select class="form-control" id="institute" name="institute_name">
+                        <option value="" selected disabled>संस्थान</option>
+                     </select>
+                     <small id="instituteError" class="text-danger" style="display: none; font-size: 12px;">कृपया संस्थान का नाम दर्ज करें</small>
+                  </div>
+
+                  <!-- Course Dropdown -->
+                  <div class="col-md-6 mb-3" id="course-container" style="display: none;">
+                     <label for="course" class="form-label" style="font-size: 16px; font-weight: 700; color: #333;">विषय <i><small class="text-secondary text-italic">(Course) </small></i> <span class="text-danger">*</span></label>
+                     <select class="form-control" id="course" name="category_name">
+                        <option value="" selected disabled>विषय</option>
+                     </select>
+                     <small id="courseError" class="text-danger" style="display: none; font-size: 12px;">कृपया विषय चुनें</small>
+                  </div>
+
+                  <!-- कॉलेज विद्यार्थी का प्रकार -->
+                  <div class="col-md-6 mb-3" id="collegeStudentType-container" style="display: none;"> 
+                     <label for="collegeStudentType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">कॉलेज विद्यार्थी / प्राध्यापक <i><small class="text-secondary text-italic">(University Student / Professor) </small></i><span class="text-danger"> *</span></label>
+                     <select id="collegeStudentType" name="college_student_type" class="form-control" >
+                        <option value="" disabled selected>विकल्प चुनें</option>
+                        <option value="अन्य">अन्य</option>
+                        <option value="स्नातक (UG)">स्नातक (UG)</option>
+                        <option value="परा-स्नातक (PG)">परा-स्नातक (PG)</option>
+                        <option value="शोध">शोध</option>
+                        <option value="PHD">PHD</option>
+                     </select>
+                     <small id="collegeStudentTypeError" class="text-danger" style="display: none; font-size: 12px !important;">Please select a option.</small>
+                  </div>                 
+
+                  <!-- सामाजिक संस्थान में कार्यरत - कार्य का क्षेत्र -->
+                  <div class="col-md-6 mb-3" id="socialWorkArea-container" style="display: none;">
+                     <label for="socialWorkArea" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">कार्य क्षेत्र<i><small class="text-secondary text-italic">(Area of Work) </small></i> <span class="text-danger"> *</span></label>
+                     <select id="socialWorkArea" name="social_work_area" class="form-control">
+                        <option value="" disabled selected>विकल्प चुनें</option>
+                        <option value="अन्य">अन्य</option>
+                        <option value="पर्यावरण">पर्यावरण</option>
+                        <option value="शैक्षिक">शैक्षिक</option>
+                        <option value="स्वास्थ्य">स्वास्थ्य</option>
+                        <option value="महिला सशक्तिकरण">महिला सशक्तिकरण</option>
+                        <option value="बाल कल्याण">बाल कल्याण</option>
+                        <option value="ग्रामीण विकास">ग्रामीण विकास</option>
+                        <option value="मानवाधिकार">मानवाधिकार</option>
+                        <option value="कानूनी">कानूनी</option>
+                        <option value="अनुसंधान">अनुसंधान</option>
+                        <option value="सेवा">सेवा</option>
+                        <option value="धर्मार्थ">धर्मार्थ</option>
+                     </select>
+                     <small id="socialWorkAreaError" class="text-danger" style="display: none; font-size: 12px !important;">Please select a option.</small>
+                  </div>
+
+                  <!-- अध्यापक का प्रकार -->
+                  <div class="col-md-6 mb-3" id="teacherType-container" style="display: none;">
+                     <label for="teacherType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">अध्यापक <i><small class="text-secondary text-italic">(Teacher) </small></i><span class="text-danger"> *</span></label>
+                     <select id="teacherType" name="teacher_type" class="form-control" >
+                        <option value="" disabled selected>विकल्प चुनें</option>
+                        <option value="अन्य">अन्य</option>
+                        <option value="प्राइमरी">प्राइमरी</option>
+                        <option value="TGT">TGT</option>
+                        <option value="PGT">PGT</option>
+                     </select>
+                     <small id="teacherTypeError" class="text-danger" style="display: none; font-size: 12px !important;">Please select a option.</small>
+                  </div>
+                  
+
+                  <!-- Professional Type -->
+                  <div class="col-md-6 mb-3" id="professionType-container" style="display: none;">
+                     <label for="professionType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">प्रोफेशनल <i><small class="text-secondary text-italic">(Professional) </small></i><span class="text-danger"> *</span></label>
+                     <select id="professionType" name="profession_type" class="form-control" >
+                        <option value="" disabled selected>विकल्प चुनें</option>
+                        <option value="Others">Others</option>
+                        <option value="Art & Culture">Art & Culture</option>
+                        <option value="Design Professionals">Design Professionals</option>
+                        <option value="Education Professionals">Education Professionals</option>
+                        <option value="Medical Professionals">Medical Professionals</option>
+                        <option value="Engineering Professionals">Engineering Professionals</option>
+                        <option value="Legal Professionals">Legal Professionals</option>
+                        <option value="Finance Professionals">Finance Professionals</option>
+                        
+                        <option value="IT Professionals">IT Professionals</option>
+                        
+                        <option value="Media & Communication">Media & Communication</option>
+                        
+                        <option value="Management Professionals">Management Professionals</option>
+                     </select>
+                     <small id="professionTypeError" class="text-danger" style="display: none; font-size: 12px !important;">Please select a option.</small>
+                  </div>
+
+                  <!-- Professional SubType -->
+                  <div class="col-md-6 mb-3" id="professionSubType-container" style="display: none;">
+                     <label for="professionSubType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">प्रोफेशनल प्रकार <i><small class="text-secondary text-italic">(Professional Type) </small></i><span class="text-danger"> *</span></label>
+                     <select id="professionSubType" name="profession_subtype" class="form-control" >
+                        <option value="" disabled selected>विकल्प चुनें</option>
+                     </select>
+                     <small id="professionSubTypeError" class="text-danger" style="display: none; font-size: 12px !important;">Please select a option.</small>
+                  </div>
+
+                  <!-- Industrialists -->
+                  <div class="col-md-6 mb-3" id="industrialistType-container" style="display: none;">
+                     <label for="industrialistType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">उद्योगपति <i><small class="text-secondary text-italic">(Industrialist) </small></i><span class="text-danger"> *</span></label>
+                     <select id="industrialistType" name="industrialist_type" class="form-control" >
+                        <option value="" disabled selected>विकल्प चुनें</option>
+                        <option value="Others">Others</option>
+                        <option value="Textile Industrialists">Textile Industrialists</option>
+                        <option value="Steel and Iron Industrialists">Steel and Iron Industrialists</option>
+                        <option value="Chemical Industry">Chemical Industry</option>
+                        <option value="Pharmaceutical Industrialists">Pharmaceutical Industrialists</option>
+                        <option value="Automobile Industrialists">Automobile Industrialists</option>
+                        <option value="Cement and Construction Material Industrialists">Cement and Construction Material Industrialists</option>
+                        <option value="FMCG Industrialists (Fast-Moving Consumer Goods)">FMCG Industrialists (Fast-Moving Consumer Goods)</option>
+                        <option value="Petrochemical Industrialists">Petrochemical Industrialists</option>
+                        <option value="IT and Software Industrialists">IT and Software Industrialists</option>
+                        <option value="Renewable Energy Industrialists">Renewable Energy Industrialists</option>
+                        <option value="Aerospace and Defense Industrialists">Aerospace and Defense Industrialists</option>
+                        <option value="Agro-based Industrialists (Fertilizers, Agro-equipment, Processing)">Agro-based Industrialists (Fertilizers, Agro-equipment, Processing)</option>
+                     </select>
+                     <small id="industrialistTypeError" class="text-danger" style="display: none; font-size: 12px !important;">Please select a option.</small>
+                  </div>
+
+                  <!-- Bussinessmens -->
+                  <div class="col-md-6 mb-3" id="businessType-container" style="display: none;">
+                     <label for="businessType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">व्यवसायी <i><small class="text-secondary text-italic">(Businessman) </small></i><span class="text-danger"> *</span></label>
+                     <select id="businessType" name="business_type" class="form-control" >
+                        <option value="" disabled selected>विकल्प चुनें</option>
+                        <option value="Others">Others</option>
+                        <option value="Manufacturing (factories, plants)">Manufacturing (factories, plants)</option>
+                        <option value="Service (consultancy, education, healthcare)">Service (consultancy, education, healthcare)</option>
+                        <option value="Trading (import/export, wholesale, retail)">Trading (import/export, wholesale, retail)</option>
+                        <option value="Agriculture & Allied (farming, fisheries, dairy)">Agriculture & Allied (farming, fisheries, dairy)</option>
+                        <option value="Technology & IT (software services, app development)">Technology & IT (software services, app development)</option>
+                        <option value="Financial Services (banks, NBFCs, insurance firms)">Financial Services (banks, NBFCs, insurance firms)</option>
+                        <option value="E-commerce (online retail, platforms)">E-commerce (online retail, platforms)</option>
+                        <option value="Real Estate & Construction">Real Estate & Construction</option>
+                        <option value="Tourism & Hospitality (hotels, travel agencies)">Tourism & Hospitality (hotels, travel agencies)</option>
+                        <option value="Entertainment & Media (film, music, OTT)">Entertainment & Media (film, music, OTT)</option>
+                     </select>
+                     <small id="businessTypeError" class="text-danger" style="display: none; font-size: 12px !important;">Please select a option.</small>
+                  </div>
+               </div> 
+               <div class="d-flex flex-column flex-md-row justify-content-end align-items-center gap-3 py-3">
+                  <!-- Next Button -->
+                  <a href=""class="btn next-btn btn-outline-danger fw-bold btn-lg px-4 py-2 rounded-pill shadow-sm" style="transition: all 0.3s ease;">
+                     <i class="fas fa-arrow-right me-2"></i> Next
+                  </a>
+               </div>
+            </div>          
+            <div id="card_body_1Error" class="alert alert-danger mb-3" style="display: none; font-size: 14px;margin: 10px;">
+               Please complete all required fields in this section
+            </div>
+         </div>
+
+
+         <div class="card mb-3">
+            <div class="card-header disabled" data-toggle-target="card_body_2" id="sangh_part1_tab"><span>संघ संबंधी जानकारी भाग - 1</span>
+               <span class="toggle-icon">
+                  <i class="fas fa-plus"></i>
+               </span>
+            </div>
+            <div class="card-body" id="card_body_2">
+               <div class="row">
+                  <!-- आप संघ(RSS) से किस प्रकार जुड़े हुए हैं ..? -->
+                  <div class="col-md-12 mb-3" id="rssAssociation-container">
+                     <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">आप संघ(RSS) से किस माध्यम से जुड़े हुए हैं ..?<span class="text-danger"> *</span></label>
+                     <div class="form-check">
+                         <input type="radio" id="rssShakha" name="rss_association" class="form-check-input" value="शाखा">
+                         <label for="rssShakha" class="form-check-label" style="font-size: 16px !important;">शाखा</label>
+                     </div>
+                     <div class="form-check">
+                         <input type="radio" id="rssMilan" name="rss_association" class="form-check-input" value="मिलन">
+                         <label for="rssMilan" class="form-check-label" style="font-size: 16px !important;">मिलन</label>
+                     </div>
+                     <div class="form-check">
+                         <input type="radio" id="rssGatividhi" name="rss_association" class="form-check-input" value="गतिविधि">
+                         <label for="rssGatividhi" class="form-check-label" style="font-size: 16px !important;">गतिविधि</label>
+                     </div>
+                     <div class="form-check">
+                         <input type="radio" id="rssVividhSangathan" name="rss_association" class="form-check-input" value="विविध संगठन">
+                         <label for="rssVividhSangathan" class="form-check-label" style="font-size: 16px !important;">विविध संगठन</label>
+                     </div>
+                     <div class="form-check">
+                         <input type="radio" id="rssJoin" name="rss_association" class="form-check-input" value="Join RSS / जुड़ना चाहते हैं">
+                         <label for="rssJoin" class="form-check-label" style="font-size: 16px !important;">Join RSS / जुड़ना चाहते हैं</label>
+                     </div>
+                     <small id="rssAssociationError" class="text-danger" style="display: none; font-size: 12px !important;">Please select a option.</small>
+                  </div>
+
+                  <!-- शाखा / मिलन 2 -->
+                  <div class="col-md-6 dropdown mb-3" id="sakha_milan2-container" style="display: none;">
+                     <label for="sakha_milan2" class="form-label "style="font-size: 16px !important;font-weight: 700; color: #333;">शाखा / मिलन की श्रेणी <i><small class="text-secondary text-italic">(Sakha / Milan Profession) </small></i><span class="text-danger"> *</span></label>
+                     <select id="sakha_milan2" name='ekai_sakha_milan' class="form-control">
+                        <option value="" disabled selected>शाखा / मिलन</option> 
+                     </select>
+                     <small id="sakha_milan2Error" class="text-danger" style="display: none;font-size: 12px !important;">Please enter sakha/milan.</small>
+                  </div>
+
+                  <div class="col-md-6 mb-3" id="activity-container" style="display: none;">
+                     <label for="activity" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">गतिविधि <i><small class="text-secondary text-italic">(Activity) </small></i><span class="text-danger"> *</span></label>
+                     <select id="activity" name="activity" class="form-select">
+                        <option value="" selected disabled>गतिविधि</option>
+                        <option value="सामाजिक समरसता">सामाजिक समरसता</option>
+                        <option value="परिवार प्रबोधन">परिवार प्रबोधन</option>
+                        <option value="पर्यावरण">पर्यावरण</option>
+                        <option value="गौसेवा">गौसेवा</option>
+                        <option value="धर्म जागरण">धर्म जागरण</option>
+                        <option value="ग्राम विकास">ग्राम विकास</option>
+                     </select>
+                     <small id="activityError" class="text-danger" style="display: none; font-size: 12px !important;">Please select a option.</small>
+                  </div>  
+                 
+                  <!-- Vividh Sangathan Dropdown (Initially Hidden) -->
+                  <div class="col-md-6 mb-3" id="vividhSangathan-container" style="display: none;">
+                     <label for="vividhSangathan" class="form-label"
+                        style="font-size: 16px !important; font-weight: 700; color: #333;">विविध संगठन <i><small class="text-secondary text-italic">(Vividh Sangathan) </small></i><span class="text-danger"> *</span></label>
+                     <select id="vividhSangathan" name="vividhsangathan" class="form-select">
+                        <option selected disabled>विविध संगठन</option>
+                     </select>
+                     <small id="vividhSangathanError" class="text-danger"
+                        style="display: none;font-size: 12px !important;">Please enter vividh sangathan.</small>
+                  </div>
+
+                  <div class="col-md-12 mb-3" id="socialInterests-container" style="display: none;">
+                     <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">
+                        समाज जीवन में किस प्रकार के क्षेत्र में आपकी रुचि है..? <span class="text-danger">*</span>
+                     </label>
+                     <div class="row ms-2">
+                        <div class="col-md-3 form-check" id="shiksha-container">
+                           <input type="checkbox" id="shiksha" name="shiksha" value="शिक्षा" class="form-check-input">
+                           <label for="shiksha" class="form-check-label" style="font-size: 16px !important;">शिक्षा</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="aarthik-container">
+                           <input type="checkbox" id="aarthik" name="aarthik" value="आर्थिक"class="form-check-input">
+                           <label for="aarthik" class="form-check-label" style="font-size: 16px !important;">आर्थिक</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="dharmik-container">
+                           <input type="checkbox"id="dharmik" name="dharmik" value="धार्मिक" class="form-check-input">
+                           <label for="dharmik" class="form-check-label" style="font-size: 16px !important;">धार्मिक</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="seva-container">
+                           <input type="checkbox" id="seva" name="seva" value="सेवा" class="form-check-input">
+                           <label for="seva" class="form-check-label" style="font-size: 16px !important;">सेवा</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="swasthya-container">
+                           <input type="checkbox" id="swasthya" name="swasthya" value="स्वास्थ्य" class="form-check-input" >
+                           <label for="swasthya" class="form-check-label" style="font-size: 16px !important;">स्वास्थ्य</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="samajik-container">
+                           <input type="checkbox" id="samajik" name="samajik" value="सामाजिक" class="form-check-input">
+                           <label for="samajik" class="form-check-label" style="font-size: 16px !important;">सामाजिक</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="sanskritik-container">
+                           <input type="checkbox" id="sanskritik" name="sanskritik" value="सांस्कृतिक" class="form-check-input">
+                           <label for="sanskritik" class="form-check-label" style="font-size: 16px !important;">सांस्कृतिक</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="vaicharik-container">
+                           <input type="checkbox" id="vaicharik" name="vaicharik" value="वैचारिक" class="form-check-input">
+                           <label for="vaicharik" class="form-check-label" style="font-size: 16px !important;">वैचारिक</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="suraksha-container">
+                           <input type="checkbox" id="suraksha" name="suraksha" value="सुरक्षा" class="form-check-input">
+                           <label for="suraksha" class="form-check-label" style="font-size: 16px !important;">सुरक्षा</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="media-container">
+                           <input type="checkbox" id="media" name="media" value="मीडिया" class="form-check-input">
+                           <label for="media" class="form-check-label" style="font-size: 16px !important;">मीडिया</label>
+                        </div>
+                     </div>
+                                     
+                     <small id="socialInterestsError" class="text-danger" style="display: none; font-size: 12px !important;">
+                        Please select an option.
+                     </small>
+                  </div>
+
+                  <!-- आपके पास किसी प्रकार का दायित्व है..? -->
+                  <div class="col-md-12 mb-3" id="responsibility-container" style="display: none;">
+                     <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">आपके पास किसी प्रकार का दायित्व है..?<span class="text-danger"> *</span></label>
+                     <div class="form-check form-check-inline">
+                        <input type="radio" id="responsibilityYes" name="responsibility_yes_no" class="form-check-input" value="हाँ">
+                        <label for="responsibilityYes" class="form-check-label" style="font-size: 16px !important;">हाँ</label>
+                     </div>
+                     <div class="form-check form-check-inline">
+                        <input type="radio" id="responsibilityNo" name="responsibility_yes_no" class="form-check-input" value="नहीं">
+                        <label for="responsibilityNo" class="form-check-label" style="font-size: 16px !important;">नहीं</label>
+                     </div>
+                     <small id="responsibilityError" class="text-danger" style="display: none; font-size: 12px !important;">Please select a option.</small>
+                  </div>
+
+                  <!-- पिनकोड (जिस प्रांत में आपका दायित्व है।) (pincode) -->
+                  <div class="col-md-6 mb-3 dropdown" id="pincode-container" style="display: none;">
+                     <label for="pincode" class="form-label"
+                        style="font-size: 16px !important;font-weight: 700; color: #333;">पिनकोड <i><small class="text-secondary text-">(जिस प्रांत में आपका दायित्व है।) </small></i> <span class="text-danger">*</span></label>
+                     <input type="number" id="pincode" class="form-control" placeholder="exapmle: 121107, 110001" min="0" max="999999"
+                        name="pincode">
+                     <small id="pincodeError" class="text-danger"
+                        style="display: none;font-size: 12px !important;">Please enter a valid 6-digit pincode.</small>
+                  </div>
+
+                  <!-- Nagar Selection -->
+                  <div class="col-md-6 mb-3 dropdown" id="nagar-container" style="display: none;">
+                     <label for="nagar" class="form-label"
+                        style="font-size: 16px !important;font-weight: 700;color: #333;">नगर <i><small class="text-secondary ">(Nagar) </small></i><span class="text-danger"> *</span></label>
+                     <select id="nagar" name="nagar" class="form-control">
+                        <option value="" disabled selected>नगर</option>
+                     </select>
+                     <small id="nagarError" class="text-danger" style="display: none;font-size: 12px !important;">Please
+                        enter nagar.</small>
+                  </div>
+
+                  <!-- राज्य State Selection -->
+                  <div class="col-md-6 mb-3 dropdown" id="state-container" style="display: none;">
+                     <label for="state" class="form-label "
+                        style="font-size: 16px !important;font-weight: 700; color: #333;">राज्य <i><small class="text-secondary ">(State) </small></i><span class="text-danger"> *</span></label>
+                     <select id="state" name="state" class="form-control">
+                        <option value="" disabled selected>राज्य</option>
+                     </select>
+                     <small id="stateError" class="text-danger" style="display: none;font-size: 12px !important;">Please
+                        enter state.</small>
+                  </div>
+
+                  <!-- रेजिडेंशियल कॉलोनी (ब्लॉक/गली) (ekai_upbasti) -->
+                  <div class="col-md-6 mb-3 dropdown" id="upbasti-container" style="display: none;">
+                     <label for="upbasti" class="form-label "
+                        style="font-size: 16px !important;font-weight: 700;color: #333;">रेजिडेंशियल कॉलोनी <i><small class="text-secondary text-">(ब्लॉक/गली) </small></i> <span class="text-danger">*</span></label>
+                     <select id="upbasti" name='ekai_upbasti' class="form-control">
+                        <option value="" disabled selected>उपबस्ती</option>
+                     </select>
+                     <small id="upbastiError" class="text-danger"
+                        style="display: none;font-size: 12px !important;">Please enter basti.</small>
+                  </div>
+
+
+                  <!-- दायित्व की इकाई (ekai) -->
+                  <div class="col-md-6 mb-3 dropdown " id="ekai-container" style="display: none;">
+                     <label for="ekai" class="form-label "
+                        style="font-size: 16px !important;font-weight: 700;color: #333;">दायित्व की इकाई <i><small class="text-secondary ">(Dayitva's Ekai) </small></i><span class="text-danger"> *</span></label>
+                     <select id="ekai" name='ekai' class="form-control">
+                        <option value="" disabled selected>इकाई</option>
+                     </select>
+                     <small id="ekaiError" class="text-danger" style="display: none;font-size: 12px !important;">Please
+                        enter ekai.</small>
+                  </div>
+
+                  <!-- Dayitva Selection (Initially Hidden) -->
+                  <div class="col-md-6 mb-3 dropdown" id="dayitva-container" style="display: none;">
+                     <label for="dayitva" class="form-label "
+                        style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व <i><small class="text-secondary ">(Dayitva) </small></i><span class="text-danger"> *</span></label>
+                     <select id="dayitva" name="dayitv" class="form-control">
+                        <option value="" disabled selected>दायित्व</option>
+                     </select>
+                     <small id="dayitvaError" class="text-danger"
+                        style="display: none;font-size: 12px !important;">Please enter dayitva.</small>
+                  </div>
+
+                  <!-- दायित्व का प्रान्त (prant) (Initially Hidden)-->
+                  <div class="col-md-6 mb-3 dropdown" id="prant-container" style="display: none;">
+                     <label for="prant" class="form-label "
+                        style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व का प्रान्त <i><small class="text-secondary ">(Dayitva's Prant) </small></i><span class="text-danger"> *</span></label>
+                     <select id="prant" name='prant' class="form-control">
+                        <option value="" disabled selected>प्रांत</option>
+                     </select>
+                     <small id="prantError" class="text-danger" style="display: none;font-size: 12px !important;">Please
+                        enter prant.</small>
+                  </div>
+
+                  <!-- दायित्व का विभाग (vibhag) (Initially Hidden)-->
+                  <div class="col-md-6 mb-3 dropdown" id="vibhag-container" style="display: none;">
+                     <label for="vibhag" class="form-label "style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व का विभाग <i><small class="text-secondary ">(Dayitva's Vibhag) </small></i><span class="text-danger"> *</span></label>
+                     <select id="vibhag" class="form-control" name="vibhag" >
+                        <option value="" disabled selected>विभाग</option>
+                     </select>
+                     <small id="vibhagError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter vibhag.</small>
+                  </div>
+
+                  <!-- दायित्व का जिला (jila) -->
+                  <div class="col-md-6 mb-3 dropdown" id="jila-container" style="display: none;">
+                     <label for="jila" class="form-label "
+                        style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व का जिला <i><small class="text-secondary ">(Dayitva's Jila) </small></i><span class="text-danger"> *</span></label>
+                     <select id="jila" class="form-control" name="jila">
+                        <option value="" disabled selected>जिला</option>
+                     </select>
+                     <small id="jilaError" class="text-danger" style="display: none;font-size: 12px !important;">Please
+                        enter jila.</small>
+                  </div>
+
+                  <!-- दायित्व का नगर (ekai_nagar) -->
+                  <div class="col-md-6 mb-3 dropdown" id="ekai_nagar-container" style="display: none;">
+                     <label for="ekai_nagar" class="form-label "
+                        style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व का नगर <i><small class="text-secondary ">(Dayitva's Nagar) </small></i><span class="text-danger"> *</span></label>
+                     <select id="ekai_nagar" name='ekai_nagar' class="form-control">
+                        <option value="" disabled selected>नगर</option>
+                     </select>
+                     <small id="ekai_nagarError" class="text-danger"
+                        style="display: none;font-size: 12px !important;">Please enter nagar.</small>
+                  </div>
+
+                  <!-- दायित्व का मंडल (ekai_mandal) -->
+                  <div class="col-md-6 mb-3 dropdown" id="mandal-container" style="display: none;">
+                     <label for="mandal" class="form-label "
+                        style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व का मंडल <i><small class="text-secondary ">(Dayitva's Mandal) </small></i><span class="text-danger"> *</span></label>
+                     <select id="mandal" name='ekai_mandal' class="form-control">
+                        <option value="" disabled selected>मंडल</option>
+                     </select>
+                     <small id="mandalError" class="text-danger"
+                        style="display: none;font-size: 12px !important;">Please enter mandal.</small>
+                  </div>
+
+                  <!-- दायित्व की बस्ती (basti) -->
+                  <div class="col-md-6 mb-3 dropdown" id="basti-container" style="display: none;">
+                     <label for="basti" class="form-label "
+                        style="font-size: 16px !important;font-weight: 700;color: #333;">दायित्व की बस्ती <i><small class="text-secondary ">(Dayitva's Basti) </small></i><span class="text-danger"> *</span></label>
+                     <select id="basti" name='ekai_basti' class="form-control">
+                        <option value="" disabled selected>बस्ती</option>
+                     </select>
+                     <small id="bastiError" class="text-danger" style="display: none;font-size: 12px !important;">Please
+                        enter basti.</small>
+                  </div>
+               </div>
+
+               <div class="d-flex flex-column flex-md-row justify-content-end align-items-center gap-3 py-3">
+                  <!-- Next Button -->
+                  <a href=""class="btn next-btn btn-outline-danger fw-bold btn-lg px-4 py-2 rounded-pill shadow-sm" style="transition: all 0.3s ease;">
+                     <i class="fas fa-arrow-right me-2"></i> Next
+                  </a>
+               </div>
+
+            </div>
+            <div id="card_body_2Error" class="alert alert-danger mb-3" style="display: none; font-size: 14px;margin: 10px;">
+               Please complete all required fields in this section
+           </div>
+         </div>
+
+         <div class="card mb-3">
+            <div class="card-header disabled" data-toggle-target="card_body_3" id="sangh_part2_tab"><span>संघ संबंधी जानकारी भाग - 2</span>
+               <span class="toggle-icon">
+                  <i class="fas fa-plus"></i>
+               </span>
+            </div>
+            <div class="card-body" id="card_body_3">
+
+               <div class="row ">
+                  <h5 class="card-title text-center fw-bold ">संघ शिक्षण </h5>
+                  <div class="col-md-6 mb-3 dropdown" id="sangh_shikshan_level-container">
+                     <label for="sangh_shikshan_level" class="form-label"
+                        style="font-size: 16px !important;font-weight: 600; color: #333;">संघ शिक्षण <i><small class="text-secondary ">(Sangh Shikshan) </small></i><span class="text-danger"> *</span></label>
+                     <select id="sangh_shikshan_level" name='ekai_sangh_shikshan_level' class="form-control">
+                        <option value="" disabled selected>example: प्रथम वर्ष / द्वितीय वर्ष</option>
+                        <option value="कार्यकर्ता विकास वर्ग 2 / तृतीय वर्ष">कार्यकर्ता विकास वर्ग 2 / तृतीय वर्ष</option>
+                        <option value="कार्यकर्ता विकास वर्ग 1 / द्वितीय वर्ष">कार्यकर्ता विकास वर्ग 1 / द्वितीय वर्ष</option>
+                        <option value="संघ शिक्षा वर्ग / प्रथम वर्ष">संघ शिक्षा वर्ग / प्रथम वर्ष</option>
+                        <option value="प्राथमिक वर्ग"> प्राथमिक वर्ग</option>
+                        <option value="प्रारम्भिक वर्ग">प्रारम्भिक वर्ग</option>
+                        <option value="कोई शिक्षण नहीं हुआ">कोई शिक्षण नहीं हुआ</option>
+                     </select>
+                     <small id="sangh_shikshan_levelError" class="text-danger"
+                        style="display: none;font-size: 12px !important;">Please select sangh shikshan level</small>
+                  </div>               
+
+                  <!-- Dynamic Fields Container -->
+                  <div id="shikshan-details-container" style="display: none;">
+                     <!-- Fields will be dynamically inserted here -->
+                  </div>
+
+                  <div class="col-md-12 mb-3" style="display: none;" id="pratigyaCheckbox-container">
+                     <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">आपकी प्रतिज्ञा हुई है?</label>
+                     <div class="form-check form-check-inline">
+                        <input type="radio" id="pratigyaCheckboxYes" name="pratigya" class="form-check-input" value="हाँ">
+                        <label for="pratigyaCheckboxYes" class="form-check-label" style="font-size: 16px !important;">हाँ</label>
+                     </div>
+                     <div class="form-check form-check-inline">
+                        <input type="radio" id="pratigyaCheckboxNo" name="pratigya" class="form-check-input" value="नहीं">
+                        <label for="pratigyaCheckboxNo" class="form-check-label" style="font-size: 16px !important;">नहीं</label>
+                     </div>
+                     <small id="pratigyaCheckboxError" class="text-danger" style="display: none; font-size: 12px !important;">Please select an option.</small>
+                  </div>
+
+               </div>
+     
+
+               <div class="row ">
+                  <h5 class="card-title text-center fw-bold ">घोष संबंधी जानकारी</h5>
+
+                 <!-- घोष वादक है -->
+                  <div class="col-md-12 mb-3" id="ghosh_vadak-container">
+                     <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">क्या आप घोष वादक हैं?</label>
+                     <div class="form-check form-check-inline">
+                        <input type="radio" id="ghoshVadakYes" name="ghosh_vadak" class="form-check-input" value="हाँ">
+                        <label for="ghoshVadakYes" class="form-check-label" style="font-size: 16px !important;">हाँ</label>
+                     </div>
+                     <div class="form-check form-check-inline">
+                        <input type="radio" id="ghoshVadakNo" name="ghosh_vadak" class="form-check-input" value="नहीं">
+                        <label for="ghoshVadakNo" class="form-check-label" style="font-size: 16px !important;">नहीं</label>
+                     </div>
+                     <small id="ghoshVadakError" class="text-danger" style="display: none; font-size: 12px !important;">Please select an option.</small>
+                  </div>
+
+                  <!-- यदि हाँ तो -->
+                  <div id="ghoshVadakYes-container" style="display: none;">
+                     <!-- वाद्य (चेक बॉक्स) -->
+                     <div class="col-md-12 mb-3" id="vadya-container">
+                        <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">वाद्य <i><small class="text-secondary ">(Musical Instrument) </small></i></label>
+                        <div class="ms-2 ms-sm-1">
+                           <!-- Shankh -->
+                           <div class="form-check mb-2" id="shankh-container">
+                              <input type="checkbox" id="shankh" name="shankh" class="form-check-input" value="शंख">
+                              <label for="shankh" class="form-check-label" style="font-size: 16px !important;">शंख</label>
+                           </div>
+                     
+                           <!-- Shrung with Sub-Options -->
+                           <div class="form-check mb-2" id="shrung-container">
+                              <input type="checkbox" id="shrung" name="shrung" class="form-check-input" value="श्रृंग">
+                              <label for="shrung" class="form-check-label" style="font-size: 16px !important;">श्रृंग</label>
+                              <!-- Sub-Options for Shrung (Horizontal with Responsive Wrapping) -->
+                              <div class="d-flex flex-row flex-wrap ms-4 ms-sm-3 mt-1" id="shrung-suboptions">
+                                 <div class="form-check hidden-checkbox col-6 col-md-3 col-lg-2 me-md-3 me-lg-2 mb-2" id="turya-container">
+                                    <input type="checkbox" id="turya" name="turya" class="form-check-input" value="तुर्य">
+                                    <label for="turya" class="form-check-label" style="font-size: 14px !important;">तुर्य</label>
+                                 </div>
+                                 <div class="form-check hidden-checkbox col-6 col-md-3 col-lg-2 me-md-3 me-lg-2 mb-2" id="swarad-container">
+                                    <input type="checkbox" id="swarad" name="swarad" class="form-check-input" value="स्वरद">
+                                    <label for="swarad" class="form-check-label" style="font-size: 14px !important;">स्वरद</label>
+                                 </div>
+                                 <div class="form-check hidden-checkbox col-6 col-md-3 col-lg-2 me-md-3 me-lg-2 mb-2" id="nagang-container">
+                                    <input type="checkbox" id="nagang" name="nagang" class="form-check-input" value="नागांग">
+                                    <label for="nagang" class="form-check-label" style="font-size: 14px !important;">नागांग</label>
+                                 </div>
+                                 <div class="form-check hidden-checkbox col-6 col-md-3 col-lg-2 me-md-3 me-lg-2 mb-2" id="gomukh-container">
+                                    <input type="checkbox" id="gomukh" name="gomukh" class="form-check-input" value="गोमुख">
+                                    <label for="gomukh" class="form-check-label" style="font-size: 14px !important;">गोमुख</label>
+                                 </div>
+                                 <div class="form-check hidden-checkbox col-6 col-md-3 col-lg-2 me-md-3 me-lg-2 mb-2" id="other-container">
+                                    <input type="checkbox" id="other" name="other" class="form-check-input" value="अन्य">
+                                    <label for="other" class="form-check-label" style="font-size: 14px !important;">अन्य</label>
+                                 </div>
+                              </div>
+                           </div>
+                     
+                           <!-- Aanak -->
+                           <div class="form-check mb-2" id="aanak-container">
+                              <input type="checkbox" id="aanak" name="aanak" class="form-check-input" value="आनक">
+                              <label for="aanak" class="form-check-label" style="font-size: 16px !important;">आनक</label>
+                           </div>
+                     
+                           <!-- Panav -->
+                           <div class="form-check mb-2" id="panav-container">
+                              <input type="checkbox" id="panav" name="panav" class="form-check-input" value="पणव">
+                              <label for="panav" class="form-check-label" style="font-size: 16px !important;">पणव</label>
+                           </div>
+                     
+                           <!-- Jhallari -->
+                           <div class="form-check mb-2" id="jhallari-container">
+                              <input type="checkbox" id="jhallari" name="jhallari" class="form-check-input" value="झल्लरी">
+                              <label for="jhallari" class="form-check-label" style="font-size: 16px !important;">झल्लरी</label>
+                           </div>
+                     
+                           <!-- Tribhuj -->
+                           <div class="form-check mb-2" id="tribhuj-container">
+                              <input type="checkbox" id="tribhuj" name="tribhuj" class="form-check-input" value="त्रिभुज">
+                              <label for="tribhuj" class="form-check-label" style="font-size: 16px !important;">त्रिभुज</label>
+                           </div>
+                        </div>
+                        <small id="vadyaError" class="text-danger" style="display: none; font-size: 12px !important;">Please select at least one instrument.</small>
+                     </div>
+
+                     <div class="col-md-12 mb-3" id="shankhShrungOwn-container">
+                        <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">शंख/श्रृंग वाद्य आपका अपना है?</label>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="shankhShrungOwnYes" name="shankh_shrung_own" class="form-check-input" value="हाँ">
+                           <label for="shankhShrungOwnYes" class="form-check-label" style="font-size: 16px !important;">हाँ</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="shankhShrungOwnNo" name="shankh_shrung_own" class="form-check-input" value="नहीं">
+                           <label for="shankhShrungOwnNo" class="form-check-label" style="font-size: 16px !important;">नहीं</label>
+                        </div>
+                        <small id="shankhShrungOwnError" class="text-danger" style="display: none; font-size: 12px !important;">Please select an option.</small>
+                     </div>
+
+                     <!-- रचनाएं (रेडियो बटन) -->
+                     <div class="col-md-12 mb-3" id="rachnaye-container">
+                        <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">रचनाएं <i><small class="text-secondary ">(Rachnaye) </small></i></label>
+                        <div class="form-check">
+                           <input type="radio" id="naveenVadak" name="rachnaye" class="form-check-input" value="नवीन वादक">
+                           <label for="naveenVadak" class="form-check-label" style="font-size: 16px !important;">नवीन वादक</label>
+                        </div>
+                        <div class="form-check">
+                           <input type="radio" id="prathamikPath" name="rachnaye" class="form-check-input" value="प्राथमिक पाठ">
+                           <label for="prathamikPath" class="form-check-label" style="font-size: 16px !important;">प्राथमिक पाठ</label>
+                        </div>
+                        <div class="form-check">
+                           <input type="radio" id="rachnaye1to3" name="rachnaye" class="form-check-input" value="1 से 3 रचनाएँ">
+                           <label for="rachnaye1to3" class="form-check-label" style="font-size: 16px !important;">1 से 3 रचनाएँ</label>
+                        </div>
+                        <div class="form-check">
+                           <input type="radio" id="rachnaye3to5" name="rachnaye" class="form-check-input" value="3 से 5 रचनाएँ">
+                           <label for="rachnaye3to5" class="form-check-label" style="font-size: 16px !important;">3 से 5 रचनाएँ</label>
+                        </div>
+                        <div class="form-check">
+                           <input type="radio" id="rachnaye5to10" name="rachnaye" class="form-check-input" value="5 से 10 रचनाएँ">
+                           <label for="rachnaye5to10" class="form-check-label" style="font-size: 16px !important;">5 से 10 रचनाएँ</label>
+                        </div>
+                        <div class="form-check">
+                           <input type="radio" id="rachnayeMoreThan10" name="rachnaye" class="form-check-input" value="10 से अधिक">
+                           <label for="rachnayeMoreThan10" class="form-check-label" style="font-size: 16px !important;">10 से अधिक</label>
+                        </div>
+                        <small id="rachnayeError" class="text-danger" style="display: none; font-size: 12px !important;">Please select an option.</small>
+                     </div>
+                  </div>
+
+                  <!-- यदि नहीं तो -->
+                  <div id="ghoshVadakNo-container" style="display: none;">
+                     <!-- वाद्य सीखने के इच्छुक हैं..? -->
+                     <div class="col-md-12 mb-3" id="learn_vadya">
+                        <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">वाद्य सीखने के इच्छुक हैं..?</label>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="learnVadyaYes" name="learn_vadya" class="form-check-input" value="हाँ">
+                           <label for="learnVadyaYes" class="form-check-label" style="font-size: 16px !important;">हाँ</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="learnVadyaNo" name="learn_vadya" class="form-check-input" value="नहीं">
+                           <label for="learnVadyaNo" class="form-check-label" style="font-size: 16px !important;">नहीं</label>
+                        </div>
+                        <small id="learnVadyaError" class="text-danger" style="display: none; font-size: 12px !important;">Please select an option.</small>
+                     </div>
+
+                     <div id="learnVadyaList-container">
+                        <!-- वाद्य (चेक बॉक्स) -->
+                        <div class="col-md-12 mb-3" id="learnVadyaList" style="display: none;">
+                           <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">वाद्य <i><small class="text-secondary ">(Musical Instrument) </small></i></label>
+                           <div class="ms-2 ms-sm-1">
+                              <!-- Shankh -->
+                              <div class="form-check mb-2">
+                                 <input type="radio" id="learnShankh" name="learn_vadya_list" class="form-check-input" value="शंख">
+                                 <label for="learnShankh" class="form-check-label" style="font-size: 16px !important;">शंख</label>
+                              </div>
+                        
+                              <!-- Shrung with Sub-Options -->
+                              <div class="form-check mb-2">
+                                 <input type="radio" id="learnShrung" name="learn_vadya_list" class="form-check-input" value="श्रृंग">
+                                 <label for="learnShrung" class="form-check-label" style="font-size: 16px !important;">श्रृंग</label>
+                                 <!-- Sub-Options for Shrung (Responsive with Bootstrap) -->
+                                 <div class="d-flex flex-row flex-wrap ms-4 ms-sm-3 mt-1" id="learnShrung-suboptions">
+                                    <div class="form-check hidden-checkbox col-6 col-md-3 col-lg-2 me-md-3 me-lg-2 mb-2">
+                                       <input type="radio" id="learnTurya" name="learn_vadya_list" class="form-check-input" value="तुर्य">
+                                       <label for="learnTurya" class="form-check-label" style="font-size: 14px !important;">तुर्य</label>
+                                    </div>
+                                    <div class="form-check hidden-checkbox col-6 col-md-3 col-lg-2 me-md-3 me-lg-2 mb-2">
+                                       <input type="radio" id="learnSwarad" name="learn_vadya_list" class="form-check-input" value="स्वरद">
+                                       <label for="learnSwarad" class="form-check-label" style="font-size: 14px !important;">स्वरद</label>
+                                    </div>
+                                    <div class="form-check hidden-checkbox col-6 col-md-3 col-lg-2 me-md-3 me-lg-2 mb-2">
+                                       <input type="radio" id="learnNagang" name="learn_vadya_list" class="form-check-input" value="नागांग">
+                                       <label for="learnNagang" class="form-check-label" style="font-size: 14px !important;">नागांग</label>
+                                    </div>
+                                    <div class="form-check hidden-checkbox col-6 col-md-3 col-lg-2 me-md-3 me-lg-2 mb-2">
+                                       <input type="radio" id="learnGomukh" name="learn_vadya_list" class="form-check-input" value="गोमुख">
+                                       <label for="learnGomukh" class="form-check-label" style="font-size: 14px !important;">गोमुख</label>
+                                    </div>
+                                    <div class="form-check hidden-checkbox col-6 col-md-3 col-lg-2 mb-2">
+                                       <input type="radio" id="learnOther" name="learn_vadya_list" class="form-check-input" value="अन्य">
+                                       <label for="learnOther" class="form-check-label" style="font-size: 14px !important;">अन्य</label>
+                                    </div>
+                                 </div>
+                              </div>
+                        
+                              <!-- Aanak -->
+                              <div class="form-check mb-2">
+                                 <input type="radio" id="learnAanak" name="learn_vadya_list" class="form-check-input" value="आनक">
+                                 <label for="learnAanak" class="form-check-label" style="font-size: 16px !important;">आनक</label>
+                              </div>
+                        
+                              <!-- Panav -->
+                              <div class="form-check mb-2">
+                                 <input type="radio" id="learnPanav" name="learn_vadya_list" class="form-check-input" value="पणव">
+                                 <label for="learnPanav" class="form-check-label" style="font-size: 16px !important;">पणव</label>
+                              </div>
+                        
+                              <!-- Jhallari -->
+                              <div class="form-check mb-2">
+                                 <input type="radio" id="learnJhallari" name="learn_vadya_list" class="form-check-input" value="झल्लरी">
+                                 <label for="learnJhallari" class="form-check-label" style="font-size: 16px !important;">झल्लरी</label>
+                              </div>
+                        
+                              <!-- Tribhuj -->
+                              <div class="form-check mb-2">
+                                 <input type="radio" id="learnTribhuj" name="learn_vadya_list" class="form-check-input" value="त्रिभुज">
+                                 <label for="learnTribhuj" class="form-check-label" style="font-size: 16px !important;">त्रिभुज</label>
+                              </div>
+                           </div>
+                           <small id="learnVadyaListError" class="text-danger" style="display: none; font-size: 12px !important;">Please select at least one instrument.</small>
+                        </div>
+                     </div>
+
+                  </div>
+
+               </div>
+
+               <div class="row ">
+
+                  <!--  गणवेश संबंधी जानकारी field -->
+                  <div class="col-md-12 mb-3">
+                     <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">गणवेश संबंधी जानकारी</label>
+                     <div class="row ms-2">
+                        <div class="col-md-3 form-check" id="sanghPant-container">
+                           <input type="checkbox" id="sanghPant" name="sanghpant" class="form-check-input" value="गणवेश की पैंट">
+                           <label for="sanghPant" class="form-check-label" style="font-size: 16px !important;">गणवेश की पैंट</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="safedKameez-container">
+                           <input type="checkbox" id="safedKameez" name="whiteshirt" class="form-check-input" value="सफेद कमीज">
+                           <label for="safedKameez" class="form-check-label" style="font-size: 16px !important;">सफेद कमीज</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="sanghTopi-container">
+                           <input type="checkbox" id="sanghTopi" name="sanghtopi" class="form-check-input" value="गणवेश की टोपी">
+                           <label for="sanghTopi" class="form-check-label" style="font-size: 16px !important;">गणवेश की टोपी</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="sanghPeti-container">
+                           <input type="checkbox" id="sanghPeti" name="sanghpeti" class="form-check-input" value="संघ की पेटी">
+                           <label for="sanghPeti" class="form-check-label" style="font-size: 16px !important;">संघ की पेटी</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="jurab-container">
+                           <input type="checkbox" id="jurab" name="jurab" class="form-check-input" value="जुराब">
+                           <label for="jurab" class="form-check-label" style="font-size: 16px !important;">जुराब</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="joote-container">
+                           <input type="checkbox" id="joote" name="joote" class="form-check-input" value="जूते">
+                           <label for="joote" class="form-check-label" style="font-size: 16px !important;">जूते</label>
+                        </div>
+                        <div class="col-md-3 form-check" id="dand-container">
+                           <input type="checkbox" id="dand" name="dand" class="form-check-input" value="दंड">
+                           <label for="dand" class="form-check-label" style="font-size: 16px !important;">दंड</label>
+                        </div>
+                     </div>
+                     <small id="ganveshError" class="text-danger" style="display: none; font-size: 12px !important;">Please select at least one uniform item.</small>
+                  </div>
+
+               </div>
+            </div>
+            <div id="card_body_3Error" class="alert alert-danger mb-3" style="display: none; font-size: 14px;margin: 10px;">
+               Please complete all required fields in this section
+           </div>
+         </div>
+
+         <div class="d-flex flex-row flex-md-row justify-content-center align-items-center gap-3 mt-4 py-3">
+            <!-- Submit Button -->
+            <button type="submit" class="btn fw-bold btn-lg px-4 py-2 rounded-pill text-white shadow-sm border-0" style="background: linear-gradient(135deg, #FF9800, #FF9800); transition: all 0.3s ease;min-width: 120px;">
+              <i class="fas fa-arrow-circle-right me-2"></i> Submit
+            </button>
+
+            <!-- Log-Out Button -->
+            <a href="{% url 'ghosh_warg:mobile_verification' %}" class="btn btn-outline-danger fw-bold btn-lg px-4 py-2 rounded-pill shadow-sm" style="transition: all 0.3s ease; min-width: 120px;">
+               <i class="fas fa-sign-out-alt me-2"></i> Logout
+            </a>
+         </div>
+      </form>
+ 
+
+      <!--Modal for Preview -->
+      <div id="formModal" class="modal" style="display: none;">
+         <div class="modal-content"
+            style="background-color: #f8f9fa; border-radius: 10px; max-width: 800px; margin: 20px auto; padding: 20px;">
+            <!-- Modal Header -->
+            <div class="modal-header"
+               style=" color: white; border-top-left-radius: 10px; border-top-right-radius: 10px; padding: 15px;">
+               <h2 class="modal-title">पंजीकरण विवरण</h2>
+               <span class="close-modal" style="cursor: pointer; font-size: 24px; color: white;">&times;</span>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body" style="overflow-x: auto;">
+               <!-- Personal Information Section -->
+               <h3 class="modal-title">व्यक्तिगत जानकारी / Personal Information</h3>
+               <table class="table table-bordered" style="width: 100%; margin-bottom: 1rem;">
+                  <tbody>
+                     <tr id="modalReferralCodeContainer">
+                        <th style="width: 40%;">रेफरल कोड</th>
+                        <td><span id="modalReferralCode">N/A</span></td>
+                     </tr>
+                     <tr id="modalNameContainer">
+                        <th>नाम</th>
+                        <td><span id="modalName">N/A</span></td>
+                     </tr>
+                     <tr id="modalLastNameContainer">
+                        <th>उप-नाम</th>
+                        <td><span id="modalLastName">N/A</span></td>
+                     </tr>
+                     <tr id="modalDOBContainer">
+                        <th>जन्मतिथि</th>
+                        <td><span id="modalDOB">N/A</span></td>
+                     </tr>
+                     <tr id="modalBloodGroupContainer">
+                        <th>रक्त-गट / Blood Group</th>
+                        <td><span id="modalBloodGroup">N/A</span></td>
+                     </tr>
+                     <tr id="modalProfessionContainer">
+                        <th>श्रेणी</th>
+                        <td><span id="modalProfession">N/A</span></td>
+                     </tr>
+                     <tr id="modalStudentTypeContainer">
+                        <th>स्कूल विद्यार्थी</th>
+                        <td><span id="modalStudentType">N/A</span></td>
+                     </tr>
+                     <tr id="modalUniversityContainer">
+                        <th>विश्वविद्यालय</th>
+                        <td><span id="modalUniversity">N/A</span></td>
+                     </tr>
+                     <tr id="modalInstituteContainer">
+                        <th>संस्थान</th>
+                        <td><span id="modalInstitute">N/A</span></td>
+                     </tr>
+                     <tr id="modalCollegeStudentTypeContainer">
+                        <th>कॉलेज विद्यार्थी / प्राध्यापक</th>
+                        <td><span id="modalCollegeStudentType">N/A</span></td>
+                     </tr>
+                     <tr id="modalCourseContainer">
+                        <th>विषय</th>
+                        <td><span id="modalCourse">N/A</span></td>
+                     </tr>
+                     <!-- <tr id="modalStreamContainer">
+                        <th>Branch (शाखा)</th>
+                        <td><span id="modalStream">N/A</span></td>
+                     </tr> -->
+                     <tr id="modalSocialWorkAreaContainer">
+                        <th>कार्य क्षेत्र </th>
+                        <td><span id="modalSocialWorkArea">N/A</span></td>
+                     </tr>
+                     <tr id="modalTeacherTypeContainer">
+                        <th>अध्यापक </th>
+                        <td><span id="modalTeacherType">N/A</span></td>
+                     </tr>
+                     <tr id="modalProfessionTypeContainer">
+                        <th>प्रोफेशनल </th>
+                        <td><span id="modalProfessionType">N/A</span></td>
+                     </tr>
+                     <tr id="modalProfessionSubTypeContainer">
+                        <th>प्रोफेशनल प्रकार </th>
+                        <td><span id="modalProfessionSubType">N/A</span></td>
+                     </tr>
+                     <tr id="modalIndustrialistTypeContainer">
+                        <th>उद्योगपति </th>
+                        <td><span id="modalIndustrialistType">N/A</span></td>
+                     </tr>
+                     <tr id="modalBusinessTypeContainer">
+                        <th>व्यवसायी </th>
+                        <td><span id="modalBusinessType">N/A</span></td>
+                     </tr>
+                     <tr id="modalGenderContainer">
+                        <th>लैंगिक जानकारी</th>
+                        <td><span id="modalGender">N/A</span></td>
+                     </tr>
+                     <tr id="modalCurrentAddressContainer">
+                        <th>वर्तमान पता </th>
+                        <td><span id="modalCurrentAddress">N/A</span></td>
+                     </tr>
+                     <tr id="modalPermanentAddressContainer">
+                        <th>स्थायी पता</th>
+                        <td><span id="modalPermanentAddress">N/A</span></td>
+                     </tr>
+                     <tr id="modalAddressPincodeContainer">
+                        <th>पिनकोड (वर्तमान निवास का)</th>
+                        <td><span id="modalAddressPincode">N/A</span></td>
+                     </tr>
+                     <tr id="modalAddressNagarContainer">
+                        <th>निवास का नगर </th>
+                        <td><span id="modalAddressNagar">N/A</span></td>
+                     </tr>
+                     <tr id="modalAddressStateContainer">
+                        <th>राज्य </th>
+                        <td><span id="modalAddressState">N/A</span></td>
+                     </tr>
+                  </tbody>
+               </table>
+         
+               <!-- Sangh Related Information Part 1 -->
+               <h3 class="modal-title">संघ संबंधी जानकारी भाग - 1</h3>
+               <table class="table table-bordered" style="width: 100%; margin-bottom: 1rem;">
+                  <tbody>
+                     <tr id="modalRssAssociationContainer">
+                        <th style="width: 40%;">आप संघ(RSS) से किस माध्यम से जुड़े हुए हैं ..?</th>
+                        <td><span id="modalRssAssociation">N/A</span></td>
+                     </tr>
+                     <tr id="modalVividhSangathanContainer">
+                        <th>विविध संगठन </th>
+                        <td><span id="modalVividhSangathan">N/A</span></td>
+                     </tr>
+                     <tr id="modalSocialInterestsContainer">
+                        <th>समाज जीवन में किस प्रकार के क्षेत्र में आपकी रुचि है..?</th>
+                        <td><span id="modalSocialInterests"></span></td>
+                     </tr>
+                     <tr id="modalSakhaMilan2Container">
+                        <th>शाखा / मिलन </th>
+                        <td><span id="modalSakhaMilan2">N/A</span></td>
+                     </tr>
+                     <tr id="modalActivityContainer">
+                        <th>गतिविधि </th>
+                        <td><span id="modalActivity">N/A</span></td>
+                     </tr>
+                     <tr id="modalResponsibilityContainer">
+                        <th>आपके पास किसी प्रकार का दायित्व है..?</th>
+                        <td><span id="modalResponsibility">N/A</span></td>
+                     </tr>
+                  
+                     <tr id="modalPincodeContainer">
+                           <th>पिनकोड (जिस प्रांत में आपका दायित्व है।)</th>
+                           <td><span id="modalPincode">N/A</span></td>
+                     </tr>
+                     <tr id="modalNagarContainer">
+                           <th>नगर</th>
+                           <td><span id="modalNagar">N/A</span></td>
+                     </tr>
+                     <tr id="modalStateContainer">
+                           <th>राज्य (State)</th>
+                           <td><span id="modalState">N/A</span></td>
+                     </tr>
+                     <tr id="modalUpbastiContainer">
+                           <th>रेजिडेंशियल कॉलोनी (ब्लॉक/गली)</th>
+                           <td><span id="modalUpbasti">N/A</span></td>
+                     </tr>
+                     <tr id="modalEkaiContainer">
+                           <th>दायित्व की इकाई </th>
+                           <td><span id="modalEkai">N/A</span></td>
+                     </tr>
+                     <tr id="modalDayitvaContainer">
+                           <th>दायित्व </th>
+                           <td><span id="modalDayitva">N/A</span></td>
+                     </tr>
+                     <tr id="modalPrantContainer">
+                           <th>दायित्व का प्रान्त </th>
+                           <td><span id="modalPrant">N/A</span></td>
+                     </tr>
+                     <tr id="modalVibhagContainer">
+                           <th>दायित्व का विभाग </th>
+                           <td><span id="modalVibhag">N/A</span></td>
+                     </tr>
+                     <tr id="modalJilaContainer">
+                           <th>दायित्व का जिला </th>
+                           <td><span id="modalJila">N/A</span></td>
+                     </tr>
+                     <tr id="modalEkaiNagarContainer">
+                           <th>दायित्व का नगर </th>
+                           <td><span id="modalEkaiNagar">N/A</span></td>
+                     </tr>
+                     <tr id="modalMandalContainer">
+                           <th>दायित्व का मंडल</th>
+                           <td><span id="modalMandal">N/A</span></td>
+                     </tr>
+                     <tr id="modalBastiContainer">
+                           <th>दायित्व की बस्ती </th>
+                           <td><span id="modalBasti">N/A</span></td>
+                     </tr>
+                     <tr id="modalSakhaMilanCheckboxContainer">
+                        <th>क्या आप मिलन से जुड़े हैं?</th>
+                        <td><span id="modalSakhaMilanCheckbox">N/A</span></td>
+                     </tr>
+                     <tr id="modalSakhaMilanContainer">
+                           <th>शाखा / मिलन</th>
+                           <td><span id="modalSakhaMilan">N/A</span></td>
+                     </tr>
+                  </tbody>
+               </table>
+         
+               <!-- Sangh Related Information Part 2 -->
+               <h3 class="modal-title">संघ संबंधी जानकारी भाग - 2</h3>
+               <!-- Sangh Shikshan Subsection -->
+               <h5 class="modal-title">संघ शिक्षण</h5>
+               <table class="table table-bordered" style="width: 100%; margin-bottom: 1rem;">
+                     <tbody>
+                        <tr id="modalSanghSikshanLevelContainer">
+                              <th style="width: 40%;">संघ शिक्षण </th>
+                              <td><span id="modalSanghSikshanLevel">N/A</span></td>
+                        </tr>
+                        <tr id="modalPrarambhikYearContainer">
+                              <th>प्रारम्भिक वर्ग</th>
+                              <td><span id="modalPrarambhikYear">N/A</span></td>
+                        </tr>
+                        <tr id="modalPrathmikYearContainer">
+                              <th>प्राथमिक वर्ग</th>
+                              <td><span id="modalPrathmikYear">N/A</span></td>
+                        </tr>
+                        <tr id="modalPrathamYearContainer">
+                              <th>संघ शिक्षा वर्ग / प्रथम वर्ष</th>
+                              <td><span id="modalPrathamYear">N/A</span></td>
+                        </tr>
+                        <tr id="modalDwitiyaYearContainer">
+                              <th>कार्यकर्ता विकास वर्ग 1 / द्वितीय वर्ष</th>
+                              <td><span id="modalDwitiyaYear">N/A</span></td>
+                        </tr>
+                        <tr id="modalTritiyaYearContainer">
+                              <th>कार्यकर्ता विकास वर्ग 2 / तृतीय वर्ष </th>
+                              <td><span id="modalTritiyaYear">N/A</span></td>
+                        </tr>
+                        <tr id="modalPratigyaCheckboxContainer">
+                              <th>आपकी प्रतिज्ञा हुई है?</th>
+                              <td><span id="modalPratigyaCheckbox">N/A</span></td>
+                        </tr>
+                     </tbody>
+               </table>
+         
+               <!-- Ghosh Related Information Subsection -->
+               <h5 class="modal-title">घोष संबंधी जानकारी</h5>
+               <table class="table table-bordered" style="width: 100%; margin-bottom: 1rem;">
+                  <tbody>
+                     <tr id="modalGhoshVadakContainer">
+                           <th style="width: 40%;">क्या आप घोष वादक हैं?</th>
+                           <td><span id="modalGhoshVadak">N/A</span></td>
+                     </tr>
+                     <tr id="modalVadyaContainer">
+                        <th style="width: 40%;">वाद्य</th>
+                        <td><span id="modalVadya"></span></td>
+                     </tr>
+                     <tr id="modalShankhShrungOwnContainer">
+                           <th>शंख/श्रृंग वाद्य आपका अपना है?</th>
+                           <td><span id="modalShankhShrungOwn">N/A</span></td>
+                     </tr>
+                     <tr id="modalRachnayeContainer">
+                           <th>रचनाएँ</th>
+                           <td><span id="modalRachnaye">N/A</span></td>
+                     </tr>
+                     <tr id="modalLearnVadyaContainer">
+                           <th>वाद्य सीखने के इच्छुक हैं..?</th>
+                           <td><span id="modalLearnVadya">N/A</span></td>
+                     </tr>
+                     <tr id="modalLearnVadyaListContainer">
+                           <th>वाद्य</th>
+                           <td><span id="modalLearnVadyaList">N/A</span></td>
+                     </tr>
+                     <tr id="modalGanveshContainer">
+                           <th style="width: 40%;">गणवेश संबंधी जानकारी</th>
+                           <td><span id="modalGanvesh"></span></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer d-flex justify-content-center mt-4"
+               style="background-color: #e9ecef; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; padding: 15px;">
+               <button type="button" class="class-modal btn btn-success btn-sm border border-2 w-auto"
+                  style="margin-right: 10px;">Edit</button>
+               <button id="finalSubmit" class="btn btn-success btn-sm w-auto">Confirm Submit</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Bootsrap -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+   <!-- SweetAlert2 JavaScript -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.21/dist/sweetalert2.all.min.js"></script>
+
+   <!-- Add GSAP library -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+   <script src="{% static '/register_samautkarsh/js/register.js' %}"></script> 
+   <script type="text/javascript">
+      history.pushState(null, null, window.location.href);
+      window.addEventListener('popstate', function () {
+         history.pushState(null, null, window.location.href);
+      });
+   </script>
+
+   <script type="text/javascript">
+   </script>
+</body>
+
+</html>

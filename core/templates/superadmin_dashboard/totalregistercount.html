@@ -1,0 +1,960 @@
+{% extends 'superadmin_dashboard/superadmin_dashboard.html' %}{% block content %}
+<!-- End Col -->
+<section class="section mt-30">
+    <div class="container-fluid">
+        <div class="col-lg-12">
+            <div class="card-style mb-30">
+                <div class="title d-flex flex-wrap align-items-center justify-content-center rounded" style="background-color: #FFA500; padding: 20px; text-align: center;">
+                    <div>
+                        <h6 class="text-medium mb-30" style="font-size: 24px; color: white; margin: 0; font-weight: 700;">राष्ट्रीय स्वयंसेवक संघ - दिल्ली प्रांत</h6><br>
+                        <h6 class="text-medium mb-30" style="font-size: 24px; color: white; margin: 0;font-weight: 700;">पंजीकरण वृत्त</h6>
+                    </div>
+                </div>
+                <!-- End Title -->
+                <div class="table-responsive">
+                    <style>
+                        .bordered-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            table-layout: fixed; /* Ensures equal column width */
+                        }
+                        .bordered-table th,
+                        .bordered-table td {
+                            border: 1px solid #000;
+                            padding: 8px;
+                        }
+                        .bordered-table th {
+                            background-color: #151B54;
+                            color: white;
+                            text-align: center; /* Center align headings */
+                        }
+                        .bordered-table td {
+                            background-color: white;
+                            text-align: left; /* Left align row data */
+                        }
+                        .bordered-table h6 {
+                            color: white;
+                            margin: 0; /* Remove default margin */
+                        }
+                        .download-buttons {
+                            margin-top: 20px;
+                            text-align: center;
+                        }
+                        .download-buttons button {
+                            margin: 5px;
+                            padding: 10px 20px;
+                            background-color: #151B54;
+                            color: white;
+                            border: none;
+                            cursor: pointer;
+                            border-radius: 5px;
+                        }
+                        .download-buttons button:hover {
+                            background-color: #FFA500;
+                        }
+                    </style>
+                    <table class="bordered-table" id="dataTable">
+                        <thead>    
+                            <tr>
+                                <th>
+                                    <h6 class="text-sm text-medium"></h6>
+                                </th>
+                                <th>
+                                    <h6 class="text-sm text-medium">प्रान्त</h6>
+                                </th>
+                                <th>
+                                    <h6 class="text-sm text-medium">विभाग</h6>
+                                </th>
+                                <th>
+                                    <h6 class="text-sm text-medium">जिला</h6>
+                                </th>
+                                <th>
+                                    <h6 class="text-sm text-medium">नगर</h6>
+                                </th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="background-color: #FF4500; color: #f2f2f2; text-align: center;">
+                                    <p class="text-sm">प्रांत-समग्र योग</p>
+                                </td>
+                                <td style="background-color: #FF4500; color: #f2f2f2;">
+                                    <p class="text-sm text-center">{{total_register_prant_count}}</p>
+                                </td>
+                                <td style="background-color: #FF4500; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{total_register_vibhag_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF4500; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{total_register_jila_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF4500; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{total_register_nagar_count}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center" style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm fw-bold">यमुना विहार</p>
+                                </td>
+                                <!-- <td style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm"></p>
+                                </td>
+                                <td style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm"></p>
+                                </td>
+                                <td style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm"></p>
+                                </td>
+                                <td style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm"></p>
+                                </td>
+                                <td style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm"></p>
+                                </td>
+                                <td style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm"></p>
+                                </td>
+                                <td style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm"></p>
+                                </td>
+                                <td style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm"></p>
+                                </td> -->
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">01. करावल नगर</p>
+                                </td>                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{ karawalnagarcount }}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagkarawalnagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillakarawalnagarcount}}</strong></p>
+                                </td>   
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarkarawalnagarcount}}</strong></p>
+                                </td>                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">02. ब्रहमपुरी</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{ brahmpurinagarcount }}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagbrahmapuricount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillabrahmapuricount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarbrahmapuricount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">03. नंद नगरी</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{ nandnagaricount }}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagnandnagaricount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillanandnagaricount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarnandnagaricount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">04. रोहताश नगर</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{ rohtashnagarcount }}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagrohtashnagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillarohtashnagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarrohtashnagarcount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr>
+                                <td style="background-color: #FF7722; color: #f2f2f2; text-align: center;">
+                                    <p class="text-sm">कुल</p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{yamunaviharsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{vibhagyamunaviharsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{jilayamunaviharsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{nagaryamunaviharsum_count}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                               
+                                <td colspan="5" class="text-center" style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm fw-bold">पूर्वी</p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">01. शाहदरा</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{shahdaracount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagshahadracount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillashahadracount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarshahadracount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">02. गांधीनगर</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{gandhinagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagandhinagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillagandhinagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jnagarandhinagarcount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">03. इन्द्रप्रस्थ</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{indraprasthacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagindraprasthacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillaindraprasthacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarindraprasthacount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">04. मयूर विहार</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{mayurviharcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagmayurviharcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillamayurviharcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarmayurviharcount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td style="background-color: #FF7722; color: #f2f2f2; text-align: center;">
+                                    <p class="text-sm">कुल</p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"> <strong>{{purvisum_count}}</strong> </p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{vibhagpurvisum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{jilapurvisum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{nagarpurvisum_count}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            
+                            <tr>
+                               
+                                <td colspan="5" class="text-center" style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm fw-bold">दक्षिणी</p>
+                                </td>
+            
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">01. लाजपत नगर</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{lajpatnagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhaglajpatnagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillalajpatnagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarlajpatnagarcount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">02. बदरपुर</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{badarpurcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagbadarpurcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillabadarpurcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarbadarpurcount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">03. कालका जी</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{kalkajeecount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagkalkajicount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillakalkajicount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarkalkajicount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                           
+                            <tr>
+                                <td style="background-color: #FF7722; color: #f2f2f2; text-align: center;">
+                                    <p class="text-sm">कुल</p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{dakshinsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{vibhagdakshinsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{jiladakshinsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{nagardakshinsum_count}}</strong></p>
+                                </td>
+                               
+                            </tr>
+
+
+                            <tr>
+                               
+                                <td colspan="5" class="text-center" style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm fw-bold">राम कृष्ण पुरम</p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">01. अम्बेडकर</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{ambedkarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagambedkarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillaambedkarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarambedkarcount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">02. मिहिरावली</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{mihirawalicount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagmihirawalicount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm  text-center"><strong>{{jillamihirawalicount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarmihirawalicount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">03. वसंत</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vasantcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagvasantcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillavasantcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarvasantcount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            
+                            <tr>
+                                <td style="background-color: #FF7722; color: #f2f2f2; text-align: center;">
+                                    <p class="text-sm">कुल</p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{ramkrishnapuramsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{vibhagramkrishnapuramsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{jilaramkrishnapuramsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{nagarramkrishnapuramsum_count}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            
+
+                            <tr>
+                               
+                                <td colspan="5" class="text-center" style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm fw-bold">पश्चिमी</p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">01. द्वारका</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{dawrkacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagdwarkacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jilladwarkacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagardwarkacount}}</strong></p>
+                                </td>
+                              
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">02. नाहरगढ़</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nahargarhcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagnahargarhcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillanahargarhcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarnahargarhcount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">03. उत्तम</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{uttamcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhaguttamcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillauttamcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagaruttamcount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">04. नांगलोई</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nangloicount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagnangloicount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillanangloicount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarnangloicount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            
+                            <tr>
+                                <td style="background-color: #FF7722; color: #f2f2f2; text-align: center;">
+                                    <p class="text-sm">कुल</p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{pashchimisum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{vibhagpashchimisum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{jilapashchimisum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{nagarpashchimisum_count}}</strong></p>
+                                </td>
+                                
+                            </tr>
+
+
+                            <tr>
+                               
+                                <td colspan="5" class="text-center" style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm fw-bold">केशवपुरम</p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">01. तिलक</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{tilakcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center">{{vibhagtilakcount}}</p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillatilakcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagartilakcount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">02. जनकपुरी</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{janakpuricount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagjanakpuricount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillajanakpuricount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarjanakpuricount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">03. मोती नगर</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{motinagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagmotinagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillamotinagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarmotinagarcount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">04. सरस्वती विहार</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{saraswativiharcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagsaraswativiharcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillasaraswativiharcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarsaraswativiharcount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            
+                            <tr>
+                                <td style="background-color: #FF7722; color: #f2f2f2; text-align: center;">
+                                    <p class="text-sm">कुल</p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{keshavpuramsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{vibhagkeshavpuramsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{jilakeshavpuramsum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{nagarkeshavpuramsum_count}}</strong></p>
+                                </td>
+                                
+                            </tr>
+
+
+                            <tr>
+                               
+                                <td colspan="5" class="text-center" style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm fw-bold">उत्तरी</p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">01. रोहिणी</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{rohinicount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagrohinicount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillasrohinicount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarsrohinicount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">02. कंझावला</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{kanjhawalacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagkanjihawalacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillakanjihawalacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarkanjihawalacount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">03. नरेला</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{narelacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagnarelacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillanarelacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarnarelacount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">04. बुराड़ी</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{buraricount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagburaricount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillaburaricount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarburaricount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            
+                            <tr>
+                                <td style="background-color: #FF7722; color: #f2f2f2; text-align: center;">
+                                    <p class="text-sm">कुल</p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{uttarisum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{vibhaguttarisum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{jilauttarisum_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{nagaruttarisum_count}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            
+
+                            <tr>
+                               
+                                <td colspan="5" class="text-center" style="background-color: #4D4D4F; color: #f2f2f2;">
+                                    <p class="text-sm fw-bold">झंडेवालान</p>
+                                </td>
+                                
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">01. मुखर्जी नगर</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{mukherjeenagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagmukherjeenagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillamukherjeenagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarmukherjeenagarcount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">02. कमला नगर</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{kamlacount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagkamlanagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillakamlanagarcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarkamlanagarcount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">03. करोल बाग़</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{karolbaghcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagkarolbaghcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillakarolbaghcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarkarolbaghcount}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            <tr> 
+                                <td >
+                                    <p class="text-sm">04. पटेल</p>
+                                </td>
+                                
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{patelcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{vibhagpatelcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{jillapatelcount}}</strong></p>
+                                </td>
+                                <td >
+                                    <p class="text-sm text-center"><strong>{{nagarpatelcount}}</strong></p>
+                                </td>
+                                
+                            </tr>
+                            
+                            <tr>
+                                <td style="background-color: #FF7722; color: #f2f2f2; text-align: center;">
+                                    <p class="text-sm">कुल</p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{jhandewalan_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{vibhagjhandewalan_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{jillajhandewalan_count}}</strong></p>
+                                </td>
+                                <td style="background-color: #FF7722; color: #f2f2f2;">
+                                    <p class="text-sm text-center"><strong>{{nagarjhandewalan_count}}</strong></p>
+                                </td>
+                               
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    <!-- End Table -->
+                </div>
+                 <!-- Download Buttons -->
+                 <div class="download-buttons">
+                    <button id="downloadCsv">Download CSV</button>
+                    <button id="downloadPdf">Download PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include jsPDF for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.24/jspdf.plugin.autotable.min.js"></script>
+<!-- Include js-xlsx -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+
+<!-- Include TableExport -->
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/dist/js/tableexport.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        // Download CSV
+        $('#downloadCsv').click(function () {
+            $('#dataTable').tableExport({
+                type: 'csv',
+                filename: 'table_data',
+                ignoreColumn: [], // Columns to ignore (empty for all columns)
+            });
+        });
+
+        // Download PDF
+        $('#downloadPdf').click(function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
+
+            doc.autoTable({
+                html: '#dataTable',
+                theme: 'grid',
+                headStyles: { fillColor: [21, 27, 84] }, // Header background color
+                bodyStyles: { fillColor: [242, 242, 242] }, // Body background color
+                styles: { textColor: [0, 0, 0] }, // Text color
+            });
+
+            doc.save('table_data.pdf');
+        });
+    });
+</script>
+<!-- End Col -->
+{% endblock %}

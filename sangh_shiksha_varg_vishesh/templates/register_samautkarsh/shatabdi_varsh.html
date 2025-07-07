@@ -1,0 +1,1970 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="shortcut icon" href="{% static 'register_samautkarsh/assets/img/Samutkarsh_logo.png' %}" type="image/x-icon" />
+   <title>पंजीकरण फॉर्म</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link
+      href="https://fonts.googleapis.com/css2?family=Arya:wght@400;700&family=Caudex:ital,wght@0,400;0,700;1,400;1,700&family=Forum&family=Hind:wght@300;400;500;600;700&family=Laila:wght@300;400;500;600;700&family=Palanquin+Dark:wght@400;500;600;700&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Yatra+One&display=swap"
+      rel="stylesheet">
+
+   <!-- SweetAlert2 CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.21/dist/sweetalert2.min.css" rel="stylesheet">
+
+   <!-- Select2 CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+   <!-- Bootstrap 5 CSS (For table styling) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+   <style>
+      body {
+         margin: 0;
+         padding: 0;
+         overflow-x: hidden;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         min-height: 100vh;
+         padding: 20px 10px;
+         /* background-image: url('/static/register_samautkarsh/assets/img/bg_img.jpg'); */
+         background-repeat: no-repeat;
+         background-size: contain;
+         background-size: 100% 100%; 
+         background-position: center center;
+         font-family: 'Hind', sans-serif;
+         background: linear-gradient(135deg, #B22222 10%, #FFA500 30%, #FF4500 50%);
+
+      }
+      #particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      will-change: transform;
+    }
+
+      .form-container {
+         /* background: white; */
+         background: rgba(255, 255, 255, 0.9);
+         width: 100%;
+         border-radius: 12px;
+         /* box-shadow: 5px 5px 26px rgba(255, 255, 255, 0.5),
+            -5px -5px 26px rgba(255, 255, 255, 0.5); */
+         padding: 30px;
+         max-width: 768px;
+         margin: auto;
+         transition: transform 0.3s ease-in-out;
+      }
+      .form-label {
+         font-size: 16px !important;
+         font-weight: 900;
+         color: #333;
+      }
+      .required::after {
+         content: "*";
+         color: red;
+      }
+      .form-control{
+         /* max-width: 300px; */
+      }
+      .form-control,
+      .form-select {
+         font-size: 16px;
+         color: #868686;
+      }
+      .form-select input {
+         font-size: 14px;
+      }
+      .form-select option {
+         font-size: 14px;
+         color: #868686;
+      }
+      .form-control, .form-select {
+         font-size: 14px !important;
+         color: #2d3748 !important; /* More sophisticated dark color */
+         font-weight: 400 !important; /* Fixed font-weight value (100px was incorrect) */
+         padding: 5px 10px !important;
+         border: 1px solid #FF9800 !important; /* Lighter border */
+         border-radius: 20px !important; /* Slightly rounded corners */
+         background-color: #f8fafc !important; /* Very light background */
+         transition: all 0.3s ease !important; /* Smooth transitions */
+         /* box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important; Subtle shadow */
+      }
+
+      /* Hover state */
+      .form-control:hover, .form-select:hover {
+         border-color: #cbd5e0 !important;
+         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+      }
+
+      /* Focus state */
+      .form-control:focus, .form-select:focus {
+         border-color: green !important; /* Nice blue focus color */
+         box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2) !important;
+         outline: none !important;
+         background-color: #ffffff !important;
+      }
+      .hidden {
+         display: none;
+      }
+      /* Remove focus outline for both radio buttons and checkboxes */
+      .form-check-input:focus {
+         box-shadow: none !important;
+         outline: none !important;
+         border-color: transparent !important;
+      }
+      /* Common styling for both checkboxes and radio buttons */
+      .form-check-input {
+         width: 16px;
+         height: 16px;
+         border: 2px solid #ccc !important;
+         background-color: white !important;
+         transition: all 0.3s ease-in-out;
+         appearance: none; /* Removes default styles */
+         -webkit-appearance: none;
+         -moz-appearance: none;
+         cursor: pointer;
+         position: relative;
+      }
+      /* Radio button-specific styles */
+      .form-check-input[type="radio"] {
+         border-radius: 50%; /* Circular */
+      }
+      .form-check-input:not(:checked) {
+         background-color: white !important;
+         border: 2px solid #ccc !important;
+      }
+      /* Custom styles when checked (both checkbox and radio) */
+      .form-check-input:checked {
+         border-color: #ff9800 !important;
+         background-color: #ff9800 !important;
+      }
+      /* Checkmark for checked checkbox */
+      .form-check-input[type="checkbox"]:checked::before {
+         content: "";
+         width: 10px;
+         height: 10px;
+         background-color: white;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%); /* Checkmark shape */
+      }
+      span{
+         font-size: 14px !important;
+         font-weight: 400 !important;
+      }
+      /* Inner dot for checked radio button */
+      .form-check-input[type="radio"]:checked::before {
+         content: "";
+         width: 8px;
+         height: 8px;
+         background-color: white;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         border-radius: 50%; 
+      }
+
+      /* Modal Styles */
+      .modal-content {
+         background: #f8f9fa;
+         border-radius: 8px;
+         padding: 20px;
+      }
+
+      .modal-footer {
+         background: #e9ecef;
+         padding: 15px;
+         border-top: 1px solid #dee2e6;
+      }
+      .modal {
+         display: none;
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.5);
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         z-index: 1000;
+         padding: 10px;
+         box-sizing: border-box;
+      }
+      .modal-content {
+         background: white;
+         padding: 20px;
+         border-radius: 10px;
+         width: 50%;
+         max-height: 80vh;
+         overflow-y: auto;
+         margin: 5% auto;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+         transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+         .modal-content {
+            width: 70%;
+         }
+      }
+      @media (max-width: 768px) {
+         .modal-content {
+            width: 90%;
+            max-height: 90vh;
+         }
+         .form-control {
+            max-width: 100% !important; 
+         }
+      }
+      @media (max-width: 480px) {
+         .modal-content {
+            width: 95%;
+            padding: 15px;
+         }
+      }
+
+      .modal-title {
+         color: #8B0000;
+         font-weight: bold;
+         text-align: center;
+         margin-bottom: 20px;
+      }
+      .modal-body p {
+         margin: 10px 0;
+         font-size: 14px;
+      }
+      .modal-footer {
+         display: flex;
+         justify-content: flex-end;
+         margin-top: 20px;
+      }
+      .btn {
+         padding: 8px 16px;
+         margin-left: 10px;
+         border: none;
+         border-radius: 4px;
+         cursor: pointer;
+         font-size: 14px;
+      }
+      .close-modal {
+         float: left;
+         font-size: 40px;
+         cursor: pointer;
+      }
+      tr, td{
+         border: 1px solid #ff9800;
+      }
+      .table thead tr th{
+         background: rgba(255, 255, 255, 0.98);
+      }
+      /* Position the expand button */
+      .card-body .expand-btn {
+         position: absolute;
+         top: 10px;
+         right: 10px;
+         background: none;
+         border: none;
+         font-size: 1.2rem;
+         cursor: pointer;
+         color: #333;
+      }
+         
+         /* Hide additional fields by default */
+      .card-body .additional-fields {
+         display: none;
+      }
+
+      /* Show additional fields when expanded */
+      .card-expanded .additional-fields {
+         display: block;
+      }
+
+      /* Change + to − when expanded */
+      .card-expanded .expand-btn::after {
+         content: "-";
+      }
+
+      /* Ensure cards are only visible on mobile */
+      .d-md-none {
+         display: block;
+      }
+   </style>
+</head>
+
+<body>
+   <!-- This is Header Section -->
+   <div id="particles"></div>
+   <div class="form-container">
+      <div class="text-center mb-5"  >
+          <!-- Logo Image Section -->
+         <div class="text-center mb-3" style="display: flex; justify-content: center; align-items: center;">
+             <img src="{% static 'register_samautkarsh/assets/img/Samutkarsh_logo.png' %}" alt="RSS Delhi Prant" 
+                 style="width: 100px; height: 100px; margin-right: 10px; border-radius: 50%; object-fit: cover;">
+         </div>
+      </div>
+      <!-- End Header Section -->
+
+      <form id="myForm" method="POST" action="" enctype="multipart/form-data" autofocus>
+         {% csrf_token %}
+         <!-- Hidden Phone Number Passing -->
+         <input type="text" name="phone_number" value={{phone_number}} hidden style="display: none;">
+
+         <div class="row">
+           
+            <!-- First Name -->
+            <div class="col-md-6 mb-3" id="name-container">
+               <label for="name" class="form-label" style="font-size: 16px !important;font-weight: 600; color: #333;">नाम <i><small class="text-secondary text-">(Full Name) </small></i> <span class="text-danger">*</span></label>
+               <input type="text" id="name" class="form-control form-control-sm" placeholder="नाम" name="name" autofocus>
+               <small id="nameError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid First Name (only alphabets and spaces are allowed).</small>
+            </div>
+
+            <!-- जन्मतिथि -->
+            <div class="col-md-6 mb-3" id="dob-container">
+               <label for="dob" class="form-label " style="font-size: 16px !important; font-weight: 600; color: #333;">जन्मतिथि<span class="text-danger"> *</span></label>
+               <input type="date" id="dob" name="dob" class="form-control" autofocus>
+               <small id="dobError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter date of birth.</small>
+            </div>
+
+            <div class="col-md-6 mb-3" id="phone-container">
+               <label for="phone" class="form-label" style="font-size: 16px !important;font-weight: 600; color: #333;">फोन नंबर  <i><small class="text-secondary text-">(Phone Number) </small></i> <span class="text-danger">*</span></label>
+               <input type="tel" id="phone" class="form-control" placeholder="फोन नंबर" name="phone" pattern="[0-9]{10}">
+               <small id="phoneError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid 10-digit phone number.</small>
+           </div>
+           
+           <div class="col-md-6 mb-3" id="confirm_phone-container">
+               <label for="confirm_phone " class="form-label" style="font-size: 16px !important;font-weight: 600; color: #333;">फोन नंबर की पुष्टि <i><small class="text-secondary text-">(Verify Phone) </small></i> <span class="text-danger">*</span></label>
+               <input type="tel" id="confirmPhone" class="form-control" placeholder="फोन नंबर की पुष्टि " name="confirmPhone" pattern="[0-9]{10}">
+               <small id="confirmPhoneError" class="text-danger" style="display: none;font-size: 12px !important;">Phone numbers do not match.</small>
+           </div>
+           <!-- श्रेणी (Profession) -->
+           <div class="col-md-6 mb-3" id="profession-container">
+            <label for="profession" class="form-label" style="font-size: 16px !important;font-weight: 600; color: #333;">श्रेणी<span class="text-danger"> *</span></label>
+            <select id="profession" name="shreni" class="form-control">
+               <option value="" selected disabled>श्रेणी</option>
+               <option value="स्कूल-विद्यार्थी">स्कूल-विद्यार्थी</option>
+               <option value="कॉलेज-विद्यार्थी">कॉलेज-विद्यार्थी</option>
+               <option value="अध्यापक">अध्यापक</option>
+               <option value="प्राध्यापक">प्राध्यापक</option>
+               <option value="कर्मचारी (सरकारी)">कर्मचारी (सरकारी)</option>
+               <option value="कर्मचारी (अन्य)">कर्मचारी (अन्य)</option>
+               <option value="सरकारी संस्थान में कार्यरत">सरकारी संस्थान में कार्यरत</option>
+               <option value="निजी संस्थान में कार्यरत">निजी संस्थान में कार्यरत</option>
+               <option value="सामाजिक संस्थान में कार्यरत">सामाजिक संस्थान में कार्यरत</option>
+               <option value="व्यवसायी">व्यवसायी</option>
+               <option value="उद्योगपति">उद्योगपति</option>
+               <option value="प्रोफेशनल">प्रोफेशनल</option>
+               <option value="सेवा-निवृत्त">सेवा-निवृत्त</option>
+               <option value="गृहिणी">गृहिणी</option>
+               <option value="श्रमिक">श्रमिक</option>
+               <option value="कृषक (किसान)">कृषक (किसान)</option>
+               <option value="प्रचारक">प्रचारक</option>
+               <option value="विस्तारक">विस्तारक</option>
+               <option value="पूर्णकालिक">पूर्णकालिक</option>
+               <option value="अन्य">अन्य</option>
+            </select>
+            <small id="professionError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter profession.</small>
+         </div>
+
+            <!-- वर्तमान पता (Current Address) -->
+            <div class="col-6 mb-3" id="currentAddress-container">
+               <label for="currentAddress" class="form-label" style="font-size: 16px !important; font-weight: 600; color: #333; width: 100% !important;">पता <i><small class="text-secondary text-">(Address) </small></i></label>
+               <textarea name="address" id="currentAddress" class="form-control"maxlength="255" placeholder="पता" rows="2" autofocus></textarea>
+               <small id="currentAddressError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter address.</small>
+            </div>
+
+            <!-- पिनकोड (जिस प्रांत में आपका दायित्व है।) (pincode) -->
+            <div class="col-md-6 mb-3 dropdown" id="pincode-container" >
+               <label for="pincode" class="form-label" style="font-size: 16px !important;font-weight: 600; color: #333;">पिनकोड<span class="text-danger"> *</span></label>
+               <input type="number" id="pincode" class="form-control" placeholder="पिनकोड" min="0" max="999999" name="pincode">
+               <small id="pincodeError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid 6-digit pincode.</small>
+            </div>
+
+            <!-- Nagar Selection -->
+            <div class="col-md-6 mb-3 dropdown" id="nagar-container" style="display: none;">
+               <label for="nagar" class="form-label" style="font-size: 16px !important;font-weight: 600;color: #333;">नगर <span class="text-danger"> *</span></label>
+               <select id="nagar" name="nagar" class="form-control">
+                  <option value="" disabled selected>नगर</option>
+               </select>
+               <small id="nagarError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter nagar.</small>
+            </div>
+
+            <!-- राज्य State Selection -->
+            <div class="col-md-6 mb-3 dropdown" id="state-container" style="display: none;">
+               <label for="state" class="form-label" style="font-size: 16px !important;font-weight: 600; color: #333;">राज्य<span class="text-danger"> *</span></label>
+               <select id="state" name="state" class="form-control">
+                  <option value="" disabled selected>राज्य</option>
+               </select>
+               <small id="stateError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter state.</small>
+            </div>
+
+             <!-- रेजिडेंशियल कॉलोनी (ब्लॉक/गली) (ekai_upbasti) -->
+             <div class="col-md-6 mb-3 dropdown" id="upbasti-container" style="display: none;">
+               <label for="upbasti" class="form-label" style="font-size: 16px !important;font-weight: 600;color: #333;">रेजिडेंशियल कॉलोनी (ब्लॉक/गली)<span class="text-danger"> *</span></label>
+               <select id="upbasti" name='ekai_upbasti' class="form-control">
+                  <option value="" disabled selected>उपबस्ती</option>
+               </select>
+               <small id="upbastiError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter basti.</small>
+            </div>
+
+
+            <!-- दायित्व की इकाई (ekai) -->
+            <div class="col-md-6 mb-3 dropdown" id="ekai-container" style="display: none;">
+               <label for="ekai" class="form-label " style="font-size: 16px !important;font-weight: 600;color: #333;">दायित्व की इकाई<span class="text-danger"> *</span></label>
+               <select id="ekai" name='ekai' class="form-control">
+                  <option value="" disabled selected>इकाई</option>
+               </select>
+               <small id="ekaiError"  class="text-danger" style="display: none;font-size: 12px !important;">Please enter ekai.</small>
+            </div>
+
+             <!-- Dayitva Selection (Initially Hidden) -->
+             <div class="col-md-6 mb-3 dropdown" id="dayitva-container" style="display: none;">
+               <label for="dayitva" class="form-label" style="font-size: 16px !important;font-weight: 600; color: #333;">दायित्व<span class="text-danger"> *</span></label>
+               <select id="dayitva" name="dayitv" class="form-control">
+                  <option value="" disabled selected>दायित्व</option>
+               </select>
+               <small id="dayitvaError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter dayitva.</small>
+            </div>
+
+            <!-- दायित्व का नगर (ekai_nagar) -->
+            <div class="col-md-6 mb-3 dropdown" id="ekai_nagar-container" style="display: none;">
+               <label for="ekai_nagar" class="form-label " style="font-size: 16px !important;font-weight: 600; color: #333;">दायित्व का नगर<span class="text-danger"> *</span></label>
+               <select id="ekai_nagar" name='ekai_nagar' class="form-control">
+                  <option value="" disabled selected>नगर</option>
+               </select>
+               <small id="ekai_nagarError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter nagar.</small>
+            </div>
+
+            <!-- दायित्व की बस्ती (basti) -->
+            <div class="col-md-6 mb-3 dropdown" id="basti-container" style="display: none;">
+               <label for="basti" class="form-label " style="font-size: 16px !important;font-weight: 600;color: #333;">दायित्व की बस्ती<span class="text-danger"> *</span></label>
+               <select id="basti" name='ekai_basti' class="form-control">
+                  <option value="" disabled selected>बस्ती</option>
+               </select>
+               <small id="bastiError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter basti.</small>
+            </div>
+
+            <!-- यदि मिलन से हैं तो -->
+            <div class="col-md-12 mb-3" id="sakha_milanCheckbox-container" style="display: none;">
+               <input type="checkbox" id="sakha_milanCheckbox" class="form-check-input" name="ekai_milan">
+               <label for="sakha_milanCheckbox" class="form-check-label" style="font-size: 16px !important; font-weight: 600;">यदि मिलन से हैं तो</label>
+            </div>
+
+            <!-- शाखा / मिलन -->
+            <div class="col-md-6 mb-3 dropdown" id="sakha_milan-container" style="display: none;">
+               <label for="sakha_milan" class="form-label" style="font-size: 16px !important;font-weight: 600; color: #333;">शाखा / मिलन<span class="text-danger"> *</span></label>
+               <select id="sakha_milan" name='ekai_sakha_milan' class="form-control">
+                  <option value="" disabled selected>शाखा / मिलन</option>                  
+               </select>
+               <small id="sakha_milanError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter sakha/milan.</small>
+            </div>
+
+            <div class="col-md-6 mb-3 dropdown" id="sangh_shikshan_level-container">
+               <label for="sangh_shikshan_level" class="form-label" style="font-size: 16px !important;font-weight: 600; color: #333;">संघ शिक्षण स्तर<span class="text-danger"> *</span></label>
+               <select id="sangh_shikshan_level" name='sangh_shikshad' class="form-control"> 
+                  <option value="" disabled selected>शिक्षण स्तर चुनें</option>
+                  <option value="prarambhik">प्रारंभिक वर्ग</option>
+                  <option value="prathmik">प्राथमिक वर्ग</option>
+                  <option value="pratham">प्रथम वर्ष</option>
+                  <option value="dwitiya">द्वितीय वर्ष</option>
+                  <option value="tritiya">तृतीय वर्ष</option>
+                  <option value="none">कोई नहीं</option>                
+               </select>
+               <small id="sangh_shikshan_levelError" class="text-danger" style="display: none;font-size: 12px !important;">Please select sangh shikshan level</small>
+            </div>
+
+            <!-- Dynamic Fields Container -->
+            <div id="shikshan-details-container" style="display: none;">
+               <!-- Fields will be dynamically inserted here -->
+            </div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mb-3">
+               <!-- Submit Button -->
+               <button type="submit" class="btn fw-bold btn-lg px-4 py-2 rounded-pill text-white shadow-sm border-0" style="background: linear-gradient(135deg, #FF9800, #FF9800);transition: all 0.3s ease;min-width: 180px;"><i class="fas fa-paper-plane me-2"></i> Submit</button>
+
+               <!-- Reset Button -->
+               <a href="" class="btn btn-outline-danger fw-bold btn-lg px-4 py-2 rounded-pill shadow-sm" style="transition: all 0.3s ease; min-width: 180px;"><i class="fas fa-arrow-left me-2"></i> Reset</a>
+           </div>
+
+            <!-- Underlines -->
+            <!-- <hr style="border: none; height: 2px; background-color: #FF9800; margin: 20px 0;"> -->
+            <!-- Header पंजीकृत व्यक्तियों की सूची -->
+            <!-- <div class="mb-3" style="margin-bottom: 16px;">
+               <h4 style="text-decoration: underline; text-align: center; color: #FF9800; font-size: 24px; font-weight: bold;">पंजीकृत व्यक्तियों की सूची</h4>
+            </div> -->
+
+           <header class="navbar navbar-expand-lg navbar-light bg-light shadow-sm px-3 "
+               style="padding-top: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #ddd;">
+               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#headerFilters"
+                  aria-controls="headerFilters" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+               </button>
+
+               <div class="collapse navbar-collapse justify-content-center mt-3 mt-lg-0" id="headerFilters">
+                  <ul class="navbar-nav d-flex flex-wrap align-items-center justify-content-center" style="gap: 1.5rem;">
+                     <li class="nav-item" style="text-align: center;">
+                     <label for="nagar-filter" style="font-weight: 600; margin-bottom: 0.25rem; display: block;">
+                        नगर: <span class="filter-count" id="nagar-count" style="font-weight: 400; color: #6c757d;">(0)</span>
+                     </label>
+                     <select id="nagar-filter" class="form-select" 
+                        style="min-width: 180px; padding: 0.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <option value="">Select Nagar...</option>
+                        <option value="नगर 1-1-1" selected>नगर 1-1-1</option>
+                     </select>
+                     </li>
+
+                     <li class="nav-item" style="text-align: center;">
+                     <label for="basti-filter" style="font-weight: 600; margin-bottom: 0.25rem; display: block;">
+                        बस्ती: <span class="filter-count" id="basti-count" style="font-weight: 400; color: #6c757d;">(0)</span>
+                     </label>
+                     <select id="basti-filter" class="form-select" 
+                        style="min-width: 180px; padding: 0.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <option value="">Select Basti...</option>
+                     </select>
+                     </li>
+
+                     <li class="nav-item" style="text-align: center;">
+                     <label for="upbasti-filter" style="font-weight: 600; margin-bottom: 0.25rem; display: block;">
+                        उपबस्ती: <span class="filter-count" id="upbasti-count" style="font-weight: 400; color: #6c757d;">(0)</span>
+                     </label>
+                     <select id="upbasti-filter" class="form-select" 
+                        style="min-width: 180px; padding: 0.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <option value="">Select Upbasti...</option>
+                     </select>
+                     </li>
+
+                  </ul>
+                  
+               </div>
+            </header>
+
+            <div class="d-flex justify-content-center">
+               <div class="position-relative flex-grow-1 flex-md-grow-0 mt-2 mb-2"
+                    style="min-width: 200px; max-width: 400px;">
+                    <input type="text" id="search-input" class="form-control ps-5"
+                    style="font-size: 14px; padding: 8px 12px; border-radius: 6px; border: 2px solid #ff9800; transition: border 0.3s ease;"
+                    placeholder="मोबाइल नंबर से खोजें"
+                    onfocus="this.style.borderColor='#007bff';"
+                    onblur="this.style.borderColor='#ccc';">
+                 <i class="bi bi-search position-absolute" id="search-input-icon"
+                    style="right: 12px; top: 50%; transform: translateY(-50%); color: #888;"></i>
+                 
+               </div>
+             </div>
+             
+          
+        <!-- Table for medium and larger screens -->
+      <div class="table-responsive d-none d-md-block">
+         <table class="table" style="border: 1.5px solid #ff9800; border-radius: 5px;border-collapse: separate; border-spacing: 0;overflow: hidden; ">
+         <thead>
+            <tr >
+               <th ><h6 class="text-sm text-medium">नाम</h6></th>
+               <th><h6 class="text-sm text-medium">मोबाइल नम्बर</h6></th>
+               <th><h6 class="text-sm text-medium">लैंगिक जानकारी</h6></th>
+               <th><h6 class="text-sm text-medium">श्रेणी</h6></th>
+               <th><h6 class="text-sm text-medium">दायित्व की इकाई</h6></th>
+               <th><h6 class="text-sm text-medium">नगर</h6></th>
+               <th><h6 class="text-sm text-medium">बस्ती</h6></th>
+               <th><h6 class="text-sm text-medium">उपबस्ती</h6></th>                       
+               <th><h6 class="text-sm text-medium">दायित्व</h6></th>
+            </tr>
+         </thead>
+         <tbody id="tableBody">
+            <!-- Your table rows here (same as original) -->
+            <tr class="">
+               <td data-label="नाम">
+               <div style="display: flex; align-items: center;">
+                  <p class="text-sm">राहुल शर्मा</p>
+                  <button class="expand-btn" id="expand-btn" style="display: none;">+</button>
+               </div>
+               </td>
+               <td data-label="मोबाइल नम्बर"><p class="text-sm">9876543210</p></td>
+               <td class="expandable-content" data-label="लैंगिक जानकारी"><p class="text-sm">पुरुष</p></td>
+               <td class="expandable-content" data-label="श्रेणी"><p class="text-sm">स्थानीय</p></td>
+               <td class="expandable-content" data-label="दायित्व की इकाई"><p class="text-sm">स्वास्थ्य विभाग</p></td>
+               <td class="expandable-content" data-label="नगर"><p class="text-sm">जयपुर</p></td>
+               <td class="expandable-content" data-label="बस्ती"><p class="text-sm">शिव कॉलोनी</p></td>
+               <td class="expandable-content" data-label="उपबस्ती"><p class="text-sm">ब्लॉक A</p></td>
+               <td class="expandable-content" data-label="दायित्व"><p class="text-sm">समाज सेवक</p></td>
+            </tr>
+            <!-- More rows... -->
+         </tbody>
+         </table>
+      </div>
+ 
+           <!-- Cards for small screens -->
+         <div class="d-md-none">
+            <!-- Card for Rahul Sharma -->
+            <div class="card mb-3 card-style" data-id="1">
+               <div class="card-body position-relative">
+                  <button class="expand-btn">+</button>
+                  <h5 class="card-title">राहुल शर्मा</h5>
+                  <p class="card-text"><strong>मोबाइल नम्बर:</strong> 9876543210</p>
+                  <div class="additional-fields">
+                        <p class="card-text"><strong>लैंगिक जानकारी:</strong> पुरुष</p>
+                        <p class="card-text"><strong>श्रेणी:</strong> स्थानीय</p>
+                        <p class="card-text"><strong>दायित्व की इकाई:</strong> स्वास्थ्य विभाग</p>
+                        <p class="card-text"><strong>नगर:</strong> जयपुर</p>
+                        <p class="card-text"><strong>बस्ती:</strong> शिव कॉलोनी</p>
+                        <p class="card-text"><strong>उपबस्ती:</strong> ब्लॉक A</p>
+                        <p class="card-text"><strong>दायित्व:</strong> समाज सेवक</p>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Card for Sangita Verma -->
+            <div class="card mb-3 card-style" data-id="2">
+               <div class="card-body position-relative">
+                  <button class="expand-btn">+</button>
+                  <h5 class="card-title">संगीता वर्मा</h5>
+                  <p class="card-text"><strong>मोबाइल नम्बर:</strong> 9823456789</p>
+                  <div class="additional-fields">
+                        <p class="card-text"><strong>लैंगिक जानकारी:</strong> महिला</p>
+                        <p class="card-text"><strong>श्रेणी:</strong> प्रादेशिक</p>
+                        <p class="card-text"><strong>दायित्व की इकाई:</strong> शिक्षा विभाग</p>
+                        <p class="card-text"><strong>नगर:</strong> उदयपुर</p>
+                        <p class="card-text"><strong>बस्ती:</strong> गांधी नगर</p>
+                        <p class="card-text"><strong>उपबस्ती:</strong> वार्ड 5</p>
+                        <p class="card-text"><strong>दायित्व:</strong> शिक्षिका</p>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Card for Neha Singh -->
+            <div class="card mb-3 card-style" data-id="3">
+               <div class="card-body position-relative">
+                  <button class="expand-btn">+</button>
+                  <h5 class="card-title">नेहा सिंह</h5>
+                  <p class="card-text"><strong>मोबाइल नम्बर:</strong> 9988776655</p>
+                  <div class="additional-fields">
+                        <p class="card-text"><strong>लैंगिक जानकारी:</strong> महिला</p>
+                        <p class="card-text"><strong>श्रेणी:</strong> स्थानीय</p>
+                        <p class="card-text"><strong>दायित्व की इकाई:</strong> Not Available</p>
+                        <p class="card-text"><strong>नगर:</strong> कोटा</p>
+                        <p class="card-text"><strong>बस्ती:</strong> राजीव नगर</p>
+                        <p class="card-text"><strong>उपबस्ती:</strong> सेक्टर 3</p>
+                        <p class="card-text"><strong>दायित्व:</strong> कार्यकर्ता</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- End Table -->
+         </div>
+
+         <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 ">         
+            <!-- Back Button -->
+            <!-- <a href="{% url 'mobile_verification' %}" class="btn btn-outline-danger fw-bold btn-lg px-4  rounded-pill shadow-sm" style="transition: all 0.3s ease; min-width: 180px;"><i class="fas fa-arrow-left me-2"></i> Back</a> -->
+            
+            <a href="{% url 'login' %}" class="btn btn-outline-danger fw-bold btn-lg px-4  rounded-pill shadow-sm" style="transition: all 0.3s ease; min-width: 180px;"><i class="fas fa-arrow-left me-2"></i> Back</a>
+        </div>
+        </div>
+
+         </div>
+      </form>
+
+      <!--Modal for Preview -->
+      <div id="formModal" class="modal" style="display: none;">
+         <div class="modal-content"
+            style="background-color: #f8f9fa; border-radius: 10px; max-width: 800px; margin: 20px auto; padding: 20px;">
+            <!-- Modal Header -->
+            <div class="modal-header" style=" color: white; border-top-left-radius: 10px; border-top-right-radius: 10px; padding: 15px;">
+               <h3 class="modal-title">पंजीकरण विवरण</h3>
+               <span class="close-modal" style="cursor: pointer; font-size: 24px; color: white;">&times;</span>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body" style="overflow-x: auto;">
+               <table class="table table-bordered" style="width: 100%; margin-bottom: 0;">
+                  <tbody>
+                     <tr id="modalNameContainer">
+                        <th>नाम (First Name)</th>
+                        <td><span id="modalName">N/A</span></td>
+                     </tr>
+                     <tr id="modalDOBContainer">
+                        <th>Dob</th>
+                        <td><span id="modalDOB">N/A</span></td>
+                     </tr>
+                     <tr id="modalProfessionContainer">
+                        <th>श्रेणी</th>
+                        <td><span id="modalProfession">N/A</span></td>
+                     </tr>
+                     <tr id="modalCurrentAddressContainer">
+                        <th>वर्तमान पता (Current Address)</th>
+                        <td><span id="modalCurrentAddress">N/A</span></td>
+                     </tr>
+                     <tr id="modalPincodeContainer">
+                        <th> पिनकोड (जिस प्रांत में आपका दायित्व है।)</th>
+                        <td><span id="modalPincode">N/A</span></td>
+                     </tr>
+                     <tr id="modalNagarContainer">
+                        <th> नगर </th>
+                        <td><span id="modalNagar">N/A</span></td>
+                     </tr>
+                     <tr id="modalStateContainer">
+                        <th>राज्य </th>
+                        <td><span id="modalState">N/A</span></td>
+                     </tr>
+                     <tr id="modalUpbastiContainer">
+                        <th>रेजिडेंशियल कॉलोनी (ब्लॉक/गली)</th>
+                        <td><span id="modalUpbasti">N/A</span></td>
+                     </tr>
+                     <tr id="modalEkaiContainer">
+                        <th>दायित्व की इकाई</th>
+                        <td><span id="modalEkai">N/A</span></td>
+                     </tr>
+                     <tr id="modalDayitvaContainer">
+                        <th>दायित्व</th>
+                        <td><span id="modalDayitva">N/A</span></td>
+                     </tr>
+                    
+                     <tr id="modalEkaiNagarContainer">
+                        <th>दायित्व का नगर</th>
+                        <td><span id="modalEkaiNagar">N/A</span></td>
+                     </tr>
+                     <tr id="modalBastiContainer">
+                        <th>दायित्व की बस्ती</th>
+                        <td><span id="modalBasti">N/A</span></td>
+                     </tr>
+                     <tr id="modalSakhaMilanContainer">
+                        <th>शाखा/मिलन</th>
+                        <td><span id="modalSakhaMilan">N/A</span></td>
+                     </tr>
+                     <tr id="modalSanghSikshanLevelContainer">
+                        <th>संघ शिक्षण स्तर</th>
+                        <td><span id="modalSanghSikshanLevel">N/A</span></td>
+                     </tr>
+                     <tr id="modalPrarambhikYearContainer">
+                        <th>प्रारंभिक वर्ष</th>
+                        <td><span id="modalPrarambhikYear">N/A</span></td>
+                     </tr>
+
+                     <tr id="modalPrathmikYearContainer">
+                        <th>प्राथमिक वर्ष</th>
+                        <td><span id="modalPrathmikYear">N/A</span></td>
+                     </tr>
+
+                     <tr id="modalPrathamYearContainer">
+                        <th>प्रथम वर्ष </th>
+                        <td><span id="modalPrathamYear">N/A</span></td>
+                     </tr>
+                     <tr id="modalDwitiyaYearContainer">
+                        <th>द्वितीय वर्ष </th>
+                        <td><span id="modalDwitiyaYear">N/A</span></td>
+                     </tr>
+                     <tr id="modalTritiyaYearContainer">
+                        <th>तृतीय वर्ष</th>
+                        <td><span id="modalTritiyaYear">N/A</span></td>
+                     </tr>
+                     
+                     
+                  </tbody>
+                  
+               </table>
+            </div>      
+            <!-- Modal Footer -->
+            <div class="modal-footer d-flex justify-content-center mt-4"
+               style="background-color: #e9ecef; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; padding: 15px;">
+               <button type = "button" class="class-modal btn btn-success btn-sm border border-2 w-auto"
+                  style="margin-right: 10px;">Edit</button>
+               <button id="finalSubmit" class="btn btn-success btn-sm w-auto">Confirm Submit</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Bootsrap -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+   <!-- SweetAlert2 JavaScript -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.21/dist/sweetalert2.all.min.js"></script>
+   <script>
+
+      // Start Mapping data for dropdowns
+      let mappings = {}; // Global variable to store mappings
+      // Async function to fetch mappings
+      async function getMappings() {
+         try {
+         const response = await fetch('/get-registration-mappings/');
+         const data = await response.json();
+         // console.log("✅ Awaited mappings:", data);
+         mappings = data; // Store globally
+         } catch (error) {
+         console.error("❌ Error fetching mappings:", error);
+         }
+      }
+   
+      document.addEventListener("DOMContentLoaded", async ()=> {
+         await getMappings();
+      const mappingss = {
+         prantToVibhag: {
+            'दिल्ली': ['विभाग 1-1', 'विभाग 1-2', 'विभाग 2-1', 'विभाग 2-2'],
+         },
+         VibhagToJila: {
+            'विभाग 1-1': ['जिला 1-1-1', 'जिला 1-1-2'],
+            'विभाग 1-2': ['जिला 1-2-1', 'जिला 1-2-2'],
+            'विभाग 2-1': ['जिला 2-1-1', 'जिला 2-1-2'],
+            'विभाग 2-2': ['जिला 2-2-1', 'जिला 2-2-2'],
+         },
+         jilaToNagar: {
+            'जिला 1-1-1': ['नगर 1-1-1', 'नगर 1-1-2'],
+            'जिला 1-1-2': ['नगर 1-1-3', 'नगर 1-1-4'],
+            'जिला 1-2-1': ['नगर 1-2-1', 'नगर 1-2-2'],
+            'जिला 1-2-2': ['नगर 1-2-3', 'नगर 1-2-4'],
+            'जिला 2-1-1': ['नगर 2-1-1', 'नगर 2-1-2'],
+            'जिला 2-1-2': ['नगर 2-1-3', 'नगर 2-1-4'],
+            'जिला 2-2-1': ['नगर 2-2-1', 'नगर 2-2-2'],
+            'जिला 2-2-2': ['नगर 2-2-3', 'नगर 2-2-4'],
+         },
+         nagarToMandal: {
+            'नगर 1-1-1': ['मंडल 1-1-1-1', 'मंडल 1-1-1-2'],
+            'नगर 1-1-2': ['मंडल 1-1-2-1', 'मंडल 1-1-2-2'],
+            'नगर 1-2-1': ['मंडल 1-2-1-1', 'मंडल 1-2-1-2'],
+            'नगर 1-2-2': ['मंडल 1-2-2-1', 'मंडल 1-2-2-2'],
+         },
+         mandalToBasti: {
+            'मंडल 1-1-1-1': ['बस्ती 1-1-1-1-1', 'बस्ती 1-1-1-1-2'],
+            'मंडल 1-1-1-2': ['बस्ती 1-1-1-2-1', 'बस्ती 1-1-1-2-2'],
+            'मंडल 1-2-1-1': ['बस्ती 1-2-1-1-1', 'बस्ती 1-2-1-1-2'],
+            'मंडल 1-2-1-2': ['बस्ती 1-2-1-2-1', 'बस्ती 1-2-1-2-2'],
+         },
+         bastiToUpbasti: {
+            'बस्ती 1-1-1-1-1': ['उपबस्ती 1-1-1-1-1-1', 'उपबस्ती 1-1-1-1-1-2'],
+            'बस्ती 1-1-1-1-2': ['उपबस्ती 1-1-1-1-2-1', 'उपबस्ती 1-1-1-1-2-2'],
+            'बस्ती 1-2-1-1-1': ['उपबस्ती 1-2-1-1-1-1', 'उपबस्ती 1-2-1-1-1-2'],
+            'बस्ती 1-2-1-1-2': ['उपबस्ती 1-2-1-1-2-1', 'उपबस्ती 1-2-1-1-2-2'],
+         },
+         dayitvaMapping: {
+            prant: ['दायित्व प्रांत 1', 'दायित्व प्रांत 2'],
+            vibhag: ['दायित्व विभाग 1', 'दायित्व विभाग 2'],
+            jila: ['दायित्व जिला 1', 'दायित्व जिला 2'],
+            ekai_nagar: ['दायित्व नगर 1', 'दायित्व नगर 2'],
+            akhilbhartiya: ['दायित्व akhil 1', 'दायित्व akhil 2'],
+            chetra: ['दायित्व area 1', 'दायित्व area 2'],
+            mandal: ['दायित्व मंडल 1', 'दायित्व मंडल 2'],
+            basti: ['दायित्व बस्ती 1', 'दायित्व बस्ती 2'],
+            upbasti: ['दायित्व उपबस्ती 1', 'दायित्व उपबस्ती 2'],
+         },
+         pincodeToNagar: {
+            "110001": ["नगर 1-1-1", "नगर 1-1-2"],
+            "110002": ["नगर 1-1-3"],
+            "110003": ["नगर 1-1-4"],
+            "110004": ["नगर 1-2-1"],
+            "110005": ["नगर 1-2-2"],
+            "110006": ["नगर 1-2-3"],
+         },
+         delhiPincodes: ["110001", "110002", "110003"],
+         statePincodes: ["110004", "110005", "110006"],
+         pincodeToState: {
+            "110004": ['state-1', "state-2"],
+            "110005": ['state-3', "state-4"],
+            "110006": ['state-5', "state-6"],
+         },
+      }; 
+        
+      
+      const sangathanToReferralCode = {
+            "अखिल भारतीय विद्यार्थी परिषद": "ABVP","विद्याभारती": "VIBH", "भारतीय शिक्षण मंडल": "BSM","अखिल भारतीय शैक्षिक महासंघ": "ABSM","संस्कृत भारती": "SBH","शिक्षा संस्कृति उत्थान न्यास": "SSUN","वनवासी कल्याण आश्रम": "VKA","विश्व हिन्दू परिषद्": "VHP",
+            "भारतीय जनता पार्टी": "BJP", "राष्ट्रीय सिक्ख संगत": "RSN","क्रीडा भारती": "KRBH","संस्कार भारती": "SASB","सक्षम": "SKSM","आरोग्य भारती": "AABH","एन्. एम्. ओ. (नैशनल मैडिकल आर्गेनाइजेशन)": "NMO",
+            "भारत विकास परिषद": "BHVP","दीनदयाल शोध संस्थान": "DDSS","राष्ट्रीय सेवा भारती": "RSBH","भारतीय किसान संघ": "BKS","भारतीय मजदूर संघ": "BMS","स्वदेशी जागरण मंच": "SJM",
+            "सहकार भारती": "SHBH","ग्राहक पंचायत": "GRHP","लघु उद्योग भारती": "LUBH","अखिल भारतीय साहित्य परिषद": "ABSP", "अधिवक्ता परिषद": "ADVP","प्रज्ञा प्रवाह": "PRPR",
+            "विज्ञान भारती": "VBH", "अखिल भारतीय इतिहास संकलन समिति": "ABSS","पूर्व सैनिक सेवा परिषद": "PSSP","हिन्दु जागरण मंच": "HJM","सीमा जागरण मंच": "SIJM",
+            "स्वामी विवेकानन्द मेडिकल मिशन": "SVMM","दिल्ली अध्यापक परिषद्": "DAP","सुरूचि प्रकाशन": "SRPR","इंद्रप्रस्थ विश्व संवाद केंद्र": "IVSK","राष्ट्र सेविका समिति": "RSS","हिन्दुस्थान समाचार": "HINS","SUYASH": "SUYASH"
+         };
+         const sakha_milan = [
+            "स्कूल विद्यार्थी","कॉलेज विद्यार्थी", "तरुण व्यवसायी","प्रौढ़ व्यवसायी","Young Professional","प्राध्यापक","Summer Camp", "परिवार मिलन","अन्य","अभी किसी शाखा/मिलन से नहीं जुड़े हैं / सज्जन शक्ति",]
+
+         const fieldToHindiMapping = {
+            prant: "प्रांत",vibhag: "विभाग",jila: "जिला",nagar: "नगर",address_nagar:"नगर",mandal:"मंडल", basti:"बस्ती",upbasti:"उपबस्ती",ekai_nagar:"नगर",
+            sakha_milan:"शाखा / मिलन",vividhSangathan:"विविध संगठन", "akhilbhartiya": "अखिलभारतीय","chetra": "क्षेत्र",};
+
+         const hindiToEnglishMapping= {
+            "प्रांत": "prant", "विभाग": "vibhag","जिला":"jila", "नगर":"nagar","नगर": "address_nagar","मंडल" :"mandal", "बस्ती" :"basti","उपबस्ती" : "upbasti","नगर" :"ekai_nagar",
+         "शाखा / मिलन" :"sakha_milan","विविध संगठन" : "vividhSangathan",  "अखिलभारतीय": "akhilbhartiya", "क्षेत्र":"chetra",};
+
+
+         // search input
+         document.getElementById("search-input").addEventListener("input", function () {
+            const searchValue = this.value.toLowerCase();
+            const table = document.querySelector(".table-responsive.d-none.d-md-block table");
+            const rows = table.querySelectorAll("tbody tr");
+
+            rows.forEach((row) => {
+               let found = false;
+               row.querySelectorAll("td").forEach(cell => {
+                     if (cell.textContent.toLowerCase().includes(searchValue)) {
+                        found = true;
+                     }
+               });
+               row.style.display = found ? "" : "none";
+            });
+         });
+
+
+         //particle js
+
+         const particlesContainer = document.getElementById('particles');
+         const particles = [];
+         const numParticles = 200;
+
+         class Particle {
+            constructor() {
+            this.element = document.createElement('span');
+            this.element.className = 'particle';
+            this.size = Math.random() * 4 + 2; // Increased size range: 2px to 6px
+            this.element.style.width = `${this.size}px`;
+            this.element.style.height = `${this.size}px`;
+            particlesContainer.appendChild(this.element);
+
+            this.width = window.innerWidth;
+            this.height = document.body.scrollHeight;
+            this.x = Math.random() * this.width;
+            this.y = Math.random() * this.height;
+            this.speedX = Math.random() * 2 - 1;
+            this.speedY = Math.random() * 2 - 1;
+
+            this.updatePosition();
+            }
+
+            updatePosition() {
+            this.element.style.left = `${this.x}px`;
+            this.element.style.top = `${this.y}px`;
+            }
+
+            update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            // Bounce off boundaries, accounting for particle size
+            if (this.x < 0 || this.x > this.width - this.size) this.speedX *= -1;
+            if (this.y < 0 || this.y > this.height - this.size) this.speedY *= -1;
+
+            this.updatePosition();
+            }
+         }
+
+         function updateContainerSize() {
+            const width = window.innerWidth;
+            const height = document.body.scrollHeight;
+            particlesContainer.style.height = `${height}px`;
+            return { width, height };
+         }
+
+         function init() {
+            particles.length = 0;
+            particlesContainer.innerHTML = ''; // Clear existing particles
+            const { width, height } = updateContainerSize();
+            for (let i = 0; i < numParticles; i++) {
+            const particle = new Particle();
+            particle.width = width;
+            particle.height = height;
+            particles.push(particle);
+            }
+         }
+
+         function animate() {
+            particles.forEach(particle => particle.update());
+            requestAnimationFrame(animate);
+         }
+
+         init();
+         animate();
+
+         // Update particles on resize
+         window.addEventListener('resize', () => {
+            const { width, height } = updateContainerSize();
+            particles.forEach(particle => {
+            particle.width = width;
+            particle.height = height;
+            // Redistribute if out of bounds
+            if (particle.x > width - particle.size) particle.x = Math.random() * width;
+            if (particle.y > height - particle.size) particle.y = Math.random() * height;
+            });
+         });
+
+         // Observe body size changes
+         const resizeObserver = new ResizeObserver(() => {
+            init(); // Reinitialize particles to cover new height
+         });
+         resizeObserver.observe(document.body);
+
+
+
+         const expandButtons = document.querySelectorAll('.card-body .expand-btn');
+
+         expandButtons.forEach(button => {
+            button.addEventListener('click', () => {
+               const card = button.closest('.card');
+               card.classList.toggle('card-expanded');
+            });
+         });
+
+         let actualPhone = "";
+
+         document.getElementById("phone").addEventListener("input", function (e) {
+            const input = e.target;
+            const value = input.value.replace(/\D/g, '');
+
+            if (value.length <= 10) {
+               if (e.inputType === "deleteContentBackward") {
+                  actualPhone = actualPhone.slice(0, -1);
+               } else if (/\d/.test(e.data)) {
+                  actualPhone += e.data;
+               }
+            }
+
+            // Show actual phone number instead of masking with asterisks
+            input.value = actualPhone;
+
+            const isPhoneValid = /^\d{10}$/.test(actualPhone);
+            document.getElementById("phoneError").style.display = isPhoneValid ? "none" : "block";
+
+            const confirmInput = document.getElementById("confirmPhone");
+            const confirmValue = confirmInput.value.replace(/\D/g, '');
+            document.getElementById("confirmPhoneError").style.display = (confirmValue && confirmValue !== actualPhone) ? "block" : "none";
+         });
+
+         document.getElementById("confirmPhone").addEventListener("input", function (e) {
+            const confirmValue = e.target.value.replace(/\D/g, '');
+            const isMatch = confirmValue === actualPhone;
+
+            document.getElementById("confirmPhoneError").style.display = (confirmValue && !isMatch) ? "block" : "none";
+         });
+
+      
+         
+         const shikshanSelect = document.getElementById('sangh_shikshan_level');
+            
+            // Initialize on load
+            updateShikshanFields();
+            
+            // Update fields when selection changes
+            shikshanSelect.addEventListener('change', updateShikshanFields);
+ 
+        function updateShikshanFields() {
+            const level = document.getElementById('sangh_shikshan_level').value;
+            const container = document.getElementById('shikshan-details-container');
+            
+            // Clear previous fields
+            container.innerHTML = '';
+            
+            // Hide container if no shikshan selected
+            if (level === 'none') {
+               container.style.display = 'none';
+               return;
+            }
+            
+            // Show container
+            container.style.display = 'block';
+            
+            // Create fields based on level
+            const fieldsToCreate = [];
+            
+            if (level === 'tritiya') {
+               fieldsToCreate.push(
+                  { type: 'prarambhik', label: 'प्रारंभिक वर्ग' },
+                  { type: 'prathmik', label: 'प्राथमिक वर्ग' },
+                  { type: 'pratham', label: 'प्रथम वर्ष' },
+                  { type: 'dwitiya', label: 'द्वितीय वर्ष' },
+                  { type: 'tritiya', label: 'तृतीय वर्ष' },                                         
+               );
+            } else if (level === 'dwitiya') {
+               fieldsToCreate.push(
+                  { type: 'prarambhik', label: 'प्रारंभिक वर्ष' },
+                  { type: 'prathmik', label: 'प्राथमिक वर्ष' },
+                  { type: 'pratham', label: 'प्रथम वर्ष' },
+                  { type: 'dwitiya', label: 'द्वितीय वर्ष' },
+               );
+            } else if (level === 'pratham') {
+               fieldsToCreate.push(
+                  { type: 'prarambhik', label: 'प्रारंभिक वर्ष' },
+                  { type: 'prathmik', label: 'प्राथमिक वर्ष' },
+                  { type: 'pratham', label: 'प्रथम वर्ष' }
+               );
+            } else if (level === 'prathmik') {
+               fieldsToCreate.push(
+                     { type: 'prarambhik', label: 'प्रारंभिक वर्ष' },
+                     { type: 'prathmik', label: 'प्राथमिक वर्ष' }
+               );
+            }else if(level === 'prarambhik') {
+               fieldsToCreate.push(
+                     { type: 'prarambhik', label: 'प्रारंभिक वर्ष' },
+               );
+            }
+            // Create fieldset container
+            const fieldset = document.createElement('div');
+            fieldset.className = 'shikshan-fieldset mb-4';
+            // Create row for year and month
+            const row = document.createElement('div');
+            row.className = 'row';
+            
+            // Create the fields
+            fieldsToCreate.forEach(field => {
+               // Year Field (left column)
+               const yearCol = document.createElement('div');
+               yearCol.className = 'col-md-6 mb-3 dropdown';
+               yearCol.id =`${field.type}-year-container` ;
+               
+               const yearLabel = document.createElement('label');
+               yearLabel.className = 'form-label';
+               yearLabel.style.cssText = 'font-size: 16px !important; font-weight: 600; color: #333;';
+               yearLabel.textContent = field.label;
+               yearLabel.htmlFor = `${field.type}-year`;
+
+               const spanClass = document.createElement('span');
+               spanClass.textContent = ' *';
+               spanClass.className = "text-danger";
+               yearLabel.appendChild(spanClass);
+
+               yearCol.appendChild(yearLabel);
+               
+               const yearSelect = document.createElement('select');
+               yearSelect.id = `${field.type}-year`;
+               yearSelect.name = `${field.type}_varsh`;
+               yearSelect.className = 'form-control';
+               yearSelect.required = true;
+               
+               const yearDefaultOption = document.createElement('option');
+               yearDefaultOption.value = '';
+               yearDefaultOption.textContent = 'वर्ष चुनें';
+               yearDefaultOption.disabled = true;
+               yearDefaultOption.selected = true;
+               yearSelect.appendChild(yearDefaultOption);
+               
+               // Add years from current year back to 1950
+               const currentYear = new Date().getFullYear();
+               for (let year = currentYear; year >= 1950; year--) {
+                     const option = document.createElement('option');
+                     option.value = year;
+                     option.textContent = year;
+                     yearSelect.appendChild(option);
+               }
+               
+               yearCol.appendChild(yearSelect);
+               
+               const yearError = document.createElement('small');
+               yearError.className = 'text-danger';
+               yearError.id = `${field.type}-yearError`;
+               yearError.style.cssText = 'display: none; font-size: 12px !important;';
+               yearError.textContent = 'कृपया वर्ष चुनें';
+               yearCol.appendChild(yearError);
+                             
+               // Add columns to row
+               row.appendChild(yearCol);
+              
+               // Add row to fieldset
+               fieldset.appendChild(row);
+               
+               // Add fieldset to container
+               container.appendChild(fieldset);
+            });
+            
+            // Add event listeners for year validation
+            addYearValidationListeners();
+         }
+        // Add event listeners for year sequence validation
+        function addYearValidationListeners() {
+            const yearSelects = [
+                document.getElementById('tritiya-year'),
+                document.getElementById('dwitiya-year'),
+                document.getElementById('pratham-year'),
+                document.getElementById('prathmik-year'),
+                document.getElementById('prarambhik-year')
+            ].filter(el => el);
+            
+            // yearSelects.forEach(select => {
+            //     select.addEventListener('change', validateYearSequence);
+            // });
+        }
+        
+        // Validate year sequence (newest to oldest)
+        function validateYearSequence() {
+            const level = document.getElementById('sangh_shikshan_level').value;
+            const fields = [];
+            
+           
+            if (level === 'tritiya') {
+                fields.push('prarambhik','prathmik', 'pratham','dwitiya','tritiya');
+            } else if (level === 'dwitiya') {
+                fields.push('prarambhik','prathmik', 'pratham','dwitiya');
+            } else if (level === 'pratham') {
+                fields.push('prarambhik','prathmik','pratham');
+            } else if (level === 'prathmik') {
+                fields.push('prarambhik','prathmik');
+            }else if (level === 'prarambhik') {
+                fields.push('prarambhik');
+            }
+            
+           
+            const enteredYears = [];
+            fields.forEach(field => {
+                const yearSelect = document.getElementById(`${field}-year`);
+                if (yearSelect && yearSelect.value) {
+                    enteredYears.push({
+                        field: field,
+                        year: parseInt(yearSelect.value),
+                        element: yearSelect
+                    });
+                }
+            });
+            
+          
+            let isValid = true;
+            for (let i = 0; i < enteredYears.length - 1; i++) {
+                if (enteredYears[i].year <= enteredYears[i + 1].year) {
+                    isValid = false;
+                    // Highlight the problematic year
+                    document.getElementById(`${enteredYears[i].field}-year-error`).textContent = 
+                        'वर्ष क्रम सही नहीं है (नया से पुराना)';
+                    document.getElementById(`${enteredYears[i].field}-year-error`).style.display = 'block';
+                    break;
+                }
+            }
+            
+            
+            if (isValid) {
+                fields.forEach(field => {
+                    const errorElement = document.getElementById(`${field}-year-error`);
+                    if (errorElement) errorElement.style.display = 'none';
+                });
+            }
+            
+            return isValid;
+        }
+        
+       
+         const dobInput = document.getElementById('dob');
+         // Function to open the date picker (works only on user click)
+         function openDatePicker(event) {
+            if (dobInput) {
+               // Check if the 'showPicker' function is available and is being triggered by a user gesture
+               if (typeof dobInput.showPicker === 'function') {
+                  dobInput.showPicker();  // This will work only on valid user gestures (click/focus)
+               } else {
+                  dobInput.focus(); // Fallback if showPicker isn't supported
+               }
+            }
+         }
+
+         // Function to set the max date to today
+         function setMaxDate() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+
+            if (dobInput) {
+               dobInput.setAttribute('max', formattedDate);  // Set the max date to today
+            }
+         }
+
+         // Add event listener only on user interaction
+         if (dobInput) {
+            dobInput.addEventListener('focus', openDatePicker);  // For Firefox
+            dobInput.addEventListener('click', openDatePicker);  // For Chrome, Edge
+            setMaxDate(); 
+         }
+
+        //create options for all other fields
+        function populateDropdown(field, options,placeholder) {
+        console.log(field);
+        let dropdown = document.getElementById(field);
+        // Reset the dropdown
+        dropdown.innerHTML = ""; // Clear all options
+
+        // Add the placeholder option for the dropdown
+        dropdown.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
+
+        let first_options = [];
+        let second_options = [];
+        if(["prant", "vibhag","jila", "ekai_nagar"].includes(field)){
+            first_options = options[0] || ""; // First element (if exists)
+            second_options = options[1] || ""; // Second element (if exists)
+            if (first_options) {
+                  let defaultOption = document.createElement("option");
+                  defaultOption.value =first_options;
+                  defaultOption.textContent =first_options;
+                  defaultOption.selected = true;
+                  dropdown.appendChild(defaultOption);
+            }
+        }else{
+            first_options = options;
+            if(first_options){
+                first_options.forEach(option => {
+                const opt = document.createElement("option");
+                opt.value = fieldToHindiMapping[option] ? fieldToHindiMapping[option] : option;
+                opt.textContent = fieldToHindiMapping[option] ? fieldToHindiMapping[option] : option;
+                dropdown.appendChild(opt);
+            }); 
+            }
+        return;
+        }
+        if(field === "prant"){         
+            if(second_options){
+                second_options.forEach(option => {
+                if(option != first_options){
+                  const opt = document.createElement("option");
+                opt.value = fieldToHindiMapping[option] ? fieldToHindiMapping[option] : option;
+                opt.textContent = fieldToHindiMapping[option] ? fieldToHindiMapping[option] : option;
+                dropdown.appendChild(opt);
+                }
+            }); 
+            }
+           return;
+
+        }
+         // Add other Jila first_options (if available)
+         if (field === "jila") {
+            if (second_options) {
+               let vibhags = Array.isArray(second_options) ? second_options : [second_options];
+               console.log(vibhags);
+               vibhags.forEach(vibhag => {
+                     const jilas = mappings.VibhagToJila[vibhag] || [];
+                     jilas.forEach(jila => {
+                        if (jila !== first_options) { // Avoid duplicate selection
+                           const option = document.createElement("option");
+                           console.log(option);
+                           option.value = fieldToHindiMapping[jila] || jila;
+                           option.textContent = fieldToHindiMapping[jila] || jila;
+                           dropdown.appendChild(option);
+                        }
+                     });
+               });
+            }
+            return;
+         }
+
+
+         if (field === "vibhag") {
+            if (second_options) {
+               const prants = Array.isArray(second_options) ? second_options : [second_options];
+
+               prants.forEach(prant => {
+                     const vibhags = mappings.prantToVibhag[prant] || [];
+                     vibhags.forEach(vibhag => {
+                        if (vibhag !== first_options) { // Avoid duplicate default selection
+                           const option = document.createElement("option");
+                           option.value = fieldToHindiMapping[vibhag] || vibhag;
+                           option.textContent = fieldToHindiMapping[vibhag] || vibhag;
+                           dropdown.appendChild(option);
+                        }
+                     });
+               });
+            }
+            return;
+         }
+
+    
+
+         if (field === "ekai_nagar") {
+            if (second_options) { // second_options is the selected pincode
+               const nagars = mappings.pincodeToNagar[second_options] || [];
+
+               nagars.forEach(nagar => {
+                     if (nagar !== first_options) { // Avoid duplicate default selection
+                        const option = document.createElement("option");
+                        option.value = fieldToHindiMapping[nagar] || nagar;
+                        option.textContent = fieldToHindiMapping[nagar] || nagar;
+                        dropdown.appendChild(option);
+                     }
+               });
+            }
+            return;
+         }
+
+}
+
+
+         function resetDropdowns(field) {
+            const resetMappings = {
+               // referralCode: ["profession", "pincode", "prant", "vibhag", "jila", "ekai_nagar", "mandal", "basti", "sakha_milan", "dayitva", "state", "ekai"],
+               pincode: ["nagar", "ekai_nagar", "basti", "sakha_milan", "state", "ekai", "dayitva", ],
+               // address_pincode: ["address_nagar", "address_state"],
+               ekai: [ "ekai_nagar","basti", "sakha_milan","sakha_milanCheckbox", "dayitva"],
+               nagar: ["ekai", "ekai_nagar","upbasti","dayitva"],
+               mandal: ["mandal", "dayitva"],
+               basti: ["basti", "dayitva"],
+               sakha_milan: ["sakha_milan","sakha_milanCheckbox", "dayitva"],
+               ekai_nagar: ["ekai_nagar", "dayitva"],
+               // vividhSangathan: ["pincode", "dayitva", "nagar", "state"]
+            };
+            function resetDropdown(dropdownId) {
+               if (dropdownId === "pincode") {
+                     document.getElementById("pincode").value = "";
+                     toggleVisibility("pincode");
+               }else if (dropdownId === "sakha_milanCheckbox") {
+                     let checkbox = document.getElementById("sakha_milanCheckbox");
+                     if (checkbox.checked) {
+                        checkbox.checked = false;
+                     }
+                  }
+               populateDropdown(dropdownId, [], dropdownId);
+            }
+            if (resetMappings[field]) {
+               resetMappings[field].forEach(resetDropdown);
+            }
+         }
+
+        
+
+         function handleDropdownChange(field, options) {
+            resetDropdowns(field);
+            toggleVisibility(field);            
+            const selectedValue = document.getElementById(field).value;
+            document.getElementById("ekai-container").style.display = "block";
+            populateDropdown("ekai", selectedValue ? options : [], "इकाई");
+         }
+
+         document.getElementById("state").addEventListener("change", function () {
+            handleDropdownChange("state", ["akhilbhartiya", "chetra"]);
+         });
+
+         document.getElementById("upbasti").addEventListener("change", function () {
+            handleDropdownChange("upbasti", [ "बस्ती", "शाखा / मिलन"]);
+         });
+
+         document.getElementById("nagar").addEventListener("change", function () {
+            resetDropdowns("nagar");
+            toggleVisibility("nagar");
+         });
+
+         function toggleVisibility(field) {
+            // List of all containers to reset
+            const allContainers = [
+               "ekai_nagar-container", "basti-container", 
+               "sakha_milanCheckbox-container", "sakha_milan-container", "dayitva-container", "state-container", "nagar-container", "ekai-container","upbasti-container" 
+            ];
+
+            // Hide all containers
+           if(field === "address_pincode"){
+            const allContainers = ["address_state-container", "address_nagar-container"];
+            allContainers.forEach(id => document.getElementById(id).style.display = "none");
+           }else{
+            allContainers.forEach(id => document.getElementById(id).style.display = "none");
+           }
+
+            // const referralCode = document.getElementById("referralCode").value.trim();
+            const selectedPincode = document.getElementById("pincode").value.trim();
+
+            // Handle Pincode Cases
+            if (field === "pincode" && selectedPincode.length === 6) {
+               toggleElement(mappings.delhiPincodes.includes(selectedPincode) ? "nagar-container" : "state-container");
+               populateDropdown(
+                     mappings.delhiPincodes.includes(selectedPincode) ? "nagar" : "state",
+                     mappings.delhiPincodes.includes(selectedPincode) ? mappings.pincodeToNagar[selectedPincode] || [] : mappings.pincodeToState[selectedPincode] || [],
+                     mappings.delhiPincodes.includes(selectedPincode) ? "नगर" : "राज्य"
+               );
+               return;
+            }
+            // Handle Address Pincode Cases
+            if (field === "address_pincode" && selectedAddressPincode.length === 6) {
+               toggleElement(mappings.delhiPincodes.includes(selectedAddressPincode) ? "address_nagar-container" : "address_state-container");
+               console.log(field);
+               populateDropdown(
+                     mappings.delhiPincodes.includes(selectedAddressPincode) ? "address_nagar" : "address_state",
+                     mappings.delhiPincodes.includes(selectedAddressPincode) ? mappings.pincodeToNagar[selectedAddressPincode] || [] : mappings.pincodeToState[selectedAddressPincode] || [],
+                     mappings.delhiPincodes.includes(selectedAddressPincode) ? "निवास का नगर" : "राज्य"
+               );
+               return;
+            }
+            if(field === "nagar"){
+                toggleElement("nagar-container");
+                let selectedNagar = document.getElementById("nagar").value;
+                let options = [];
+                let mandals = mappings.nagarToMandal[selectedNagar] || [];
+                let bastis = mandals.flatMap(mandal => mappings.mandalToBasti[mandal] || []);
+                options = bastis.flatMap(basti => mappings.bastiToUpbasti[basti] || []);
+                populateDropdown("upbasti",options, "उपबस्ती");
+                toggleElement("upbasti-container");
+                return;
+            }
+            if(field === "upbasti"){
+                toggleElement("upbasti-container");
+                toggleElement("nagar-container");
+                return;
+            }
+            if(field === "ekai"){
+               let selectedEkai = document.getElementById("ekai").value;
+               selectedEkai = `${hindiToEnglishMapping[selectedEkai]}`;
+               toggleElement(mappings.delhiPincodes.includes(selectedPincode) ? "nagar-container" : "state-container");
+                toggleElement("ekai-container");
+                toggleElement("dayitva-container");
+                if(selectedEkai === "sakha_milan"){
+                    toggleElement("sakha_milanCheckbox-container");
+                    toggleElement("sakha_milan-container");
+                }
+                if(mappings.delhiPincodes.includes(selectedPincode) ? "nagar-container" : "state-container" === "nagar-container"){
+                  toggleElement("upbasti-container");
+                }
+                return;
+            }
+            
+            // Define toggle conditions for each field
+            const toggleMap = {
+               ekai:  ["ekai-container"],
+               state: ["state-container" ? "ekai-container" : null].filter(Boolean),address_state: ["address_state-container"]
+            };
+
+            // Handle ekai-specific conditions
+            if (field === "dayitva") {
+                
+               if(mappings.delhiPincodes.includes(selectedPincode) ? "nagar-container" : "state-container" === "nagar-container"){
+                  toggleElement("upbasti-container");
+                }
+               
+               let ekai = document.getElementById("ekai").value;
+               ekai = `${hindiToEnglishMapping[ekai]}`;
+               toggleElement("dayitva-container");
+               const ekaiMappings = {
+                     "prant": ["nagar-container","ekai-container", "prant-container"],
+                     "vibhag": ["nagar-container","ekai-container", "vibhag-container"],
+                     "jila": ["nagar-container","ekai-container", "jila-container"],
+                     "ekai_nagar": ["nagar-container","ekai-container", "ekai_nagar-container"],
+                     "akhilbhartiya": [mappings.delhiPincodes.includes(selectedPincode) ? "nagar-container" : "state-container","ekai-container"],
+                     "chetra": [mappings.delhiPincodes.includes(selectedPincode) ? "nagar-container" : "state-container","ekai-container"],
+                     "mandal": ["nagar-container","ekai-container", "mandal-container"],
+                     "basti": ["nagar-container", "ekai-container","basti-container"],
+                     "sakha_milan": ["nagar-container","ekai-container", "sakha_milan-container", "sakha_milanCheckbox-container"],
+               };
+               toggleMap[field] = ekaiMappings[ekai] || [];
+            }
+            // Toggle necessary elements
+            (toggleMap[field] || []).forEach(toggleElement);
+         }
+
+         // Helper function to toggle visibility
+         function toggleElement(elementId) {
+            const element = document.getElementById(elementId);
+            if (element.style.display === "none" || element.style.display === "") {
+               element.style.display = "block";
+            } else {
+               element.style.display = "none";
+            }
+         }
+
+        document.getElementById("dayitva").addEventListener("change", function () {
+            toggleVisibility("dayitva");
+        });
+        
+        
+         // Ekai Selection Logic
+        document.getElementById("ekai").addEventListener("change", function () {
+            resetDropdowns("ekai");
+            toggleVisibility("ekai");
+            let selectedEkai = `${hindiToEnglishMapping[this.value]}`;
+            let selectedNagar = document.getElementById("nagar").value;
+            let selectedPincode = document.getElementById("pincode").value;
+            let selectedUpbasti = document.getElementById("upbasti").value;
+            
+            let selectedJila = Object.keys(mappings.jilaToNagar).find(jila =>
+                mappings.jilaToNagar[jila].includes(selectedNagar)
+            );
+            
+            let selectedVibhag = Object.keys(mappings.VibhagToJila).find(vibhag =>
+                mappings.VibhagToJila[vibhag].includes(selectedJila)
+            );
+            
+            let selectedPrant = Object.keys(mappings.prantToVibhag).find(prant =>
+                mappings.prantToVibhag[prant].includes(selectedVibhag)
+            );
+
+            let selectedNagars = mappings.pincodeToNagar[selectedPincode] || [];
+            
+            const selectedJilas = Object.keys(mappings.jilaToNagar).filter(jila =>
+               mappings.jilaToNagar[jila].some(nagar => selectedNagars.includes(nagar))
+            );
+            // Step 3: Find all vibhags that include any of the selected jilas
+            const selectedVibhags = Object.keys(mappings.VibhagToJila).filter(vibhag =>
+               mappings.VibhagToJila[vibhag].some(jila => selectedJilas.includes(jila))
+            );
+
+            // Step 4: Find all prants that include any of the selected vibhags
+            const selectedPrants = Object.keys(mappings.prantToVibhag).filter(prant =>
+               mappings.prantToVibhag[prant].some(vibhag => selectedVibhags.includes(vibhag))
+            );
+           
+        
+            if (selectedEkai === "prant") {
+                
+                populateDropdown("prant", [selectedPrant,mappings.prant], "प्रांत"); 
+            } else if (selectedEkai === "vibhag") {
+                // populateDropdown("prant", [selectedPrant]);
+                populateDropdown("vibhag", [selectedVibhag, selectedPrant], "विभाग");
+            } else if (selectedEkai === "jila") {
+                // populateDropdown("prant", [selectedPrant]);        
+                // populateDropdown("vibhag", [selectedVibhag, selectedPrant]);
+                populateDropdown("jila", [selectedJila,selectedVibhags], "जिला");
+            }
+            else if (selectedEkai === "ekai_nagar") {
+                // populateDropdown("prant", [selectedPrant]);
+                // populateDropdown("vibhag", [selectedVibhag,selectedPrant]);
+                // populateDropdown("jila", [selectedJila, selectedVibhag]);
+                populateDropdown("ekai_nagar", [selectedNagar,selectedPincode], "नगर");
+            }else if(["mandal", "basti","sakha_milan"].includes(selectedEkai)){
+                let options = [];
+                options = mappings.pincodeToNagar[selectedPincode] || [];
+                //const result = findBastiAndMandal(mappings.nagarToMandal, mappings.mandalToBasti, mappings.bastiToUpbasti, selectedNagar, selectedUpbasti);
+                //console.log(result);
+
+                //console.log("Found Basti:", typeof(result.basti));
+
+               if (selectedEkai === "mandal") {
+                     options = mappings.nagarToMandal[selectedNagar] || [];
+               } else if (selectedEkai === "basti") {
+                     let mandals = mappings.nagarToMandal[selectedNagar] || [];
+                     options = mandals.flatMap(mandal => mappings.mandalToBasti[mandal] || []);
+               }else if (selectedEkai === "sakha_milan") {
+                    options = sakha_milan;
+                }       
+                populateDropdown(selectedEkai, options, `${fieldToHindiMapping[selectedEkai]}`);
+            }
+            populateDayitva(selectedEkai);   
+        });
+
+         // Populate dayitva dropdown
+         function populateDayitva(selectedEkai) {
+            if (selectedEkai === "nagar") {
+               populateDropdown("dayitva", mappings.dayitvaMapping["ekai_nagar"] || [], "दायित्व");
+            }else if( selectedEkai === "sakha_milan"){
+                populateDropdown("dayitva", mappings.dayitvaMapping["shakha"] || [], "दायित्व");
+            }else {
+               populateDropdown("dayitva", mappings.dayitvaMapping[selectedEkai] || [], "दायित्व");
+            }
+         }
+
+         
+         document.getElementById("nagar-filter").addEventListener("change", function () {
+            const selectedNagar = this.value;
+            const bastiSelect = document.getElementById("basti-filter");
+            const upbastiSelect = document.getElementById("upbasti-filter");
+
+            bastiSelect.innerHTML = '<option value="">Select Basti...</option>';
+            upbastiSelect.innerHTML = '<option value="">Select Upbasti...</option>';
+
+            const mandals = mappings.nagarToMandal[selectedNagar] || [];
+
+            const bastis = mandals.flatMap(mandal => mappings.mandalToBasti[mandal] || []);
+            const upbastis = bastis.flatMap(basti => mappings.bastiToUpbasti[basti] || []);
+
+            bastis.forEach(basti => {
+            const opt = document.createElement("option");
+            opt.value = basti;
+            opt.textContent = basti;
+            bastiSelect.appendChild(opt);
+            });
+
+            upbastis.forEach(upbasti => {
+            const opt = document.createElement("option");
+            opt.value = upbasti;
+            opt.textContent = upbasti;
+            upbastiSelect.appendChild(opt);
+            });
+         });
+
+         document.getElementById("basti-filter").addEventListener("change", function () {
+            const selectedBasti = this.value;
+            const selectedNagar = document.getElementById("nagar-filter").value;
+            const upbastiSelect = document.getElementById("upbasti-filter");
+
+            upbastiSelect.innerHTML = '<option value="">Select Upbasti...</option>';
+
+            if (selectedBasti) {
+            const upbastis = mappings.bastiToUpbasti[selectedBasti] || [];
+            upbastis.forEach(upbasti => {
+               const opt = document.createElement("option");
+               opt.value = upbasti;
+               opt.textContent = upbasti;
+               upbastiSelect.appendChild(opt);
+            });
+            } else {
+            // Show all upbastis mapped to the selected nagar
+            const mandals = mappings.nagarToMandal[selectedNagar] || [];
+            const bastis = mandals.flatMap(mandal => mappings.mandalToBasti[mandal] || []);
+            const upbastis = bastis.flatMap(basti => mappings.bastiToUpbasti[basti] || []);
+
+            upbastis.forEach(upbasti => {
+               const opt = document.createElement("option");
+               opt.value = upbasti;
+               opt.textContent = upbasti;
+               upbastiSelect.appendChild(opt);
+            });
+            }
+         });
+
+        // Name Validation: Only Letters Allowed (No Spaces, Digits, or Special Characters)
+         const nameField = document.getElementById("name");
+         const lastNameField = document.getElementById("lastName");
+         const dayitva_pincodeField = document.getElementById("pincode");
+         const address_pincodeField = document.getElementById("address_pincode");
+         if (nameField) {
+            nameField.addEventListener("input", function () {
+               this.value = this.value.replace(/[^A-Za-z]/g, ""); // Remove everything except letters
+               if (this.value) {
+                     hideError("name");
+               } else {
+                     showError("name", "Only letters are allowed.");
+               }
+            });
+         }
+         if (lastNameField) {
+            lastNameField.addEventListener("input", function () {
+               this.value = this.value.replace(/[^A-Za-z]/g, ""); // Remove everything except letters
+               if (this.value) {
+                     hideError("lastName");
+               } else {
+                     showError("lastName", "Only letters are allowed.");
+               }
+            });
+         }
+
+         // Function to validate pincode fields
+         function validatePincode(event) {
+            let pincodeField = event.target;
+            let errorElement = document.getElementById(pincodeField.id + "Error");
+            
+            pincodeField.value = pincodeField.value.replace(/\D/g, "").slice(0, 6); // Allow only digits, max length 6
+            
+            if (this.value.length === 6) {
+                  hideError(pincodeField.id);
+               } else {
+                  showError(pincodeField.id, "Pincode must be exactly 6 digits.");
+               }
+            toggleVisibility(pincodeField.id);
+         }
+
+         // Attach validation to both pincode fields
+         document.getElementById("pincode").addEventListener("input", validatePincode);
+
+         // Function to check if a field is visible
+         function isFieldVisible(fieldId) {
+            const field = document.getElementById(`${fieldId}-container`);
+            return field && field.style.display !== "none";
+         }
+
+         // Function to display error messages
+         function showError(fieldId, message) {
+            const errorElement = document.getElementById(`${fieldId}Error`);
+            if (errorElement) {
+               errorElement.textContent = message;
+               errorElement.style.display = "block";
+            }
+         }
+
+         // Function to hide error messages
+         function hideError(fieldId) {
+            const errorElement = document.getElementById(`${fieldId}Error`);
+            if (errorElement) {
+               errorElement.textContent = "";
+               errorElement.style.display = "none";
+            }
+         }
+
+         // Function to validate the form
+         function validateForm(event) {
+            // console.log("Validation function is executing!");
+            event.preventDefault(); // Prevent form submission
+
+            let isValid = true;
+
+            // List of text fields that need validation
+            const textFields = ["name", "dob", "currentAddress", "phone"];
+            textFields.forEach((fieldId) => {
+               const field = document.getElementById(fieldId);
+               console.log(fieldId, "Please enter ", isFieldVisible(fieldId));
+               if (isFieldVisible(fieldId) && (!field || !field.value.trim())) {
+                  showError(fieldId, `Please enter ${fieldId.replace(/([A-Z])/g, " $1").toLowerCase()}.`);
+                  console.log(fieldId, "Please enter ")
+                  isValid = false;
+               } else {
+                  hideError(fieldId);
+               }
+            });
+
+            // List of dropdown fields that need validation
+            const selectFields = ["profession","nagar", "state","upbasti", "ekai","ekai_nagar","basti","sakha_milan","dayitva", "sangh_shikshan_level"];
+            selectFields.forEach((fieldId) => {
+               const field = document.getElementById(fieldId);
+               console.log(field);
+               console.log("**************", isFieldVisible(fieldId))
+               if (isFieldVisible(fieldId) && (!field || !field.value || field.value === "दायित्व")) {
+                  alert("false");
+                  showError(fieldId, "Please select a valid option.");
+                  console.log(fieldId, "Please select a valid option.")
+                  isValid = false;
+               } else {
+                  hideError(fieldId);
+               }
+            });
+
+            // Recheck Name & Pincode at Form Submission
+            if (nameField && /[^A-Za-z]/.test(nameField.value.trim())) {
+               showError("name", "Only letters are allowed.");
+               isValid = false;
+            }
+
+            if (dayitva_pincodeField && !/^\d{6}$/.test(dayitva_pincodeField.value.trim())) {
+               showError("pincode", "Enter a valid 6-digit pincode.");
+               isValid = false;
+            }
+            console.log(isValid);
+
+            if (isValid) {
+               console.log("Form is valid. Showing modal...");
+               openModal();
+            }
+
+         }
+
+         // Attach the validation function to the form's submit event
+         const form = document.getElementById("myForm");
+         if (form) {
+            form.addEventListener("submit", validateForm);
+         } else {
+            console.error("Form not found!");
+         }
+
+         // ✅ Add real-time error hiding
+         function addRealTimeValidation(fieldId, eventType = "input") {
+            const field = document.getElementById(fieldId);
+            if (field) {
+               field.addEventListener(eventType, function () {
+                  if (field.value.trim()) {
+                     hideError(fieldId);
+                  }
+               });
+            }
+         }
+
+         // ✅ Apply real-time validation to text fields
+         const realTimeTextFields = ["name", "dob", "currentAddress","pincode", "phone"];
+         realTimeTextFields.forEach((fieldId) => addRealTimeValidation(fieldId));
+
+         // ✅ Apply real-time validation to dropdowns
+         const realTimeSelectFields = ["profession","nagar","state","upbasti", "ekai", "ekai_nagar","basti","sakha_milan", "dayitva"];
+         realTimeSelectFields.forEach((fieldId) => {
+            const field = document.getElementById(fieldId);
+            if (field) {
+               field.addEventListener("change", function () {
+                  if (field.value) {
+                     hideError(fieldId);
+                  }
+               });
+            }
+         });
+
+         //  Real-time validation for gender selection
+         document.querySelectorAll('input[name="gender"]').forEach((radio) => {
+            radio.addEventListener("change", function () {
+               hideError("gender");
+            });
+         });
+
+         // Function to open the modal and populate it with form data
+         function openModal() {
+            const modal = document.getElementById('formModal');
+            modal.style.display = 'flex';
+
+            // Function to set modal content and visibility
+            function setModalContent(fieldId, modalElementId, modalContainerId) {
+               const field = document.getElementById(fieldId);
+             
+               const modalContainer = document.getElementById(modalContainerId);
+             
+               if (isFieldVisible(fieldId) && field) {
+                  modalContainer.style.display = 'table-row'; // Show the entire row
+                  document.getElementById(modalElementId).textContent = field.value;
+               } else {
+                
+                  modalContainer.style.display = 'none'; // Hide the entire row
+               }
+            }
+
+            // Set the content and visibility for each field in the modal
+            setModalContent('name', 'modalName', 'modalNameContainer');
+            setModalContent('dob', 'modalDOB', 'modalDOBContainer');
+            setModalContent('profession', 'modalProfession', 'modalProfessionContainer');
+            setModalContent('currentAddress', 'modalCurrentAddress', 'modalCurrentAddressContainer');
+            setModalContent('pincode', 'modalPincode', 'modalPincodeContainer');
+            setModalContent('nagar', 'modalNagar', 'modalNagarContainer');
+            setModalContent('state', 'modalState', 'modalStateContainer');
+            setModalContent('upbasti', 'modalUpbasti', 'modalUpbastiContainer');
+            setModalContent('ekai', 'modalEkai', 'modalEkaiContainer');
+            setModalContent('ekai_nagar', 'modalEkaiNagar', 'modalEkaiNagarContainer');
+            setModalContent('basti', 'modalBasti', 'modalBastiContainer');
+            setModalContent('sakha_milan', 'modalSakhaMilan', 'modalSakhaMilanContainer');
+            setModalContent('dayitva', 'modalDayitva', 'modalDayitvaContainer');
+            setModalContent('sangh_shikshan_level', 'modalSanghSikshanLevel', 'modalSanghSikshanLevelContainer');
+            setModalContent('prarambhik-year', 'modalPrarambhikYear', 'modalPrarambhikYearContainer');
+            setModalContent('prathmik-year', 'modalPrathmikYear', 'modalPrathmikYearContainer');
+            setModalContent('pratham-year', 'modalPrathamYear', 'modalPrathamYearContainer');
+            setModalContent('dwitiya-year', 'modalDwitiyaYear', 'modalDwitiyaYearContainer');
+            setModalContent('tritiya-year', 'modalTritiyaYear', 'modalTritiyaYearContainer');
+
+         }
+         // Function to check if a field is visible
+         function isFieldVisible(fieldId) {
+            const field = document.getElementById(`${fieldId}-container`);
+            return field && field.style.display !== "none";
+         }
+
+         // Attach event listener to the 'Edit' button
+         document.querySelector(".class-modal").addEventListener('click', function(){
+            document.getElementById("formModal").style.display = "none";
+         })
+
+         document.getElementById('finalSubmit').addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            Swal.fire({
+               title: '!!..धन्यवाद..!!',
+               html: 'आपने अपना पंजीकरण सफलतापूर्वक पूर्ण कर लिया है। <br>आपके "QR Code" की जानकारी दिए गए 👉 "SBRPLR SMS Code" 👈 द्वारा आपको शीघ्र भेजी जाएगी।',
+               icon: 'success',
+               confirmButtonText: 'ठीक है'
+            }).then((result) => {
+               if (result.isConfirmed) {
+                  console.log("submitttttttt");
+                  document.getElementById('myForm').submit();
+               }
+            });
+         });
+      });
+
+   </script>
+   <script type="text/javascript">
+      // Push the current state to the history stack
+      history.pushState(null, null, window.location.href);
+      // Listen for the popstate event, which is triggered by back/forward navigation
+      window.addEventListener('popstate', function () {
+         // Push the state again to prevent back navigation
+         history.pushState(null, null, window.location.href);
+      });
+   </script>
+
+   <script type="text/javascript">
+   </script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'register_samautkarsh/assets/img/Samutkarsh_logo.png' %}" type="image/x-icon" />
+    <title>QR Scanner</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .qr-scanner {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-image {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+        }
+
+        .scan-button {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background-color: var(--secondary-color);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .scan-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .scan-button:active {
+            transform: scale(0.9);
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--secondary-color);
+        }
+
+        .scanned-data {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .scanned-data h2 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .scanned-text {
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .qr-scanner {
+                width: 100%;
+            }
+
+            .scanned-data {
+                margin-left: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="qr-scanner">
+        <img src="qr-reader" alt="QR Code Reader" class="qr-image" id="qr-image">
+    </div>
+
+    <button class="scan-button" onclick="startScan()">Scan QR Code</button>
+
+    <h1>Scan This QR Code</h1>
+
+    <div class="scanned-data">
+        <h2>Your Scanned Data</h2>
+        <p id="scanned-text"></p>
+    </div>
+
+    <script>
+        // Add your scan logic here
+        let isScanning = false;
+
+        function startScan() {
+            if (!isScanning) {
+                isScanning = true;
+                document.querySelector('.scan-button').textContent = 'SCANNING...';
+            }
+
+            // Add scan logic
+            console.log('Starting scan...');
+            // Replace this with actual QR scanning code
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                isScanning = false;
+                e.target?.result;
+                document.getElementById('scanned-text').textContent = 'Scanning completed.';
+            };
+            reader.readAsDataURL('someurl.png');
+        }
+
+        // Add more scan logic implementation here...
+
+        // Optional: Add keyboard shortcuts
+        document.querySelector('.scan-button').addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                clearInterval(scanInterval);
+            }
+        });
+    </script>
+</body>
+</html>

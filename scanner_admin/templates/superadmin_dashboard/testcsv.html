@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Export Example</title>
+    <!-- Required Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.0/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/dist/js/tableexport.min.js"></script>
+    
+</head>
+<body>
+    <!-- Table -->
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John Doe</td>
+                <td>30</td>  
+            <tr>
+                <td>Jane Smith</td>
+                <td>25</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Download Button -->
+    <button id="downloadCsv">Download CSV</button>
+
+    <script>
+       $('#downloadCsv').click(function () {
+    console.log('Download CSV button clicked'); // Debugging
+
+    console.log(typeof TableExport); // Should print "function"
+
+    // Initialize TableExport
+    var table = new TableExport(document.getElementById("dataTable"), {
+        formats: ["csv"],
+        filename: "table_data",
+        exportButtons: false // Hide default export buttons
+    });
+   
+
+
+    // Get the exported data as a CSV file
+    var csvData = table.getExportData()["dataTable"]["csv"];
+    
+    // Trigger the download
+    table.export2file(csvData.data, csvData.mimeType, csvData.filename, csvData.fileExtension);
+});
+
+    </script>
+</body>
+</html>

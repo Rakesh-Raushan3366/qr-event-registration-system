@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="hi">
+{% load static %}
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="shortcut icon" href="{% static 'register_samautkarsh/assets/img/Samutkarsh_logo.png' %}" type="image/x-icon" />
+   <title>पंजीकरण फॉर्म</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+
+   <!-- font -->
+   <!-- Embed Google Font -->
+   <!-- font -->
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link
+      href="https://fonts.googleapis.com/css2?family=Arya:wght@400;700&family=Caudex:ital,wght@0,400;0,700;1,400;1,700&family=Forum&family=Hind:wght@300;400;500;600;700&family=Laila:wght@300;400;500;600;700&family=Palanquin+Dark:wght@400;500;600;700&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Yatra+One&display=swap"
+      rel="stylesheet">
+
+   <!-- SweetAlert2 CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.21/dist/sweetalert2.min.css" rel="stylesheet">
+
+   <!-- Select2 CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+   <!-- Bootstrap 5 CSS (For table styling) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+   <style>
+      body {
+         margin: 0;
+         padding: 0;
+         overflow-x: hidden;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         min-height: 100vh;
+         padding: 20px 10px;
+         /* background-image: url('/static/register_samautkarsh/assets/img/bg_img.jpg'); */
+         background-repeat: no-repeat;
+         background-size: contain;
+         background-size: 100% 100%;
+         background-position: center center;
+         font-family: 'Hind', sans-serif;
+         background: linear-gradient(135deg, #B22222 10%, #FFA500 30%, #FF4500 50%);
+
+      }
+
+      .card-body {
+         /* height: 0; */
+         /* opacity: 0; */
+         /* padding: 0; */
+         padding: 16px;
+         overflow: hidden;
+         background-color: #FFF8E1;
+      }
+
+      .card-header {
+         margin: 10px;
+         color: rgb(235, 77, 77);
+         font-weight: 700;
+         background-color: #FFF8E1;
+      }
+
+      /* Style for the card header to align text and icons */
+      .card-header {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         cursor: pointer;
+         user-select: none;
+         /* Prevent text selection on click */
+      }
+      .card-title{
+         font-size: 16px !important;
+        text-decoration: underline;
+        color: #8B0000 !important;
+      }
+      .toggle-icon {
+         font-size: 16px;
+         margin-left: 8px;
+      }
+
+      #particles {
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         z-index: 0;
+         opacity: 0.7;
+         pointer-events: none;
+      }
+
+      .particle {
+         position: absolute;
+         background: rgba(255, 255, 255, 0.5);
+         border-radius: 50%;
+         will-change: transform;
+      }
+
+      .form-container {
+         /* background: white; */
+         background: rgba(255, 255, 255, 0.9);
+         width: 100%;
+         border-radius: 12px;
+         /* box-shadow: 5px 5px 26px rgba(255, 255, 255, 0.5),
+            -5px -5px 26px rgba(255, 255, 255, 0.5); */
+         padding: 30px;
+         max-width: 768px;
+         margin: auto;
+         transition: transform 0.3s ease-in-out;
+      }
+
+      .form-label {
+         font-size: 16px !important;
+         font-weight: 900;
+         color: #333;
+      }
+
+      .required::after {
+         content: "*";
+         color: red;
+      }
+
+      .form-control,
+      .form-select {
+         font-size: 16px;
+         color: #868686;
+      }
+
+      .form-select input {
+         font-size: 14px;
+      }
+
+      .form-select option {
+         font-size: 14px;
+         color: #868686;
+      }
+
+      .form-control:focus {
+         border-color: #ff9800 !important;
+         box-shadow: 0px 0px 5px rgba(255, 152, 0, 0.75) !important;
+      }
+
+      .form-select:focus {
+         border-color: #ff9800 !important;
+         box-shadow: 0px 0px 5px rgba(255, 152, 0, 0.75) !important;
+         outline: none !important;
+      }
+
+      .hidden {
+         display: none;
+      }
+
+      /* Remove focus outline for both radio buttons and checkboxes */
+      .form-check-input:focus {
+         box-shadow: none !important;
+         outline: none !important;
+         border-color: transparent !important;
+      }
+
+      /* Common styling for both checkboxes and radio buttons */
+      .form-check-input {
+         width: 16px;
+         height: 16px;
+         border: 2px solid #ccc !important;
+         background-color: white !important;
+         transition: all 0.3s ease-in-out;
+         appearance: none;
+         /* Removes default styles */
+         -webkit-appearance: none;
+         -moz-appearance: none;
+         cursor: pointer;
+         position: relative;
+      }
+
+      /* Checkbox-specific styles */
+      .form-check-input[type="checkbox"] {
+         border-radius: 4px;
+         /* Slightly rounded corners */
+      }
+
+      /* Radio button-specific styles */
+      .form-check-input[type="radio"] {
+         border-radius: 50%;
+         /* Circular */
+      }
+
+      .form-check-input:not(:checked) {
+         background-color: white !important;
+         border: 2px solid #ccc !important;
+      }
+
+      /* Custom styles when checked (both checkbox and radio) */
+      .form-check-input:checked {
+         border-color: #ff9800 !important;
+         background-color: #ff9800 !important;
+      }
+
+      /* Checkmark for checked checkbox */
+      .form-check-input[type="checkbox"]:checked::before {
+         content: "";
+         width: 10px;
+         height: 10px;
+         background-color: white;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+         /* Checkmark shape */
+      }
+
+      /* Inner dot for checked radio button */
+      .form-check-input[type="radio"]:checked::before {
+         content: "";
+         width: 8px;
+         height: 8px;
+         background-color: white;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         border-radius: 50%;
+         /* Circular inner dot */
+      }
+
+      /* Modal Styles */
+      .modal-content {
+         background: #f8f9fa;
+         /* Light gray background */
+         border-radius: 8px;
+         padding: 20px;
+      }
+
+      .table-striped tbody tr:nth-of-type(odd) {
+         background-color: #f2f2f2;
+         /* Custom alternate row color */
+      }
+
+      .table td {
+         vertical-align: middle;
+      }
+
+      .modal-footer {
+         background: #e9ecef;
+         /* Light gray footer */
+         padding: 15px;
+         border-top: 1px solid #dee2e6;
+      }
+
+      .modal {
+         display: none;
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.5);
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         z-index: 1000;
+         padding: 10px;
+         /* Adds spacing on small screens */
+         box-sizing: border-box;
+         /* Prevents content overflow */
+      }
+
+      .modal-content {
+         background: white;
+         padding: 20px;
+         border-radius: 10px;
+         width: 50%;
+         /* Default width */
+         max-height: 80vh;
+         /* Prevents excessive height */
+         overflow-y: auto;
+         /* Enables scrolling if needed */
+         margin: 5% auto;
+         /* Adds top & bottom margin */
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+         transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+         .modal-content {
+            width: 70%;
+            /* Adjust width for tablets */
+         }
+      }
+
+      @media (max-width: 768px) {
+         .modal-content {
+            width: 90%;
+            /* Adjust width for smaller screens */
+            max-height: 90vh;
+            /* Increase max height */
+         }
+      }
+
+      @media (max-width: 480px) {
+         .modal-content {
+            width: 95%;
+            /* Almost full width for mobile */
+            padding: 15px;
+            /* Reduce padding */
+         }
+      }
+
+      /* .modal-content {
+         background: white;
+         padding: 20px;
+         border-radius: 8px;
+         width: 50%;
+         max-width: 600px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      } */
+      .modal-title {
+         color: #8B0000;
+         font-weight: bold;
+         text-align: center;
+         margin-bottom: 20px;
+      }
+
+      .modal-body p {
+         margin: 10px 0;
+         font-size: 14px;
+      }
+
+      .modal-footer {
+         display: flex;
+         justify-content: flex-end;
+         margin-top: 20px;
+      }
+
+      .btn {
+         padding: 8px 16px;
+         margin-left: 10px;
+         border: none;
+         border-radius: 4px;
+         cursor: pointer;
+         font-size: 14px;
+      }
+
+      /* .btn-edit {
+         background-color: #f0ad4e;
+         color: white;
+      }
+      .btn-submit {
+         background-color: #5cb85c;
+         color: white;
+      } */
+      .close-modal {
+         float: left;
+         font-size: 40px;
+         cursor: pointer;
+      }
+
+      .form-control,
+      .form-select {
+         font-size: 16px !important;
+         color: #2d3748 !important;
+         /* More sophisticated dark color */
+         font-weight: 400 !important;
+         /* Fixed font-weight value (100px was incorrect) */
+         padding: 10px 15px !important;
+         border: 1px solid #e2e8f0 !important;
+         /* Lighter border */
+         border-radius: 8px !important;
+         /* Slightly rounded corners */
+         background: rgba(255, 255, 255, 1);
+         /* Very light background */
+         transition: all 0.3s ease !important;
+         /* Smooth transitions */
+         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+         /* Subtle shadow */
+      }
+
+      /* Hover state */
+      .form-control:hover,
+      .form-select:hover {
+         border-color: #cbd5e0 !important;
+         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+      }
+
+      /* Focus state */
+      .form-control:focus,
+      .form-select:focus {
+         border-color: #FF9800 !important;
+         /* Nice blue focus color */
+         box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2) !important;
+         outline: none !important;
+         background-color: #ffffff !important;
+      }
+
+      /* Hide specific checkboxes by default using a class */
+      .hidden-checkbox {
+         display: none;
+      }
+   </style>
+</head>
+
+<body>
+   <!-- This is Header Section -->
+   <div class="form-container">
+      <div class="text-center mb-5"  >
+          <!-- Logo Image Section -->
+          <div class="text-center mb-3" style="display: flex; justify-content: center; align-items: center;">
+            <img src="{% static '/register_samautkarsh/assets/img/Samutkarsh_logo.png' %}" alt="RSS Delhi Prant"
+               style="width: 150px; height: 150px; margin-right: 10px; border-radius: 50%; object-fit: cover;">
+         </div>
+      </div>
+      <hr style="border: none; height: 2px; background-color: #FF9800; margin: 20px 0;">
+      <!-- End Header Section -->
+
+      <form id="myForm" method="POST" action="" enctype="multipart/form-data" autofocus>
+         {% csrf_token %}
+         
+         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3 mb-4 py-2">
+            <!-- Update Profile Button -->
+            <a href="{% url 'register_samautkarsh:update_register' %}" 
+               class="btn btn-lg px-4 py-2 rounded-pill text-white shadow-sm"
+               style="background: linear-gradient(135deg, #FFA000 0%, #FF6D00 50%, #FF3D00 100%);
+                      transition: all 0.3s ease;
+                      min-width: 200px;
+                      border: none; font-weight: 700;">
+                <i class="fas fa-user-edit me-2"></i> Update Profile
+            </a>
+            <!-- Download QR Code Button -->
+            <a href="{% url 'register_samautkarsh:verify_registration' %}" 
+               class="btn btn-lg px-4 py-2 rounded-pill text-white shadow-sm {% if barcodescan == 'pending' or barcodescan == 'Reject' or barcodescan == None %}disabled{% endif %}"
+               style="background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%);
+                     transition: all 0.3s ease;
+                     min-width: 200px;
+                     border: none; font-weight: 700;">
+                <i class="fas fa-qrcode me-2"></i> Download QR-Code
+            </a>
+        </div>
+        <hr style="border: none; height: 2px; background-color: #FF9800; margin: 20px 0;">
+        
+         <input type="text" name="phone_number" value={{phone_number}} hidden >
+         <div class="row">
+            <div class="row">
+               {% if data.referral_code %}
+               <div class="col-md-12 mb-3" id="referralCode-container">
+                  <label for="referralCode" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">रेफरल कोड</label>
+                  <input type="text" id="referralCode" class="form-control" placeholder="रेफरल कोड (यदि कोई हो तो)" name="referral_code" value="{{ data.referral_code }}" readonly>
+               </div>
+               {% endif %}
+            </div>
+   
+            <div class="card mb-3 py-3">
+               <div class="card-header fw-bold " data-toggle-target="card_body_1" id="personal_tab"><span>व्यक्तिगत जानकारी
+                     / Personal Information</span>
+                  <span class="toggle-icon">
+                     <i class="fas fa-minus"></i>
+                  </span>
+               </div>
+               <div class="card-body" id="card_body_1">
+                
+                  <div class="row">
+                     <!-- First Name -->
+                     {% if data.name %}
+                     <div class="col-md-6 mb-3" id="name-container">
+                        <label for="name" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">नाम <i><small class="text-secondary ">(First Name) </small></i></label>
+                        <input type="text" id="name" class="form-control" placeholder="example: Ramesh..." name="name" value="{{ data.name }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- Last Name -->
+                     {% if data.last_name %}
+                     <div class="col-md-6 mb-3" id="lastName-container">
+                        <label for="lastName" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">उप-नाम <i><small class="text-secondary ">(Last Name) </small></i></label>
+                        <input type="text" id="lastName" class="form-control" placeholder="example: Sharma..." name="last_name" value="{{ data.last_name }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- जन्मतिथि --> 
+                     {% if data.dob %}
+                     <div class="col-md-6 mb-3" id="dob-container">
+                        <label for="dob" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">जन्मतिथि <i><small class="text-secondary ">(Date of Birth) </small></i></label>
+                        <input type="date" id="dob" name="dob" class="form-control"placeholder="example: dd/mm/yyyy" value="{{ data.dob|date:'Y-m-d' }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- Blood Group -->
+                     {% if data.blood_group %}
+                     <div class="col-md-6 mb-3" id="blood_group-container">
+                        <label for="blood_group" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">रक्त-गट <i><small class="text-secondary ">(Blood Group) </small></i></label>
+                        <input class="form-control" type="text" name="blood_group" value="{{data.blood_group}}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- श्रेणी (Profession) -->
+                     {% if data.user_type %}
+                     <div class="col-md-6 mb-3" id="profession-container">
+                        <label for="profession" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">श्रेणी <i><small class="text-secondary ">(Profession) </small></i></label>
+                        <input class="form-control" type="text" name="user_type" value="{{data.user_type}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- स्कूल विद्यार्थी -->
+                     {% if data.student_type %}
+                     <div class="col-md-6 mb-3" id="studentType-container">
+                        <label for="studentType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">स्कूल विद्यार्थी <i><small class="text-secondary ">(School Student) </small></i></label>
+                        <input class="form-control" type="text" name="student_type" value="{{data.student_type}}" readonly>
+                     </div>
+                     {% endif %}
+                     <!-- विश्वविद्यालय-->
+                     {% if data.affilated_by %}
+                     <div class="col-md-6 mb-3" id="university-container">
+                        <label for="university" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">विश्वविद्यालय <i><small class="text-secondary ">(University) </small></i></label>
+                        <input class="form-control" type="text" name="affilated_by" value="{{data.affilated_by}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- संस्थान -->
+                     {% if data.institute_name %}
+                     <div class="col-md-6 mb-3" id="institute-container">
+                        <label for="institute" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">संस्थान <i><small class="text-secondary ">(Institute) </small></i></label>
+                        <input class="form-control" type="text" name="institute_name" value="{{data.institute_name}}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- कॉलेज विद्यार्थी / प्राध्यापक -->
+                     {% if data.college_student_type %}
+                     <div class="col-md-6 mb-3" id="collegeStudentType-container">
+                        <label for="collegeStudentType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">कॉलेज विद्यार्थी / प्राध्यापक <i><small class="text-secondary ">(College Student / Professor) </small></i></label>
+                        <input class="form-control" type="text" name="college_student_type" value="{{data.college_student_type}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     {% if data.professor_type %}
+                     <div class="col-md-6 mb-3" id="professorType-container">
+                        <label for="professorType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">प्राध्यापक का प्रकार<i><small class="text-secondary ">(Type of Professor) </small></i></label>
+                        <input class="form-control" type="text" name="professor_type" value="{{data.professor_type}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- विषय -->
+                     {% if data.category_name %}
+                     <div class="col-md-6 mb-3" id="course-container">
+                        <label for="course" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">विषय <i><small class="text-secondary ">(Course) </small></i></label>
+                        <input class="form-control" type="text" name="category_name" value="{{data.category_name}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- Area of Work -->
+                     {% if data.social_work_area %}
+                     <div class="col-md-6 mb-3" id="socialWorkArea-container">
+                        <label for="socialWorkArea" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">कार्य क्षेत्र <i><small class="text-secondary ">(Area of Work) </small></i></label>
+                        <input class="form-control" type="text" name="social_work_area" value="{{data.social_work_area}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- Area of Work -->
+                     {% if data.sarkari_social_work_area %}
+                     <div class="col-md-6 mb-3" id="sarkariSocialWorkArea-container">
+                        <label for="sarkariSocialWorkArea" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">कार्य क्षेत्र <i><small class="text-secondary ">(Working Area) </small></i></label>
+                        <input class="form-control" type="text" name="sarkari_social_work_area" value="{{data.sarkari_social_work_area}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- Department -->
+                     {% if data.sarkari_social_department %}
+                     <div class="col-md-6 mb-3" id="sarkariSocialDepartment-container">
+                        <label for="sarkariSocialDepartment" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">विभाग <i><small class="text-secondary ">(Department) </small></i></label>
+                        <input class="form-control" type="text" name="sarkari_social_department" value="{{data.sarkari_social_department}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- Area of Work -->
+                     {% if data.niji_social_work_area %}
+                     <div class="col-md-6 mb-3" id="nijiSocialWorkArea-container">
+                        <label for="nijiSocialWorkArea" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">कार्य क्षेत्र <i><small class="text-secondary ">(Working Area) </small></i></label>
+                        <input class="form-control" type="text" name="niji_social_work_area" value="{{data.niji_social_work_area}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- Area of Work -->
+                     {% if data.niji_social_department %}
+                     <div class="col-md-6 mb-3" id="nijiSocialDepartment-container">
+                        <label for="nijiSocialDepartment" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">विभाग <i><small class="text-secondary ">(Department) </small></i></label>
+                        <input class="form-control" type="text" name="niji_social_department" value="{{data.niji_social_department}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- अध्यापक -->
+                     {% if data.teacher_type %}
+                     <div class="col-md-6 mb-3" id="teacherType-container">
+                        <label for="teacherType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">अध्यापक का प्रकार <i><small class="text-secondary ">(Type of Teacher) </small></i></label>
+                        <input class="form-control" type="text" name="teacher_type" value="{{data.teacher_type}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- प्रोफेशनल -->
+                     {% if data.profession_type %}
+                     <div class="col-md-6 mb-3" id="professionalType-container">
+                        <label for="professionalType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">प्रोफेशनल का प्रकार <i><small class="text-secondary ">(Type of Professional) </small></i></label>
+                        <input class="form-control" type="text" name="profession_type" value="{{data.profession_type}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- प्रोफेशनल Nature-->
+                     {% if data.professional_nature %}
+                     <div class="col-md-6 mb-3" id="professionalNature-container">
+                        <label for="professionalNature" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">प्रोफेशनल की प्रकृति <i><small class="text-secondary ">(Nature of Professional) </small></i></label>
+                        <input class="form-control" type="text" name="professional_nature" value="{{data.professional_nature}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- प्रोफेशनल उप-प्रकार -->
+                     {% if data.profession_subtype %}
+                     <div class="col-md-6 mb-3" id="professionalSubType-container">
+                        <label for="professionalSubType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">>विशेषज्ञता का क्षेत्र <i><small class="text-secondary ">(Area of Specialization) </small></i></label>
+                        <input class="form-control" type="text" name="profession_subtype" value="{{data.profession_subtype}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- उद्योगपति -->
+                     {% if data.industrialist_type %}
+                     <div class="col-md-6 mb-3" id="industrialistType-container">
+                        <label for="industrialistType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">उद्योगपति का प्रकार <i><small class="text-secondary ">(Type of Industrialist) </small></i></label>
+                        <input class="form-control" type="text" name="industrialist_type" value="{{data.industrialist_type}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- उद्योगपति Nature-->
+                     {% if data.industrialist_nature %}
+                     <div class="col-md-6 mb-3" id="industrialistNature-container">
+                        <label for="industrialistNature" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">उद्योगपति की प्रकृति <i><small class="text-secondary ">(Nature of Industrialist) </small></i></label>
+                        <input class="form-control" type="text" name="industrialist_type" value="{{data.industrialist_type}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- उद्योगपति Subtype-->
+                     {% if data.industrialist_sub_type %}
+                     <div class="col-md-6 mb-3" id="industrialistSubType-container">
+                        <label for="industrialistSubType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">विशेषज्ञता का क्षेत्र <i><small class="text-secondary ">(Area of Specialization) </small></i></label>
+                        <input class="form-control" type="text" name="industrialist_sub_type" value="{{data.industrialist_sub_type}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- व्यवसायी -->
+                     {% if data.business_type %}
+                     <div class="col-md-6 mb-3" id="businessType-container">
+                        <label for="businessType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">व्यवसायी का प्रकार <i><small class="text-secondary ">(Type of Businessman) </small></i></label>
+                        <input class="form-control" type="text" name="business_type" value="{{data.business_type}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- व्यवसायी Nature-->
+                     {% if data.business_nature %}
+                     <div class="col-md-6 mb-3" id="businessNature-container">
+                        <label for="businessNature" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">व्यवसायी की प्रकृति <i><small class="text-secondary ">(Nature of Businessman) </small></i></label>
+                        <input class="form-control" type="text" name="business_nature" value="{{data.business_nature}}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- व्यवसायी SubType-->
+                     {% if data.business_subtype %}
+                     <div class="col-md-6 mb-3" id="businessSubType-container">
+                        <label for="businessSubType" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">विशेषज्ञता का क्षेत्र <i><small class="text-secondary ">(Area of Specialization) </small></i></label>
+                        <input class="form-control" type="text" name="business_subtype" value="{{data.business_subtype}}" readonly>
+                     </div>
+                     {% endif %}
+                     
+                     <!-- लैंगिक जानकारी (gender) -->
+                     {% if data.gender %}
+                     <div class="col-md-6 mb-3" id="gender-container">
+                        <label class="form-label " style="font-size: 16px !important; font-weight: 700; color: #333;">लैंगिक जानकारी <i><small class="text-secondary ">(Gender) </small></i></label>
+                        <div class="d-flex align-items-center">
+                           <div class="form-check me-3">
+                              <input type="radio" id="male" name="gender" value="Male" class="form-check-input" {% if data.gender == 'Male' %}checked{% endif %} disabled>
+                              <label for="male" class="form-check-label"
+                                 style="font-size: 16px; font-weight: 400; color: #333;">पुरुष</label>
+                           </div>
+
+                           <div class="form-check me-3">
+                              <input type="radio" id="female" name="gender" value="Female" class="form-check-input" {% if data.gender == 'Female' %}checked{% endif %} disabled>
+                              <label for="female" class="form-check-label"
+                                 style="font-size: 16px; font-weight: 400; color: #333;">महिला</label>
+                           </div>
+
+                           <div class="form-check">
+                              <input type="radio" id="otherGender" name="gender" value="other" class="form-check-input" {% if data.gender == 'other' %}checked{% endif %} disabled>
+                              <label for="otherGender" class="form-check-label"
+                                 style="font-size: 16px; font-weight: 400; color: #333;">अन्य</label>
+                           </div>
+                        </div>
+                     </div>
+                     {% endif %}
+   
+                     <!-- वर्तमान पता (Current Address) -->
+                     {% if data.corress_address %}
+                     <div class="col-12 mb-3" id="currentAddress-container">
+                        <label for="currentAddress" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">वर्तमान पता <i><small class="text-secondary ">(Current Address) </small></i></label>
+                        <textarea name="corress_address" id="currentAddress" class="form-control" placeholder="example: House No. 12, Gandhi Nagar, Main Road, Mumbai - 400001" maxlength="255" rows="3" readonly>{{ data.corress_address }}</textarea>
+                     </div>
+                     {% endif %}
+   
+                     <!-- स्थायी और वर्तमान पता समान है -->
+                     {% if data.corress_address and data.perman_address %}
+                     <div class="col-12 mb-3">
+                        <input type="checkbox" id="sameAddress" class="form-check-input" {% if data.corress_address == data.perman_address %}checked{% endif %} disabled>
+                        <label for="sameAddress" style="font-size: 16px; font-weight: 700;"> वर्तमान और स्थायी पता समान है?</label>
+                     </div>
+                     {% endif %}
+   
+                     <!-- स्थायी पता (Permanent Address) -->
+                     {% if data.perman_address %}
+                     <div class="col-12 mb-3" id="permanentAddress-container">
+                        <label for="permanentAddress" class="form-label "style="font-size: 16px !important; font-weight: 700; color: #333;">स्थायी पता <i><small class="text-secondary ">(Permanent Address) </small></i></label>
+                        <textarea name="perman_address" id="permanentAddress" class="form-control" rows="3" readonly>{{ data.perman_address }}</textarea>
+                     </div>
+                     {% endif %}
+   
+                     <!-- Address Pincode -->
+                     {% if data.address_pincode %}
+                     <div class="col-md-6 mb-3 dropdown" id="address_pincode-container">
+                        <label for="address_pincode" class="form-label "style="font-size: 16px !important;font-weight: 700; color: #333;">पिनकोड <i><small class="text-secondary ">(वर्तमान निवास का) </small></i></label>
+                        <input type="number" id="address_pincode" class="form-control" name="address_pincode" placeholder="exapmle: 121107, 110001" value="{{ data.address_pincode }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- निवास का नगर (nagar_address) -->
+                     {% if data.nagar_address != 'None' and data.nagar_address %}
+                     <div class="col-md-6 mb-3 dropdown" id="address_nagar-container" >
+                        <label for="address_nagar" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">निवास का नगर <i><small class="text-secondary ">(Nagar) </small></i></label>
+                        <input type="text" id="address_nagar" name="nagar_address" class="form-control" value="{{ data.nagar_address }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- राज्य (address_state) -->
+                     {% if data.address_state != 'None' and data.address_state %}
+                     <div class="col-md-6 mb-3 dropdown" id="address_state-container" >
+                        <label for="address_state" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">राज्य <i><small class="text-secondary ">(State) </small></i></label>
+                        <input type="text" id="address_state" name="address_state" class="form-control" value="{{ data.address_state }}" readonly>
+                     </div>
+                     {% endif %}
+
+                  </div>
+               </div>
+            </div>
+   
+   
+            <div class="card mb-3 py-3">
+               <div class="card-header"  data-toggle-target="card_body_2" id="sangh_part1_tab"><span>संघ संबंधी जानकारी भाग - 1</span>
+                  <span class="toggle-icon">
+                     <i class="fas fa-minus"></i>
+                  </span>
+               </div>
+               <div class="card-body" id="card_body_2">
+                  <!-- <h5 class="card-title">Warning card title</h5> -->
+                  <div class="row">
+
+                      <!-- आप संघ(RSS) से किस प्रकार जुड़े हुए हैं ..? -->
+                      {% if data.rss_association %}
+                      <div class="col-md-12 mb-3" id="rssAssociation-container">
+                         <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">आप संघ(RSS) से किस माध्यम से जुड़े हुए हैं ..?<span class="text-danger"> *</span></label>
+                         <div class="form-check">
+                            <input type="radio" id="rssShakha" name="rss_association" class="form-check-input" value="शाखा" {% if data.rss_association == 'शाखा' %}checked{% endif %} disabled>
+                            <label for="rssShakha" class="form-check-label" style="font-size: 16px !important;">शाखा</label>
+                         </div>
+                         <div class="form-check">
+                            <input type="radio" id="rssMilan" name="rss_association" class="form-check-input" value="मिलन" {% if data.rss_association == 'मिलन' %}checked{% endif %} disabled>
+                            <label for="rssMilan" class="form-check-label" style="font-size: 16px !important;">मिलन</label>
+                         </div>
+                         <div class="form-check">
+                            <input type="radio" id="rssGatividhi" name="rss_association" class="form-check-input" value="गतिविधि" {% if data.rss_association == 'गतिविधि' %}checked{% endif %} disabled>
+                            <label for="rssGatividhi" class="form-check-label" style="font-size: 16px !important;">गतिविधि</label>
+                         </div>
+                         <div class="form-check">
+                            <input type="radio" id="rssVividhSangathan" name="rss_association" class="form-check-input" value="विविध संगठन" {% if data.rss_association == 'विविध संगठन' %}checked{% endif %} disabled>
+                            <label for="rssVividhSangathan" class="form-check-label" style="font-size: 16px !important;">विविध संगठन</label>
+                         </div>
+                         <div class="form-check">
+                            <input type="radio" id="rssJoin" name="rss_association" class="form-check-input" value="Join RSS / जुड़ना चाहते हैं" {% if data.rss_association == 'Join RSS / जुड़ना चाहते हैं' %}checked{% endif %} disabled>
+                            <label for="rssJoin" class="form-check-label" style="font-size: 16px !important;">Join RSS / जुड़ना चाहते हैं</label>
+                         </div>
+                         <small id="rssAssociationError" class="text-danger" style="display: none; font-size: 12px !important;">Please select a option.</small>
+                      </div>
+                      {% endif %}
+ 
+                      <!-- गतिविधि -->
+                      {% if data.activity %}
+                      <div class="col-md-6 mb-3" id="activity-container">
+                         <label for="activity" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">गतिविधि <i><small class="text-secondary ">(Activity) </small></i></label>
+                         <input class="form-control" type="text" name="activity" value="{{data.activity}}" readonly>
+                      </div>
+                      {% endif %}
+                      
+                      <!-- Social interests -->
+                      {% if data.rss_association == 'Join RSS / जुड़ना चाहते हैं' %}
+                      <div class="col-md-12 mb-3" id="socialInterests-container" >
+                         <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">
+                            समाज जीवन में किस प्रकार के क्षेत्र में आपकी रुचि है..? <span class="text-danger">*</span>
+                         </label>
+                         <div class="row ms-2">
+                            <div class="col-md-3 form-check" id="shiksha-container">
+                               <input type="checkbox"class="form-check-input" id="shiksha" name="shiksha" value="शिक्षा" {% if data.shiksha == 'शिक्षा' %}checked{% endif %} disabled >
+                               <label for="shiksha" class="form-check-label" style="font-size: 16px !important;">शिक्षा</label>
+                            </div>
+                            <div class="col-md-3 form-check" id="aarthik-container">
+                               <input type="checkbox" id="aarthik" name="aarthik" value="आर्थिक"class="form-check-input" {% if data.aarthik == 'आर्थिक' %}checked{% endif %} disabled>
+                               <label for="aarthik" class="form-check-label" style="font-size: 16px !important;">आर्थिक</label>
+                            </div>
+                            <div class="col-md-3 form-check" id="dharmik-container">
+                               <input type="checkbox"id="dharmik" name="dharmik" value="धार्मिक" class="form-check-input"{% if data.dharmik == 'धार्मिक' %}checked{% endif %} disabled>
+                               <label for="dharmik" class="form-check-label" style="font-size: 16px !important;">धार्मिक</label>
+                            </div>
+                            <div class="col-md-3 form-check" id="seva-container">
+                               <input type="checkbox" id="seva" name="seva" value="सेवा" class="form-check-input"{% if data.seva == 'सेवा' %}checked{% endif %} disabled>
+                               <label for="seva" class="form-check-label" style="font-size: 16px !important;">सेवा</label>
+                            </div>
+                            <div class="col-md-3 form-check" id="swasthya-container">
+                               <input type="checkbox" id="swasthya" name="swasthya" value="स्वास्थ्य" class="form-check-input" {% if data.swasthya == 'स्वास्थ्य' %}checked{% endif %} disabled>
+                               <label for="swasthya" class="form-check-label" style="font-size: 16px !important;">स्वास्थ्य</label>
+                            </div>
+                            <div class="col-md-3 form-check" id="samajik-container">
+                               <input type="checkbox" id="samajik" name="samajik" value="सामाजिक" class="form-check-input" {% if data.samajik == 'सामाजिक' %}checked{% endif %} disabled>
+                               <label for="samajik" class="form-check-label" style="font-size: 16px !important;">सामाजिक</label>
+                            </div>
+                            <div class="col-md-3 form-check" id="sanskritik-container">
+                               <input type="checkbox" id="sanskritik" name="sanskritik" value="सांस्कृतिक" class="form-check-input" {% if data.sanskritik == 'सांस्कृतिक' %}checked{% endif %} disabled>
+                               <label for="sanskritik" class="form-check-label" style="font-size: 16px !important;">सांस्कृतिक</label>
+                            </div>
+                            <div class="col-md-3 form-check" id="vaicharik-container">
+                               <input type="checkbox" id="vaicharik" name="vaicharik" value="वैचारिक" class="form-check-input" {% if data.vaicharik == 'वैचारिक' %}checked{% endif %} disabled>
+                               <label for="vaicharik" class="form-check-label" style="font-size: 16px !important;">वैचारिक</label>
+                            </div>
+                            <div class="col-md-3 form-check" id="suraksha-container">
+                               <input type="checkbox" id="suraksha" name="suraksha" value="सुरक्षा" class="form-check-input" {% if data.suraksha == 'सुरक्षा' %}checked{% endif %} disabled>
+                               <label for="suraksha" class="form-check-label" style="font-size: 16px !important;">सुरक्षा</label>
+                            </div>
+                            <div class="col-md-3 form-check" id="media-container">
+                               <input type="checkbox" id="media" name="media" value="मीडिया" class="form-check-input" {% if data.media == 'मीडिया' %}checked{% endif %} disabled>
+                               <label for="media" class="form-check-label" style="font-size: 16px !important;">मीडिया</label>
+                            </div>
+                         </div>
+                      </div>
+                      {% endif %}
+
+                     {% if data.responsibility_yes_no != 'None' and data.responsibility_yes_no %}
+                     <div class="col-md-12 mb-3" id="responsibility-container">
+                        <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">आपके पास किसी प्रकार का दायित्व है?</label>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="responsibilityYes" name="responsibility_yes_no" class="form-check-input" value="हाँ" {% if data.responsibility_yes_no == 'हाँ' or not data.responsibility_yes_no %}checked{% endif %} disabled>
+                           <label for="responsibilityYes" class="form-check-label" style="font-size: 16px !important;">हाँ</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="responsibilityNo" name="responsibility_yes_no" class="form-check-input" value="नहीं" {% if data.responsibility_yes_no == 'नहीं' %}checked{% endif %} disabled>
+                           <label for="responsibilityNo" class="form-check-label" style="font-size: 16px !important;">नहीं</label>
+                        </div>
+                     </div>
+                     {% endif %}
+   
+                     <!-- Vividh Sangathan Dropdown (Initially Hidden) -->
+                     {% if data.vividhsangathan != 'None' and data.vividhsangathan %}
+                     <div class="col-md-6 mb-3" id="vividhSangathan-container" >
+                        <label for="vividhSangathan" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">विविध संगठन <i><small class="text-secondary ">(Vividh Sangathan) </small></i></label>
+                        <input class="form-control" type="text" id="vividhSangathan" name="vividhsangathan" value="{{data.vividhsangathan}}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- पिनकोड (जिस प्रांत में आपका दायित्व है।) (pincode) -->
+                     {% if data.pincode != 'None' and data.pincode %}
+                     <div class="col-md-12 mb-3 dropdown" id="pincode-container">
+                        <label for="pincode" class="form-label "style="font-size: 16px !important;font-weight: 700; color: #333;">पिनकोड <i><small class="text-secondary ">(जिस प्रांत में आपका दायित्व है।) </small></i></label>
+                        <input type="number" id="pincode" class="form-control" placeholder="exapmle: 121107, 110001" name="pincode" value="{{ data.pincode }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- Nagar Selection -->
+                     {% if data.nagar != 'None' and data.nagar %}
+                     <div class="col-md-6 mb-3 dropdown" id="nagar-container" >
+                        <label for="nagar" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">नगर <i><small class="text-secondary ">(Nagar) </small></i></label>
+                        <input type="text" id="nagar" name="nagar" class="form-control" value="{{ data.nagar}}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- राज्य State Selection -->
+                     {% if data.state != 'None' and data.state %}
+                     <div class="col-md-6 mb-3 dropdown" id="state-container" >
+                        <label for="state" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">राज्य <i><small class="text-secondary ">(State) </small></i></label>
+                        <input type="text" id="state" name="state" class="form-control" value="{{ data.state }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- रेजिडेंशियल कॉलोनी (ब्लॉक/गली) (ekai_upbasti) -->
+                     {% if data.ekai_upbasti != 'None' and data.ekai_upbasti %}
+                     <div class="col-md-6 mb-3 dropdown" id="upbasti-container" >
+                        <label for="ekai_upbasti" class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">रेजिडेंशियल कॉलोनी <i><small class="text-secondary ">(ब्लॉक/गली) </small></i></label>
+                        <input type="text" id="ekai_upbasti" name="ekai_upbasti" class="form-control" value="{{ data.ekai_upbasti }}" readonly>
+                     </div>
+                     {% endif %}
+   
+   
+                     <!-- दायित्व की इकाई (ekai) -->
+                     {% if data.ekai != 'None' and data.ekai %}
+                     <div class="col-md-6 mb-3 dropdown " id="ekai-container" >
+                        <label for="ekai" class="form-label " style="font-size: 16px !important;font-weight: 700;color: #333;">दायित्व की इकाई <i><small class="text-secondary ">(Dayitva's Ekai) </small></i></label>
+                        <input type="text" id="ekai" name='ekai' class="form-control" value="{{ data.ekai }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- Dayitva Selection (Initially Hidden) -->
+                     {% if data.dayitv != 'None' and data.dayitv %}
+                     <div class="col-md-6 mb-3 dropdown" id="dayitva-container" >
+                        <label for="dayitv" class="form-label " style="font-size: 16px !important;font-weight: 700;color: #333;">दायित्व <i><small class="text-secondary ">(Dayitva) </small></i></label>
+                        <input type="text" id="dayitv" name='dayitv' class="form-control" value="{{ data.dayitv }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- दायित्व का प्रान्त (prant) (Initially Hidden)-->
+                     {% if data.prant != 'None' and data.prant %}
+                     <div class="col-md-6 mb-3 dropdown" id="prant-container" >
+                        <label for="prant" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व का प्रान्त <i><small class="text-secondary ">(Dayitva's Prant) </small></i></label>
+                        <input type="text" id="prant" name='prant' class="form-control" value="{{ data.prant }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- दायित्व का विभाग (vibhag) (Initially Hidden)-->
+                     {% if data.vibhag != 'None' and data.vibhag %}
+                     <div class="col-md-6 mb-3 dropdown" id="vibhag-container" >
+                        <label for="vibhag" class="form-label " style="font-size: 16px !important;font-weight: 700;color: #333;">दायित्व का विभाग <i><small class="text-secondary ">(Dayitva's Vibhag) </small></i></label>
+                        <input type="text" id="vibhag" class="form-control" name="vibhag" value="{{ data.vibhag }}" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- दायित्व का जिला (jila) -->
+                     {% if data.jila != 'None' and data.jila %}
+                     <div class="col-md-6 mb-3 dropdown" id="jila-container" >
+                        <label for="jila" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व का जिला <i><small class="text-secondary ">(Dayitva's Jila) </small></i></label>
+                        <input type="text" id="jila" class="form-control" name="jila" value="{{ data.jila }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- दायित्व का नगर (ekai_nagar) -->
+                     {% if data.ekai_nagar != 'None' and data.ekai_nagar %}
+                     <div class="col-md-6 mb-3 dropdown" id="ekai_nagar-container" >
+                        <label for="ekai_nagar" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व का नगर <i><small class="text-secondary ">(Dayitva's Nagar) </small></i></label>
+                        <input type="text" id="ekai_nagar" name='ekai_nagar' class="form-control" value="{{ data.ekai_nagar }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- दायित्व का मंडल (ekai_mandal) -->
+                     {% if data.ekai_mandal != 'None' and data.ekai_mandal %}
+                     <div class="col-md-6 mb-3 dropdown" id="mandal-container" >
+                        <label for="mandal" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व का मंडल <i><small class="text-secondary ">(Dayitva's Mandal) </small></i></label>
+                        <input type="text" id="mandal" name='ekai_mandal' class="form-control" value="{{ data.ekai_mandal }}" readonly>
+                     </div>
+                     {% endif %}
+   
+                     <!-- दायित्व की बस्ती (basti) -->
+                     {% if data.ekai_basti != 'None' and data.ekai_basti %}
+                     <div class="col-md-6 mb-3 dropdown" id="basti-container" >
+                        <label for="ekai_basti" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व की बस्ती <i><small class="text-secondary ">(Dayitva's Basti) </small></i></label>
+                        <input type="text" id="ekai_basti" name='ekai_basti' class="form-control" value="{{ data.ekai_basti }}" readonly>
+                     </div>
+                     {% endif %}
+                     <!-- milan Checkbox -->
+                     {% if data.ekai_milaan != 'None' and data.ekai_milaan %}
+                     <div class="col-md-12 mb-3" id="sakha_milanCheckbox-container">
+                        <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">क्या आप मिलन से जुड़े हैं?</label>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="sakha_milanCheckboxYes" name="ekai_milaan" class="form-check-input" value="हाँ" {% if data.ekai_milaan == 'हाँ' %}checked{% endif %} disabled>
+                           <label for="sakha_milanCheckboxYes" class="form-check-label" style="font-size: 16px !important;">हाँ</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="sakha_milanCheckboxNo" name="ekai_milaan" class="form-check-input" value="नहीं" {% if data.ekai_milaan == 'नहीं' %}checked{% endif %} disabled>
+                           <label for="sakha_milanCheckboxNo" class="form-check-label" style="font-size: 16px !important;">नहीं</label>
+                        </div>
+                     </div>
+                     {% endif %}
+   
+                     <!-- शाखा / मिलन -->
+                     {% if data.ekai_sakha_milan != 'None' and data.ekai_sakha_milan %}
+                     <div class="col-md-6 mb-3 dropdown" id="sakha_milan-container" >
+                        <label for="ekai_sakha_milan" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">शाखा / मिलन <i><small class="text-secondary ">(Shakha / Milan) </small></i></label>
+                        <input type="text" id="ekai_sakha_milan" name='sakha_milan_sdf' class="form-control" value="{{ data.ekai_sakha_milan }}" readonly>
+                     </div>
+                     {% endif %}
+                  </div>
+               </div>
+               <div id="card_body_2Error" class="alert alert-danger mb-3" style="display: none; font-size: 14px;margin: 10px;">
+                  Please complete all required fields in this section
+              </div>
+            </div>
+   
+            <div class="card mb-3 py-3">
+               <div class="card-header" data-toggle-target="card_body_3" id="sangh_part2_tab"><span>संघ संबंधी जानकारी भाग - 2</span>
+                  <span class="toggle-icon">
+                     <i class="fas fa-minus"></i>
+                  </span>
+               </div>
+               <div class="card-body" id="card_body_3">                
+                  <div class="row">
+                     <h5 class="card-title text-center fw-bold" style="color: #ff9800;">संघ शिक्षण </h5>
+
+                     <!-- Sangh Shikshan Level -->
+                     <div class="col-md-6 mb-3 dropdown" id="sangh_shikshan_level-container">
+                        <label for="sangh_shikshan_level" class="form-label" style="font-size: 16px !important;font-weight: 600; color: #333;">संघ शिक्षण <i><small class="text-secondary ">(Sangh Shikshan) </small></i></label>
+                        <input type="text" id="sangh_shikshan_level" name="ekai_sangh_shikshan_level" class="form-control" value="{{ data.ekai_sangh_shikshan_level|default_if_none:'' }}" placeholder="example: प्रथम वर्ष / कोई नहीं..." readonly>
+                     </div>
+                     
+                     <!-- Dynamic Fields Container -->
+                     <div id="shikshan-details-container"> 
+                        <!-- Fields will be dynamically inserted here -->
+                     </div>
+                     
+                    <!-- Tritiya Varsh -->
+                     {% if data.ekai_sangh_shikshan_level is Null or data.tritiya_varsh  %}
+                     <div class="col-md-6 mb-3 dropdown" id="tritiya_year-container">
+                        <label class="form-label" for="tritiya-year" style="font-weight: 600; color: rgb(51, 51, 51); font-size: 16px !important;">कार्यकर्ता विकास वर्ग 2 / तृतीय वर्ष <i><small class="text-secondary ">(Third Year) </small></i></label>
+                        <input type="text" id="tritiya_year" name="tritiya_varsh" class="form-control" value="{{ data.tritiya_varsh|default_if_none:'' }}" placeholder="example: YYYY" readonly>
+                     </div>
+                     {% endif %}
+
+                     {% if data.ekai_sangh_shikshan_level is Null or data.dwitiya_varsh %}
+                     <!-- Dwitiya Varsh -->
+                     <div class="col-md-6 mb-3 dropdown" id="dwitiya_year-container">
+                        <label class="form-label" for="dwitiya-year" style="font-weight: 600; color: rgb(51, 51, 51); font-size: 16px !important;">कार्यकर्ता विकास वर्ग 1 / द्वितीय वर्ष <i><small class="text-secondary ">(Second Year) </small></i></label>
+                        <input type="text" id="dwitiya_year" name="dwitiya_varsh" class="form-control" value="{{ data.dwitiya_varsh|default_if_none:'' }}" placeholder="example: YYYY" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- Pratham Varsh -->
+                     {% if data.ekai_sangh_shikshan_level is Null or data.pratham_varsh %}
+                     <div class="col-md-6 mb-3 dropdown" id="pratham_year-container">
+                        <label class="form-label" for="pratham-year" style="font-weight: 600; color: rgb(51, 51, 51); font-size: 16px !important;">संघ शिक्षा वर्ग / प्रथम वर्ष <i><small class="text-secondary ">(First Year) </small></i></label>
+                        <input type="text" id="pratham_year" name="pratham_varsh" class="form-control" value="{{ data.pratham_varsh|default_if_none:'' }}" placeholder="example: YYYY" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- Prathmik Varsh -->
+                     {% if data.ekai_sangh_shikshan_level is Null or data.prathmik_varsh %}
+                     <div class="col-md-6 mb-3 dropdown" id="prathmik_year-container">
+                        <label class="form-label" for="prathmik-year" style="font-weight: 600; color: rgb(51, 51, 51); font-size: 16px !important;">प्राथमिक वर्ग <i><small class="text-secondary ">(Primary Year) </small></i></label>
+                        <input type="text" id="prathmik_year" name="prathmik_varsh" class="form-control" value="{{ data.prathmik_varsh|default_if_none:'' }}" placeholder="example: YYYY" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- Prarambhik Varsh -->
+                     {% if data.ekai_sangh_shikshan_level is Null or data.prarambhik_varsh %}
+                     <div class="col-md-6 mb-3 dropdown" id="prarambhik_year-container">
+                        <label class="form-label" for="prarambhik-year" style="font-weight: 600; color: rgb(51, 51, 51); font-size: 16px !important;">प्रारम्भिक वर्ग <i><small class="text-secondary ">(Initial Year) </small></i></label>
+                        <input type="text" id="prarambhik_year" name="prarambhik_varsh" class="form-control" value="{{ data.prarambhik_varsh|default_if_none:'' }}" placeholder="example: YYYY" readonly>
+                     </div>
+                     {% endif %}
+
+                     <!-- Checkbox for Pratigya -->
+                     <!-- <div class="col-md-12 mb-3" id="pratigyaCheckbox-container">
+                        <input type="hidden" name="pratigya" value="false">
+                        <input type="checkbox" id="pratigyaCheckbox" class="form-check-input" name="pratigya" value="true" {% if data.pratigya == "true" %}checked{% endif %} disabled>
+                        <label for="pratigyaCheckbox" class="form-check-label" style="font-size: 16px !important; font-weight: 700;">आपकी प्रतिज्ञा हुई है?</label>
+                     </div> -->
+
+                     <!--Radio for Pratigya -->
+                    
+                     {% if data.ekai_sangh_shikshan_level == 'संघ शिक्षा वर्ग / प्रथम वर्ष' or data.ekai_sangh_shikshan_level == 'प्राथमिक वर्ग' or data.ekai_sangh_shikshan_level == 'प्रारम्भिक वर्ग' or data.ekai_sangh_shikshan_level == 'कोई शिक्षण नहीं हुआ' %}
+                     <div class="col-md-12 mb-3" id="pratigyaCheckbox-container" >
+                        <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">आपकी प्रतिज्ञा हुई है?</label>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="pratigyaCheckboxYes" name="pratigya" class="form-check-input" value="हाँ" {% if data.pratigya == 'हाँ' or not data.pratigya %}checked{% endif %} disabled>
+                           <label for="pratigyaCheckboxYes" class="form-check-label" style="font-size: 16px !important;">हाँ</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="pratigyaCheckboxNo" name="pratigya" class="form-check-input" value="नहीं" {% if data.pratigya == 'नहीं' %}checked{% endif %} disabled>
+                           <label for="pratigyaCheckboxNo" class="form-check-label" style="font-size: 16px !important;">नहीं</label>
+                        </div>
+                     </div>
+                     {% endif %}
+
+                  </div>
+
+                  
+                  <div class="row">
+                     <h5 class="card-title text-center fw-bold" style="color: #ff9800;">घोष संबंधी जानकारी</h5>
+
+                     <!-- घोष वादक है..? -->
+                     <div class="col-md-12 mb-3" id="ghosh_vadak-container">
+                        <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">क्या आप घोष वादक हैं?</label>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="ghoshVadakYes" name="ghosh_vadak" class="form-check-input" value="हाँ" {% if data.ghosh_vadak == 'हाँ' or not data.ghosh_vadak %}checked{% endif %} disabled>
+                           <label for="ghoshVadakYes" class="form-check-label" style="font-size: 16px !important;">हाँ</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                           <input type="radio" id="ghoshVadakNo" name="ghosh_vadak" class="form-check-input" value="नहीं" {% if data.ghosh_vadak == 'नहीं' %}checked{% endif %} disabled>
+                           <label for="ghoshVadakNo" class="form-check-label" style="font-size: 16px !important;">नहीं</label>
+                        </div>
+                     </div>
+
+                     {% if data.ghosh_vadak == 'हाँ' or not data.ghosh_vadak %}
+                     <div id="ghoshVadakYes-container">
+
+                        
+                        <div class="col-12 mb-3">
+                            <label class="form-label fw-bold text-dark">वाद्य <i><small class="text-secondary ">(Musical Instrument) </small></i></label>
+                            <div class="ms-1 ms-sm-2">
+                                <!-- Shankh -->
+                                <div class="form-check mb-2" id="shankh-container">
+                                    <input type="checkbox" id="shankh" name="shankh" class="form-check-input" value="शंख" {% if data.shankh == 'शंख' %}checked{% endif %} disabled>
+                                    <label for="shankh" class="form-check-label">शंख</label>
+                                </div>
+                        
+                                <!-- Shrung with Sub-Options -->
+                                <div class="form-check mb-2" id="shrung-container">
+                                    <input type="checkbox" id="shrung" name="shrung" class="form-check-input" value="श्रृंग" {% if data.shrung == 'श्रृंग' %}checked{% endif %} disabled>
+                                    <label for="shrung" class="form-check-label">श्रृंग </label>
+                                    <!-- Sub-Options for Shrung -->
+                                    <div id="shrung-suboptions" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 ms-2 ms-sm-3 mt-2 g-2">
+                                        <div class="col form-check" id="turya-container">
+                                            <input type="checkbox" id="turya" name="turya" class="form-check-input" value="तुर्य" {% if data.turya == 'तुर्य' %}checked{% endif %} disabled>
+                                            <label for="turya" class="form-check-label">तुर्य </label>
+                                        </div>
+                                        <div class="col form-check" id="swarad-container">
+                                            <input type="checkbox" id="swarad" name="swarad" class="form-check-input" value="स्वरद" {% if data.swarad == 'स्वरद' %}checked{% endif %} disabled>
+                                            <label for="swarad" class="form-check-label">स्वरद</label>
+                                        </div>
+                                        <div class="col form-check" id="nagang-container">
+                                            <input type="checkbox" id="nagang" name="nagang" class="form-check-input" value="नागांग" {% if data.nagang == 'नागांग' %}checked{% endif %} disabled>
+                                            <label for="nagang" class="form-check-label">नागांग <i><small class="text-secondary ">(Nagang) </small></i></label>
+                                        </div>
+                                        <div class="col form-check" id="gomukh-container">
+                                            <input type="checkbox" id="gomukh" name="gomukh" class="form-check-input" value="गोमुख" {% if data.gomukh == 'गोमुख' %}checked{% endif %} disabled>
+                                            <label for="gomukh" class="form-check-label">गोमुख </label>
+                                        </div>
+                                        <div class="col form-check" id="other-container">
+                                            <input type="checkbox" id="other" name="other" class="form-check-input" value="अन्य" {% if data.other == 'अन्य' %}checked{% endif %} disabled>
+                                            <label for="other" class="form-check-label">अन्य </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Venu -->
+                                <div class="form-check mb-2" id="venu-container">
+                                    <input type="checkbox" id="venu" name="venu" class="form-check-input" value="वेणु" {% if data.venu == 'वेणु' %}checked{% endif %} disabled>
+                                    <label for="venu" class="form-check-label">वेणु </label>
+                                </div>
+                                <!-- Aanak -->
+                                <div class="form-check mb-2" id="aanak-container">
+                                    <input type="checkbox" id="aanak" name="aanak" class="form-check-input" value="आनक" {% if data.aanak == 'आनक' %}checked{% endif %} disabled>
+                                    <label for="aanak" class="form-check-label">आनक </label>
+                                </div>
+                        
+                                <!-- Panav -->
+                                <div class="form-check mb-2" id="panav-container">
+                                    <input type="checkbox" id="panav" name="panav" class="form-check-input" value="पणव" {% if data.panav == 'पणव' %}checked{% endif %} disabled>
+                                    <label for="panav" class="form-check-label">पणव</label>
+                                </div>
+                        
+                                <!-- Jhallari -->
+                                <div class="form-check mb-2" id="jhallari-container">
+                                    <input type="checkbox" id="jhallari" name="jhallari" class="form-check-input" value="झल्लरी" {% if data.jhallari == 'झल्लरी' %}checked{% endif %} disabled>
+                                    <label for="jhallari" class="form-check-label">झल्लरी </label>
+                                </div>
+                        
+                                <!-- Tribhuj -->
+                                <div class="form-check mb-2" id="tribhuj-container">
+                                    <input type="checkbox" id="tribhuj" name="tribhuj" class="form-check-input" value="त्रिभुज" {% if data.tribhuj == 'त्रिभुज' %}checked{% endif %} disabled>
+                                    <label for="tribhuj" class="form-check-label">त्रिभुज</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                           <!-- शंख/श्रृंग वाद्य अपना है..? -->
+                        <div class="col-md-12 mb-3" id="shankhShrungOwn-container">
+                           <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">शंख/श्रृंग वाद्य आपका अपना है?</label>
+                           <div class="form-check form-check-inline">
+                              <input type="radio" id="shankhShrungOwnYes" name="shankh_shrung_own" class="form-check-input" value="हाँ" {% if data.shankh_shrung_own == 'हाँ' or data.shankh_shrung_own %}checked{% endif %} disabled>
+                              <label for="shankhShrungOwnYes" class="form-check-label" style="font-size: 16px !important;">हाँ</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input type="radio" id="shankhShrungOwnNo" name="shankh_shrung_own" class="form-check-input" value="नहीं" {% if data.shankh_shrung_own == 'नहीं' %}checked{% endif %} disabled>
+                              <label for="shankhShrungOwnNo" class="form-check-label" style="font-size: 16px !important;">नहीं</label>
+                           </div>
+                        </div>
+         
+                        <!-- रचनाएं (रेडियो बटन) -->
+                        <div class="col-md-12 mb-3" id="rachnaye-container">
+                           <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">रचनाएं <i><small class="text-secondary ">(Rachnaye) </small></i></label>
+                           <div class="form-check">
+                              <input type="radio" id="prathamikPath" name="rachnaye" class="form-check-input" value="प्राथमिक पाठ" {% if data.rachnaye == 'प्राथमिक पाठ' %}checked{% endif %} disabled>
+                              <label for="prathamikPath" class="form-check-label" style="font-size: 16px !important;">प्राथमिक पाठ</label>
+                           </div>
+                           <div class="form-check">
+                              <input type="radio" id="rachnaye1to3" name="rachnaye" class="form-check-input" value="1 से 3 रचनाएँ" {% if data.rachnaye == '1 से 3 रचनाएँ' %}checked{% endif %} disabled>
+                              <label for="rachnaye1to3" class="form-check-label" style="font-size: 16px !important;">1 से 3 रचनाएँ</label>
+                           </div>
+                           <div class="form-check">
+                              <input type="radio" id="rachnaye3to5" name="rachnaye" class="form-check-input" value="3 से 5 रचनाएँ" {% if data.rachnaye == '3 से 5 रचनाएँ' %}checked{% endif %} disabled>
+                              <label for="rachnaye3to5" class="form-check-label" style="font-size: 16px !important;">3 से 5 रचनाएँ</label>
+                           </div>
+                           <div class="form-check">
+                              <input type="radio" id="rachnaye5to10" name="rachnaye" class="form-check-input" value="5 से 10 रचनाएँ" {% if data.rachnaye == '5 से 10 रचनाएँ' %}checked{% endif %} disabled>
+                              <label for="rachnaye5to10" class="form-check-label" style="font-size: 16px !important;">5 से 10 रचनाएँ</label>
+                           </div>
+                           <div class="form-check">
+                              <input type="radio" id="rachnayeMoreThan10" name="rachnaye" class="form-check-input" value="10 से अधिक" {% if data.rachnaye == '10 से अधिक' %}checked{% endif %} disabled>
+                              <label for="rachnayeMoreThan10" class="form-check-label" style="font-size: 16px !important;">10 से अधिक</label>
+                           </div>
+                           
+                        </div>
+                     </div>
+                     {% endif %}
+
+                     {% if data.ghosh_vadak == 'नहीं' %}
+                     <div id="ghoshVadakNo-container">
+                        <!-- वाद्य सीखने के इच्छुक हैं..? -->
+                        <div class="col-md-12 mb-3" id="learn_vadya">
+                           <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">वाद्य सीखने के इच्छुक हैं..?</label>
+                           <div class="form-check form-check-inline">
+                              <input type="radio" id="learnVadyaYes" name="learn_vadya" class="form-check-input" value="हाँ" {% if data.learn_vadya == 'हाँ' %}checked{% endif %} disabled>
+                              <label for="learnVadyaYes" class="form-check-label" style="font-size: 16px !important;">हाँ</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input type="radio" id="learnVadyaNo" name="learn_vadya" class="form-check-input" value="नहीं" {% if data.learn_vadya == 'नहीं' %}checked{% endif %} disabled>
+                              <label for="learnVadyaNo" class="form-check-label" style="font-size: 16px !important;">नहीं</label>
+                           </div>                          
+                        </div>
+
+                        {% if data.learn_vadya == 'हाँ' %}
+                        <div id="learnVadyaList-container">
+                           <!-- वाद्य (रेडियो बटन) -->
+                        
+                           <div class="col-12 mb-3" id="learnVadyaList">
+                              <label class="form-label fw-bold text-dark">वाद्य <i><small class="text-secondary ">(Musical Instrument) </small></i></label>
+                              <div class="ms-1 ms-sm-2">
+                                 <!-- Shankh -->
+                                 <div class="form-check mb-2">
+                                       <input type="radio" id="learnShankh" name="learn_vadya_list" class="form-check-input" value="शंख" {% if data.learn_vadya_list == 'शंख' %}checked{% endif %} disabled>
+                                       <label for="learnShankh" class="form-check-label">शंख</label>
+                                 </div>
+
+                                 <!-- Shrung with Sub-Options -->
+                                 <div class="form-check mb-2">
+                                       <input type="radio" id="learnShrung" name="learn_vadya_list" class="form-check-input" value="श्रृंग" {% if data.learn_vadya_list == 'श्रृंग' %}checked{% endif %} disabled>
+                                       <label for="learnShrung" class="form-check-label">श्रृंग</label>
+                                       <!-- Sub-Options for Shrung -->
+                                       <div id="learnShrung-suboptions" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 ms-2 ms-sm-3 mt-2 g-2">
+                                          <div class="col form-check">
+                                             <input type="radio" id="learnTurya" name="learn_vadya_list" class="form-check-input" value="तुर्य" {% if data.learn_vadya_list == 'तुर्य' %}checked{% endif %} disabled>
+                                             <label for="learnTurya" class="form-check-label">तुर्य</label>
+                                          </div>
+                                          <div class="col form-check">
+                                             <input type="radio" id="learnSwarad" name="learn_vadya_list" class="form-check-input" value="स्वरद" {% if data.learn_vadya_list == 'स्वरद' %}checked{% endif %} disabled>
+                                             <label for="learnSwarad" class="form-check-label">स्वरद</label>
+                                          </div>
+                                          <div class="col form-check">
+                                             <input type="radio" id="learnNagang" name="learn_vadya_list" class="form-check-input" value="नागांग" {% if data.learn_vadya_list == 'नागांग' %}checked{% endif %} disabled>
+                                             <label for="learnNagang" class="form-check-label">नागांग</label>
+                                          </div>
+                                          <div class="col form-check">
+                                             <input type="radio" id="learnGomukh" name="learn_vadya_list" class="form-check-input" value="गोमुख" {% if data.learn_vadya_list == 'गोमुख' %}checked{% endif %} disabled>
+                                             <label for="learnGomukh" class="form-check-label">गोमुख</label>
+                                          </div>
+                                          <div class="col form-check">
+                                             <input type="radio" id="learnOther" name="learn_vadya_list" class="form-check-input" value="अन्य" {% if data.learn_vadya_list == 'अन्य' %}checked{% endif %} disabled>
+                                             <label for="learnOther" class="form-check-label">अन्य</label>
+                                          </div>
+                                       </div>
+                                 </div>
+
+                                 <!-- Venu -->
+                                 <div class="form-check mb-2">
+                                       <input type="radio" id="learnVenu" name="learn_vadya_list" class="form-check-input" value="वेणु" {% if data.learn_vadya_list == 'वेणु' %}checked{% endif %} disabled>
+                                       <label for="learnVenu" class="form-check-label">वेणु</label>
+                                 </div>
+
+                                 <!-- Aanak -->
+                                 <div class="form-check mb-2">
+                                       <input type="radio" id="learnAanak" name="learn_vadya_list" class="form-check-input" value="आनक" {% if data.learn_vadya_list == 'आनक' %}checked{% endif %} disabled>
+                                       <label for="learnAanak" class="form-check-label">आनक</label>
+                                 </div>
+
+                                 <!-- Panav -->
+                                 <div class="form-check mb-2">
+                                       <input type="radio" id="learnPanav" name="learn_vadya_list" class="form-check-input" value="पणव" {% if data.learn_vadya_list == 'पणव' %}checked{% endif %} disabled>
+                                       <label for="learnPanav" class="form-check-label">पणव</label>
+                                 </div>
+
+                                 <!-- Jhallari -->
+                                 <div class="form-check mb-2">
+                                       <input type="radio" id="learnJhallari" name="learn_vadya_list" class="form-check-input" value="झल्लरी" {% if data.learn_vadya_list == 'झल्लरी' %}checked{% endif %} disabled>
+                                       <label for="learnJhallari" class="form-check-label">झल्लरी</label>
+                                 </div>
+
+                                 <!-- Tribhuj -->
+                                 <div class="form-check mb-2">
+                                       <input type="radio" id="learnTribhuj" name="learn_vadya_list" class="form-check-input" value="त्रिभुज" {% if data.learn_vadya_list == 'त्रिभुज' %}checked{% endif %} disabled>
+                                       <label for="learnTribhuj" class="form-check-label">त्रिभुज</label>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        {% endif %}
+                     </div>
+                     {% endif %}
+                  </div>
+
+                  <div class="row">
+                     <!-- <h5 class="card-title text-center fw-bold" style="color: #ff9800;">गणवेश संबंधी जानकारी</h5> -->
+                     <div class="col-md-12 mb-3">
+                        <label class="form-label" style="font-size: 16px !important; font-weight: 700; color: #333;">गणवेश संबंधी जानकारी</label>
+                        <div class="row ms-2">
+                           <div class="col-md-3 form-check" id="sanghPant-container">
+                              <input type="checkbox" id="sanghPant" name="sanghpant" class="form-check-input" value="गणवेश की पैंट" {% if data.sanghpant == 'गणवेश की पैंट' %}checked {% endif %} disabled>
+                              <label for="sanghPant" class="form-check-label" style="font-size: 16px !important;">गणवेश की पैंट</label>
+                           </div>
+                           <div class="col-md-3 form-check" id="safedKameez-container">
+                              <input type="checkbox" id="safedKameez" name="whiteshirt" class="form-check-input" value="सफेद कमीज" {% if data.whiteshirt == 'सफेद कमीज' %}checked {% endif %} disabled>
+                              <label for="safedKameez" class="form-check-label" style="font-size: 16px !important;">सफेद कमीज</label>
+                           </div>
+                           <div class="col-md-3 form-check" id="sanghTopi-container">
+                              <input type="checkbox" id="sanghTopi" name="sanghtopi" class="form-check-input" value="गणवेश की टोपी" {% if data.sanghtopi == 'गणवेश की टोपी' %}checked {% endif %} disabled>
+                              <label for="sanghTopi" class="form-check-label" style="font-size: 16px !important;">गणवेश की टोपी</label>
+                           </div>
+                           <div class="col-md-3 form-check" id="sanghPeti-container">
+                              <input type="checkbox" id="sanghPeti" name="sanghpeti" class="form-check-input" value="संघ की पेटी" {% if data.sanghpeti == 'संघ की पेटी' %}checked {% endif %} disabled>
+                              <label for="sanghPeti" class="form-check-label" style="font-size: 16px !important;">संघ की पेटी</label>
+                           </div>
+                           <div class="col-md-3 form-check" id="jurab-container">
+                              <input type="checkbox" id="jurab" name="jurab" class="form-check-input" value="जुराब" {% if data.jurab == 'जुराब' %}checked {% endif %} disabled>
+                              <label for="jurab" class="form-check-label" style="font-size: 16px !important;">जुराब</label>
+                           </div>
+                           <div class="col-md-3 form-check" id="joote-container">
+                              <input type="checkbox" id="joote" name="joote" class="form-check-input" value="जूते" {% if data.joote == 'जूते' %}checked {% endif %} disabled>
+                              <label for="joote" class="form-check-label" style="font-size: 16px !important;">जूते</label>
+                           </div>
+                           <div class="col-md-3 form-check" id="dand-container">
+                              <input type="checkbox" id="dand" name="dand" class="form-check-input" value="दंड" {% if data.dand == 'दंड' %}checked {% endif %} disabled>
+                              <label for="dand" class="form-check-label" style="font-size: 16px !important;">दंड</label>
+                           </div>
+                        </div>                     
+                     </div>
+                  </div>
+
+               </div>
+               <div id="card_body_3Error" class="alert alert-danger mb-3" style="display: none; font-size: 14px;margin: 10px;">
+                  Please complete all required fields in this section
+              </div>
+            </div>
+         
+         
+           <div class="d-flex flex-row flex-md-row justify-content-center align-items-center gap-3 mt-4 py-3">
+               <a href="/" class="btn btn-lg px-4 py-2 rounded-pill text-white shadow-sm fw-bold" style="background: linear-gradient(135deg, #FF5252 0%, #F44336 100%); transition: all 0.3s ease; min-width: 120px; font-size: 16px; border: none;">
+                  <i class="fas fa-sign-out-alt me-2"></i> Logout
+               </a>
+
+               <!-- Back Button -->
+               {% if adminRole == 'SUBADMIN' %}
+                  <a href="{% url 'core:sub_admin_dashboard' %}" class="btn btn-outline-danger fw-bold btn-lg px-4 py-2 rounded-pill shadow-sm" style="transition: all 0.3s ease;min-width: 180px;font-size: 16px;border: none;">
+                     <i class="fas fa-arrow-left me-2"></i> Back
+                  </a>
+
+               {% elif adminRole == 'SUPERADMIN' %}
+                  <a href="{% url 'core:superadmin_dashboard' %}" class="btn btn-outline-danger fw-bold btn-lg px-4 py-2 rounded-pill shadow-sm"style="transition: all 0.3s ease;min-width: 180px;font-size: 16px;border: none;">
+                     <i class="fas fa-arrow-left me-2"></i> Back
+                  </a>
+               {% endif %}    
+               
+           </div>
+         </div>
+
+      </form>
+
+     
+   </div>
+   <!-- Bootsrap -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+   <!-- SweetAlert2 JavaScript -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.21/dist/sweetalert2.all.min.js"></script>
+
+   <script type="text/javascript">
+      history.pushState(null, null, window.location.href);
+      window.addEventListener('popstate', function () {
+         history.pushState(null, null, window.location.href);
+      });
+   </script>
+   
+</body>
+</html>

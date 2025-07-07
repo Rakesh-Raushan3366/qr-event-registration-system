@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'register_samautkarsh/assets/img/Samutkarsh_logo.png' %}" type="image/x-icon" />
+    <title>QR Code Scanner</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px !important;
+            min-height: 100vh;
+        }
+        .container {
+            border: 2px solid #ED7014;
+            border-radius: 15px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+
+
+        h1 {
+            font-size: 2.5rem;
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        #reader {
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        #result {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            color: #333;
+            text-align: center;
+        }
+        #html5-qrcode-button-camera-stop, #html5-qrcode-anchor-scan-type-change{
+            display: none !important;
+        }
+
+
+        #submitForm {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn, #html5-qrcode-button-camera-permission {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            margin: 10px;
+        }
+
+        .btn-success {
+            background-color: #ED7014;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            #reader {
+                width: 100%;
+                max-width: 100%;
+                border-radius: 0;
+            }
+
+            #result {
+                font-size: 1rem;
+            }
+
+            .button-group button {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- <h1>Scan QR Code</h1> -->
+        <div id="reader"style="display: block;"></div>
+        
+        <p id="result" ></p>
+        
+        <!-- Form for submitting the QR Code data -->
+        <form id="submitForm" method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1 id="verify" style="color: green;display: none;">Verified</h1>
+            <input type="hidden" id="qrData" name="qr_data">
+            
+            <div class="button-group">
+                <button type="submit" id="submit-btn" name="save_data" class="btn btn-success" style="display: none;">Submit QR Data</button>
+                <!-- <button type="button" class="secondary" onclick="clearScanner()">Clear Scanner</button> -->
+                <button type="button" id="reset-btn" class="btn btn-success" onclick="resetPage()" style="display: block;">Reset Page</button>
+                {% if request.session.role == '' or not request.session.role %}
+                    <a class="btn btn-success"style="text-decoration:none" href="{% url 'updated_registration:home' %}">Back</a>
+                {% elif role == 'SUBADMIN' %}
+                    <a href="{% url 'core:sub_admin_dashboard' %}" class="btn btn-success" style="text-decoration:none">
+                        <i class="fas fa-arrow-left me-2"></i> Back
+                    </a>
+                {% elif role == 'SUPERADMIN' %}
+                    <a href="{% url 'core:superadmin_dashboard' %}" class="btn btn-success" style="text-decoration:none">
+                        <i class="fas fa-arrow-left me-2"></i> Back
+                    </a>
+                {% endif %}
+                
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Initialize QR scanner
+        let scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+
+        // Function that is triggered upon successful scan
+        function onScanSuccess(decodedText) {
+            scanner.clear(); // Stop scanning
+
+            try {
+                // Decode Base64 if necessary
+                const base64Decoded = atob(decodedText);  // Decode the Base64 string
+
+                const utf8Decoded = decodeURIComponent(escape(base64Decoded)); 
+
+                // Function to check if a string is a valid mobile number
+                function isMobileNumber(value) {
+                    return /^\d{10}$/.test(value);
+                }
+
+                // **Step 1: Normalize the data** (Replace `<br>` and `\n` with commas)
+                let normalizedData = utf8Decoded.replace(/<br>/g, ',').replace(/\n/g, ',');
+
+                // **Step 2: Split into key-value pairs**
+                const rawPairs = normalizedData.split(',');
+
+                // Variables to store the mobile number and formatted values
+                let mobileNumber = null;
+                const formattedPairs = [];
+                const dataPairs = []; // This will store all pairs, including "None"
+
+                // **Step 3: Process each key-value pair**
+                rawPairs.forEach(pair => {
+                    const [label, value] = pair.split(':').map(item => item.trim());
+
+                    if (value && isMobileNumber(value)) {
+                        mobileNumber = value; // Store mobile number separately
+                    } 
+                    if (label && value) {
+                        dataPairs.push(`${label}: ${value}`); // Always include "None" in `data`
+                        if (value.toLowerCase() !== "none") {
+                            formattedPairs.push(`${value}`); // Exclude "None" in `formattedData`
+                        }
+                    }
+                });
+                // **Step 4: Prepare output**
+                let formattedData = formattedPairs.join('\n');  // UI display (NO "None")
+                let data = dataPairs.join(''); // Clean version (INCLUDES "None")
+
+                // **Log cleaned version with "None" values**
+                console.log(data);
+
+                let backendData = mobileNumber ? mobileNumber : data;
+
+                // Display the decoded Hindi text
+                console.log(utf8Decoded);
+                document.getElementById("result").innerText = `${formattedData}`;
+                
+                // Store the decoded data in the hidden input field for later use
+                document.getElementById("qrData").value = backendData;
+                document.getElementById("submitForm").style.display = "block";
+                document.getElementById("reader").style.display = "none";
+                document.getElementById("submit-btn").style.display = "block";
+                document.getElementById("reset-btn").style.display = "none";
+            } catch (error) {
+                document.getElementById("result").innerText = `Error decoding text: ${error.message}`;
+            }
+        }
+
+        // Form submission handling with Fetch API
+        document.getElementById("submitForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(event.target);
+            const qrData = formData.get("qr_data"); // Get the QR data
+
+            // Fetch API for sending the data to Django view
+            fetch("/save_qr/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCSRFToken()
+                },
+                body: JSON.stringify({ qr_data: qrData }) // Send the QR data in JSON format
+            })
+            .then(response => response.json())
+            .then(data => {
+                // if (data.status === "success") {
+                //     // document.getElementById("verify").style.display = "block";
+                //     // alert("QR Code saved successfully!");
+                    
+                //     // window.location.reload(); // Redirect for another scan
+                // } else {
+                //     alert("QR CODE NOT FOUND!");
+                // }
+                showAlert(event);
+                // window.location.reload();
+                
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Something went wrong!");
+            });
+        });
+
+        function showAlert() {
+        Swal.fire({
+            title: "Verified Successfully",
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#e91e63",
+            backdrop: true,
+            allowOutsideClick: true,
+            allowEscapeKey: true
+        }).then(() => {
+            // Reload the page after the user clicks "OK"
+            window.location.reload();
+        });
+    }
+
+        // Function to clear the scanner
+        function clearScanner() {
+            scanner.clear(); // Stop the scanner
+            document.getElementById("result").innerText = "";
+            document.getElementById("qrData").value = "";
+            document.getElementById("submitForm").style.display = "none";
+            scanner.render(onScanSuccess); // Restart the scanner
+        }
+
+        // Function to reload the page
+        function resetPage() {
+            window.location.reload(); // Reload the page to reset everything
+        }
+
+        // Function to fetch CSRF token from cookies
+        function getCSRFToken() {
+            return document.cookie.split('; ')
+                .find(row => row.startsWith('csrftoken='))
+                ?.split('=')[1];
+        }
+
+        // Start the scanner
+        scanner.render(onScanSuccess);
+    </script>
+</body>
+</html>

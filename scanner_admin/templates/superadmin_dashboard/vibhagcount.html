@@ -1,0 +1,127 @@
+{% extends 'superadmin_dashboard/superadmin_dashboard.html' %} {% load static %} {% block content %}
+
+<!-- End Col -->
+<section class="section mt-30">
+  <div class="container-fluid">
+    <div class="col-lg-12">
+      <div class="card-style mb-30">
+        <div class="title d-flex flex-wrap align-items-center justify-content-between p-3 mb-3">
+
+          <!-- Left Section -->
+          <div class="left">
+            <h6 class="text-large mb-0" >विभाग पंजीकरण सूची
+            </h6>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="center">
+            <div class="search-bar">
+              <input type="text" id="search-input" class="form-control"
+                placeholder="Search by Name " onfocus="this.style.borderColor='#007bff';"
+                onblur="this.style.borderColor='#ccc';">
+            </div>
+          </div>
+
+          <!-- Right Section -->
+          <div class="right d-flex align-items-center gap-3 mt-30">
+            <div class="right">
+              <div class="select-style-1">
+                <div class="select-position select-sm">
+                  <select class="light-bg" id="status-filter">
+                    <option value="">सभी विभाग</option>
+                    {% for data in vibhag %}
+                      <option value="{{ data.vibhag_hindi }}">{{ data.vibhag_hindi }}</option>
+                    {% endfor %}  
+                  </select>
+                </div>
+              </div>
+              <!-- end select -->
+            </div>
+          </div>
+        </div>
+
+        <!-- End Title -->
+        <div class="table-responsive">
+          <table class="table top-selling-table">
+            <thead>
+              <tr>
+                <th>
+                    <h6 class="text-sm text-medium">Registration ID</h6>
+                </th>
+                <th>
+                    <h6 class="text-sm text-medium">Name</h6>
+                </th>
+                <th>
+                    <h6 class="text-sm text-medium">Mobile Number</h6>
+                </th>
+                <th>
+                    <h6 class="text-sm text-medium">Gender</h6>
+                </th>
+                <th>
+                    <h6 class="text-sm text-medium">Ekai</h6>
+                </th>
+                <th>
+                    <h6 class="text-sm text-medium">Status</h6>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for data in vibhag_records %} 
+                <tr data-id="{{ data.register_id }}">
+                    <td>
+                        <p class="text-sm">{{ data.register_id }}</p>
+                    </td>
+                    <td>
+                        <p class="text-sm">{{ data.name }}</p>
+                    </td>
+                    <td>
+                        <p class="text-sm">{{ data.phone_number }}</p>
+                    </td>
+                    <td>
+                        <p class="text-sm">{{ data.gender }}</p>
+                    </td>
+                    <td>
+                        <p class="text-sm">{{ data.ekai }}</p>
+                    </td>
+                    <td>
+                        <span class="status-btn active-btn btn-sm">{{ data.status }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+          <!-- End Table -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Col -->
+
+
+<!-- JavaScript for Dynamic Functionality -->
+<script>
+  // Search Functionality
+  document
+    .getElementById("search-input")
+    .addEventListener("input", function () {
+      const searchValue = this.value.toLowerCase();
+      const rows = document.querySelectorAll("tbody tr");
+
+      rows.forEach((row) => {
+        const name = row
+          .querySelector("td:nth-child(2)")
+          .textContent.toLowerCase();
+        const id = row
+          .querySelector("td:nth-child(1)")
+          .textContent.toLowerCase();
+        if (name.includes(searchValue) || id.includes(searchValue)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,770 @@
+{% extends 'register_samautkarsh/base.html' %}{% load static %}{% block content %}
+<title>{% block title %}Samautkarsh | ABPP{% endblock %}</title>
+
+<!-- Static Flies CSS Link -->
+   {% block styles %}
+      <link rel="stylesheet" href="{% static '/register_samautkarsh/assets/css/akhilBhartiya.css' %}">
+   {% endblock styles %}
+
+
+
+   <form id="myForm" method="POST" action="" enctype="multipart/form-data" autofocus>
+      {% csrf_token %}
+      <!-- Hidden Phone Number Passing -->
+      <input type="text" name="phone_number" style="display: none;" value={{phone_number}} hidden>
+
+      <div class="card mb-3">
+         <div class="card-header fw-bold justify-content-center"><span>यातायात व्यवस्था (कृपया इस फॉर्म को व्यक्तिगत भरने की कृपा करें |)</span>
+           
+         </div>
+         <div class="card-body">
+
+            <div class="row">
+               <!-- First Name -->
+               <div class="col-md-6 mb-3" id="name-container">
+                  <label for="name" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">नाम <i><small class="text-secondary text-italic">(Name | English Only) </small></i> <span class="text-danger">*</span></label>
+                  <input type="text" id="name" class="form-control" placeholder="example: Ramesh" name="name" autofocus>
+                  <small id="nameError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid Name (only alphabets and spaces are allowed).</small>
+               </div>
+
+               <!-- Phone Number -->
+               <!-- <div class="col-md-6 mb-3" id="phone-container">
+                  <label for="phone" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">संपर्क सूत्र <i><small class="text-secondary text-italic">Contact No.(WhatsApp) </small></i> <span class="text-danger">*</span></label>
+                  <input type="tel" id="phone" class="form-control" placeholder="example: 9876543210" name="mobile" maxlength="10">
+                  <small id="phoneError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid 10-digit Phone Number (only numbers are allowed).</small>
+               </div> -->
+
+               <!-- Confirm Phone Number -->
+               <!-- <div class="col-md-6 mb-3" id="confirmPhone-container">
+                  <label for="confirmPhone" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">संपर्क सूत्र <i><small class="text-secondary text-italic">Contact No.(WhatsApp) </small></i> <span class="text-danger">*</span></label>
+                  <input type="tel" id="confirmPhone" class="form-control" placeholder="example: 9876543210" name="mobile" maxlength="10">
+                  <small id="confirmPhoneError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid 10-digit confirmPhone Number (only numbers are allowed).</small>
+               </div> -->
+
+               <!-- Phone Number (Masked) -->
+               <div class="col-md-6 mb-3" id="phone-container">
+               <label for="phone" class="form-label"> व्हाट्सएप नंबर <i><small class="text-secondary text-italic">(Whatsapp No.) </small></i><span class="text-danger">*</span></label>
+               <input 
+                  type="password" 
+                  id="phone" 
+                  class="form-control phone-input" 
+                  placeholder="e.g., 9876543210" 
+                  name="mobile" 
+                  maxlength="10" 
+                  inputmode="numeric" 
+                  pattern="[0-9]{10}" 
+                  autocomplete="tel" 
+                  required
+               >
+               <small id="phoneError" class="text-danger "style="display: none;font-size: 12px !important;" >
+                  Please enter a valid 10-digit Phone Number (only numbers allowed).
+               </small>
+               </div>
+
+               <!-- Confirm Phone Number (Visible) -->
+               <div class="col-md-6 mb-3" id="confirmPhone-container">
+               <label for="confirmPhone" class="form-label">Confirm व्हाट्सएप नंबर <i><small class="text-secondary text-italic">(Confirm Whatsapp No.) </small></i><span class="text-danger">*</span></label>
+               <input 
+                  type="tel" 
+                  id="confirmPhone" 
+                  class="form-control phone-input" 
+                  placeholder="e.g., 9876543210" 
+                  name="confirmMobile" 
+                  maxlength="10" 
+                  inputmode="numeric" 
+                  pattern="[0-9]{10}" 
+                  autocomplete="tel" 
+                  required
+               >
+               <small id="confirmPhoneError" class="text-danger" style="display: none;font-size: 12px !important;">
+                  Phone numbers do not match!
+               </small>
+               </div>
+
+               <!-- Dayitva Selection -->
+               <div class="col-md-6 mb-3 dropdown" id="dayitva-container" >
+                  <label for="dayitva" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व <i><small class="text-secondary text-italic">(Dayitva) </small></i> <span class="text-danger">*</span></label>
+                  <select id="dayitva" name="daytib" class="form-control">
+                     <option value="" disabled selected>दायित्व</option>
+                     <option value="Akhil Bhartiya / अखिल भारतीय (संघ दायित्व)">Akhil Bhartiya / अखिल भारतीय (संघ दायित्व)</option>
+                     <option value="Gatividhi Toli / गतिविधि टोली (संघ दायित्व)">Gatividhi Toli / गतिविधि टोली (संघ दायित्व)</option>
+                     <option value="Vividh Sangathan / विविध संगठन">Vividh Sangathan / विविध संगठन</option>
+                     <option value="Kshetra / क्षेत्र">Kshetra / क्षेत्र</option>
+                     <option value="Prant / प्रांत">Prant / प्रांत</option>
+                  </select>
+                  <small id="dayitvaError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter dayitva.</small>
+               </div>
+
+               <!-- Activity Selection -->
+               <div class="col-md-6 mb-3 dropdown" id="activity-container" style="display: none;">
+                  <label for="activity" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">गतिविधि <i><small class="text-secondary text-italic">(Activity) </small></i> <span class="text-danger">*</span></label>
+                  <select id="activity" name="gatividhi" class="form-control">
+                     <option value="" disabled selected>गतिविधि</option>
+                     <option value="Dharam Jagran / धर्म जागरण">Dharam Jagran / धर्म जागरण</option>
+                     <option value="Paryavaran Sanrakshan / पर्यावरण संरक्षण">Paryavaran Sanrakshan / पर्यावरण संरक्षण</option>
+                     <option value="Parivar Probodhan / परिवार प्रबोधन">Parivar Probodhan / परिवार प्रबोधन</option>
+                     <option value="Gau Seva / गौ सेवा">Gau Seva / गौ सेवा</option>
+                     <option value="Gram Vikas / ग्राम विकास">Gram Vikas / ग्राम विकास</option>
+                     <option value="Saamaajik Samrasta / सामाजिक समरसता">Samajik Samarasta / सामाजिक समरसता</option>
+                  </select>
+                  <small id="activityError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter activity.</small>
+               </div>
+              
+               <!-- Organisation Name -->
+               <div class="col-md-6 mb-3" id="organisation-container" style="display: none;">
+                  <label for="organisation" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">संगठन का नाम <i><small class="text-secondary text-italic">(Organisation) </small></i> <span class="text-danger">*</span></label>
+                  <select id="organisation" name="organization" class="form-control">
+                     <option value="" disabled selected>संगठन</option>
+                     <option value="Akhil Bharatiya Vidyarthi Parishad (ABVP) / अखिल भारतीय विद्यार्थी परिषद">Akhil Bharatiya Vidyarthi Parishad (ABVP) / अखिल भारतीय विद्यार्थी परिषद</option>
+                     <option value="Vidya Bharati / विद्या भारती">Vidya Bharati / विद्या भारती</option>
+                     <option value="Vigyan Bharati / विज्ञान भारती">Vigyan Bharati / विज्ञान भारती</option>
+                     <option value="Bhartiya Shikshan Mandal / भारतीय शिक्षण मंडल">Bhartiya Shikshan Mandal / भारतीय शिक्षण मंडल</option>
+                     <option value="Rashtriya Shaikshik Mahasangh / राष्ट्रीय शैक्षिक महासंघ">Rashtriya Shaikshik Mahasangh / राष्ट्रीय शैक्षिक महासंघ</option>
+                     <option value="Shiksha Sanskriti Utthan Nyas / शिक्षा संस्कृति उत्थान न्यास">Shiksha Sanskriti Utthan Nyas / शिक्षा संस्कृति उत्थान न्यास</option>
+                     <option value="Sanskrit Bharati / संस्कृत भारती">Sanskrit Bharati / संस्कृत भारती</option>
+                     <option value="Saksham / सक्षम">Saksham / सक्षम</option>
+                     <option value="Arogya Bharati / आरोग्य भारती">Arogya Bharati / आरोग्य भारती</option>
+                     <option value="National Medicos Organization (NMO) / नेशनल मेडिकोस आर्गेनाईजेशन">National Medicos Organization (NMO) / नेशनल मेडिकोस आर्गेनाईजेशन</option>
+                     <option value="Rashtriya Sewa Bharati / राष्ट्रीय सेवा भारती">Rashtriya Sewa Bharati / राष्ट्रीय सेवा भारती</option>
+                     <option value="Bharat Vikas Parishad / भारत विकास परिषद">Bharat Vikas Parishad / भारत विकास परिषद</option>
+                     <option value="Deendayal Shodh Sansthan / दीनदयाल शोध संस्थान">Deendayal Shodh Sansthan / दीनदयाल शोध संस्थान</option>
+                     <option value="Bhartiya Mazdoor Sangh / भारतीय मजदूर संघ">Bhartiya Mazdoor Sangh / भारतीय मजदूर संघ</option>
+                     <option value="Bhartiya Kisan Sangh / भारतीय किसान संघ">Bhartiya Kisan Sangh / भारतीय किसान संघ</option>
+                     <option value="Swadeshi Jagran Manch / स्वदेशी जागरण मंच">Swadeshi Jagran Manch / स्वदेशी जागरण मंच</option>
+                     <option value="Sahkar Bharati / सहकार भारती">Sahkar Bharati / सहकार भारती</option>
+                     <option value="Grahak Panchayat / ग्राहक पंचायत">Grahak Panchayat / ग्राहक पंचायत</option>
+                     <option value="Laghu Udyog Bharati / लघु उद्योग भारती">Laghu Udyog Bharati / लघु उद्योग भारती</option>
+                     <option value="Vishwa Hindu Parishad / विश्व हिंदू परिषद">Vishwa Hindu Parishad / विश्व हिंदू परिषद</option>
+                     <option value="Vanvasi Kalyan Ashram / वनवासी कल्याण आश्रम">Vanvasi Kalyan Ashram / वनवासी कल्याण आश्रम</option>
+                     <option value="Vishwa Vibhag / विश्व विभाग">Vishwa Vibhag / विश्व विभाग</option>
+                     <option value="Bhartiya Janata Party / भारतीय जनता पार्टी">Bhartiya Janata Party / भारतीय जनता पार्टी</option>
+                     <option value="Mahila Samanvay / महिला समन्वय">Mahila Samanvay / महिला समन्वय</option>
+                     <option value="Rashtra Sevika Samiti / राष्ट्र सेविका समिति">Rashtra Sevika Samiti / राष्ट्र सेविका समिति</option>
+                     <option value="Krida Bharati / क्रीड़ा भारती">Krida Bharati / क्रीड़ा भारती</option>
+                     <option value="Akhil Bharatiya Sahitya Parishad / अखिल भारतीय साहित्य परिषद">Akhil Bharatiya Sahitya Parishad / अखिल भारतीय साहित्य परिषद</option>
+                     <option value="Prajna Pravah / प्रज्ञा प्रवाह">Prajna Pravah / प्रज्ञा प्रवाह</option>
+                     <option value="Sanskar Bharati / संस्कार भारती">Sanskar Bharati / संस्कार भारती</option>
+                     <option value="Akhil Bharatiya Adhivakta Parishad / अखिल भारतीय अधिवक्ता परिषद">Akhil Bharatiya Adhivakta Parishad / अखिल भारतीय अधिवक्ता परिषद</option>
+                     <option value="Akhil Bharatiya Itihaas Sankalan Yojana / अखिल भारतीय इतिहास संकलन योजना">Akhil Bharatiya Itihaas Sankalan Yojana / अखिल भारतीय इतिहास संकलन योजना</option>
+                     <option value="Seema Jagran Manch / सीमा जागरण मंच">Seema Jagran Manch / सीमा जागरण मंच</option>
+                     <option value="Hindu Jagran Manch / हिन्दू जागरण मंच">Hindu Jagran Manch / हिन्दू जागरण मंच</option>
+                     <option value="Akhil Bharatiya Poorva Sainik Seva Parishad / अखिल भारतीय पूर्व सैनिक सेवा परिषद">Akhil Bharatiya Poorva Sainik Seva Parishad / अखिल भारतीय पूर्व सैनिक सेवा परिषद</option>
+
+                  </select>
+                  <small id="organisationError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid organisation name.</small>
+               </div>
+
+               <!--Vividh Dayitva Name -->
+               <div class="col-md-6 mb-3" id="vividhDayitva-container" style="display: none;">
+                  <label for="vividhDayitva" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व <i><small class="text-secondary text-italic">(Dayitva) </small></i> <span class="text-danger">*</span></label>
+                  <input type="text" id="vividhDayitva" class="form-control" placeholder="दायित्व" name="vividhDaytiva" autofocus>
+                  <small id="vividhDayitvaError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid Dayitva.</small>
+               </div>
+
+               <!-- chetra adhikari -->
+               <div class="col-md-6 mb-3 dropdown" id="chetraDayitva-container" style="display: none;">
+                  <label for="chetraDayitva" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">दायित्व <i><small class="text-secondary text-italic">(क्षेत्र अधिकारी) </small></i> <span class="text-danger">*</span></label>
+                  <select id="chetraDayitva" name="daytib_chetra_adhikari" class="form-control">
+                     <option value="" disabled selected>दायित्व</option>
+                     <option value="क्षेत्र प्रचारक">क्षेत्र प्रचारक</option>
+                     <option value="सह क्षेत्र प्रचारक">सह क्षेत्र प्रचारक</option>
+                     <option value="क्षेत्र प्रचारक प्रमुख">क्षेत्र प्रचारक प्रमुख</option>
+                     <option value="सह क्षेत्र प्रचारक प्रमुख">सह क्षेत्र प्रचारक प्रमुख</option>
+                  </select>
+                  <small id="chetraDayitvaError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter dayitva.</small>
+               </div>
+
+               <!-- KSHETRA Selection -->
+               <div class="col-md-6 mb-3 dropdown" id="prantChetra-container" style="display: none;">
+                  <label for="prantChetra" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">क्षेत्र <i><small class="text-secondary text-italic">(Kshetra) </small></i> <span class="text-danger">*</span></label>
+                  <select id="prantChetra" name="chetra" class="form-control">
+                     <option value="" disabled selected>क्षेत्र</option>
+                  </select>
+                  <small id="prantChetraError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter dayitva.</small>
+               </div>
+
+               <!-- Prant Selection -->
+               <div class="col-md-6 mb-3 dropdown" id="prant-container" style="display: none;">
+                  <label for="prant" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">केंद्र / प्रांत</label>
+                  <select id="prant" name="prant" class="form-control">
+                     <option value="" disabled selected>केंद्र / प्रांत</option>
+                  </select>
+                  <small id="prantError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter dayitva.</small>
+               </div>
+
+                  <!-- Arrival Details -->
+               <h5 class="card-title text-center fw-bold " >आगमन जानकारी (Arrival Information)</h5>
+               <div class="col-md-6 mb-3 dropdown" id="arrivalMode-container" >
+                  <label for="arrivalMode" class="form-label " style="font-size: 16px !important;font-weight: 700; color: #333;">आगमन सूचना <i><small class="text-secondary text-italic">(Arrival Details) </small></i> <span class="text-danger">*</span></label>
+                  <select id="arrivalMode" name="arrivalMode" class="form-control">
+                     <option value="" disabled selected>आगमन सूचना</option>
+                     <option value="By AIR / हवाई जहाज़ से" id="arrivalModeByTrain">By AIR / हवाई जहाज़ से</option>
+                     <option value="By Train / रेलगाड़ी से" id="arrivalModeByAIR">By Train / रेलगाड़ी से</option>
+                     <option value="By Bus / बस से" id="arrivalModeByRoad">By Bus / बस से</option>
+                     <option value="By Self Vehicle / अपने वाहन से">By Self Vehicle / अपने वाहन से</option>
+                  </select>
+                  <small id="arrivalModeError" class="text-danger" style="display: none;font-size: 12px !important;">Please select an option.</small>
+               </div>
+
+               <!-- By AIR arrival -->
+               <div class="row" id="arrivalModeByAIR-container" >
+                  <!-- Flight Number -->
+                  <div class="col-md-6 mb-3" id="flight-container" style="display: none">
+                     <label for="flight" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">विमान संख्या <i><small class="text-secondary text-italic">(Flight Number) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="flight" class="form-control" placeholder="example: AI101" name="arrival_flight_number">
+                     <small id="flightError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid Flight Number (e.g., AI101).</small>
+                  </div>
+
+                  <!-- Airport Terminal Number (Dropdown) -->
+                  <div class="col-md-6 mb-3" id="terminal-container" style="display: none">
+                     <label for="terminal" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">टर्मिनल क्रमांक <i><small class="text-secondary text-italic">(Airport Terminal Number) </small></i> <span class="text-danger">*</span></label>
+                     <select id="terminal" class="form-select" name="arrival_airport_terminal">
+                        <option value="" selected disabled>Select Terminal</option>
+                        <option value="T1 - Terminal 1">T1 - Terminal 1</option>
+                        <option value="T2 - Terminal 2">T2 - Terminal 2</option>
+                        <option value="T3 - Terminal 3">T3 - Terminal 3</option>
+                     </select>
+                     <small id="terminalError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a Terminal.</small>
+                  </div>
+
+                  <!-- Arrival Date -->
+                  <div class="col-md-6 mb-3 date" id="flightArrivalDate-container" style="display: none">
+                     <label for="flightArrivalDate" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">आगमन दिनांक <i><small class="text-secondary text-italic">(Arrival Date) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="flightArrivalDate" class="form-control" name="arrival_flight_date" placeholder="YY-MM-DD">
+                     <small id="flightArrivalDateError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a valid Arrival Date.</small>
+                  </div>
+
+                  <!-- Arrival Time -->
+                  <div class="col-md-6 mb-3 time" id="flightArrivalTime-container" style="display: none">
+                     <label for="flightArrivalTime" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">आगमन समय <i><small class="text-secondary text-italic">(Arrival Time) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="flightArrivalTime" class="form-control" name="arrival_flight_time" placeholder="HH:MM AM/PM">
+                     <small id="flightArrivalTimeError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a valid Arrival Time.</small>
+                  </div>
+               </div>
+             
+               <!-- Train arrival -->
+               <div class="row" id="arrivalModeByTrain-container">
+                  <!-- Train Number -->
+                  <div class="col-md-6 mb-3" id="trainNumber-container" style="display: none">
+                     <label for="trainNumber" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">गाड़ी संख्या <i><small class="text-secondary text-italic">(Train Number) </small></i></label>
+                     <input type="text" id="trainNumber" class="form-control" placeholder="example: 12301" name="arrival_train_number"  maxlength="10">
+                     <small id="trainNumberError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a Train Number.</small>
+                  </div>
+
+                  <!-- Coach Number -->
+                  <div class="col-md-6 mb-3" id="coachNumber-container" style="display: none">
+                     <label for="coachNumber" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">कोच क्रमांक <i><small class="text-secondary text-italic">(Coach Number) </small></i></label>
+                     <input type="text" id="coachNumber" class="form-control" placeholder="example: A1, B2, S3" name="arrival_train_coach">
+                     <small id="coachNumberError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid Coach Number (e.g., A1, B2).</small>
+                  </div>
+
+                  <!-- PNR Number -->
+                  <!-- <div class="col-md-6 mb-3" id="pnr-container" style="display: none">
+                     <label for="pnr" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">PNR संख्या <i><small class="text-secondary text-italic">(PNR Number) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="pnr" class="form-control" placeholder="example: 1234567890" name="arrival_pnr" maxlength="20">
+                     <small id="pnrError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid 10-digit PNR Number.</small>
+                  </div> -->
+
+                  <!-- arrival Station (Dropdown) -->
+                  <div class="col-md-6 mb-3" id="arrivalStation-container" style="display: none">
+                     <label for="arrivalStation" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">उतरने का स्टेशन <i><small class="text-secondary text-italic">(Arriving Station) </small></i> <span class="text-danger">*</span></label>
+                     <select id="arrivalStation" class="form-select" name="arrival_station">
+                        <option value="" selected disabled>Select Station / स्टेशन चुनें</option>
+                        <option value="NDLS">New Delhi (NDLS) / नई दिल्ली</option>
+                        <option value="DLI">Old Delhi (DLI) / पुरानी दिल्ली</option>
+                        <option value="NZM">Hazrat Nizamuddin (NZM) / हज़रत निजामुद्दीन</option>
+                        <option value="ANVT">Anand Vihar Terminal (ANVT) / आनंद विहार टर्मिनल</option>
+                        <option value="DEE">Delhi Sarai Rohilla (DEE) / दिल्ली सराय रोहिल्ला</option>
+                        <option value="DEC">Delhi Cantt (DEC) / दिल्ली कैंट</option>
+                        <option value="SSB">Shakur Basti (SSB) / शकूर बस्ती</option>
+                     </select>
+                     <small id="arrivalStationError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a Arrival Station.</small>
+                  </div>
+
+                  <!-- arrival Date -->
+                  <div class="col-md-6 mb-3 date" id="trainArrivalDate-container" style="display: none">
+                     <label for="trainArrivalDate" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">आगमन दिनांक <i><small class="text-secondary text-italic">(Arrival Date) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="trainArrivalDate" class="form-control" name="arrival_train_date" placeholder="YY-MM-DD">
+                     <small id="trainArrivalDateError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a valid Arrival Date.</small>
+                  </div>
+
+                  <!-- arrival Time -->
+                  <div class="col-md-6 mb-3 time" id="trainArrivalTime-container" style="display: none">
+                     <label for="trainArrivalTime" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">आगमन समय <i><small class="text-secondary text-italic">(Arrival Time) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="trainArrivalTime" class="form-control" name="arrival_train_time" placeholder="HH:MM AM/PM">
+                     <small id="trainArrivalTimeError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a valid Departure Time.</small>
+                  </div>
+
+               </div>
+
+               <!-- by road Arrival-->
+               <div class="row" id="arrivalModeByBus-container" >
+                  <!-- Bus Operator Name -->
+                  <!-- <div class="col-md-6 mb-3" id="busOperator-container" style="display: none">
+                     <label for="busOperator" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">बस ऑपरेटर का नाम <i><small class="text-secondary text-italic">(Bus Operator Name) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="busOperator" class="form-control" placeholder="example: Delhi Transport, Volvo AC" name="arrival_bus_operator">
+                     <small id="busOperatorError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter Bus Operator Name.</small>
+                  </div> -->
+
+                  <!-- Destination (Alighting) Station -->
+                  <div class="col-md-6 mb-3" id="destinationStation-container" style="display: none">
+                     <label for="destinationStation" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">उतरने का स्टेशन <i><small class="text-secondary text-italic">(Destination Station) </small></i> <span class="text-danger">*</span></label>
+                     <select id="destinationStation" class="form-select" name="arrival_bus_station">
+                        <option value="" selected disabled>Select Station / स्टेशन चुनें</option>
+                        <option value="Kashmere Gate ISBT (Maharana Pratap ISBT)">Kashmere Gate ISBT (Maharana Pratap ISBT)</option>
+                        <option value="Anand Vihar ISBT">Anand Vihar ISBT</option>
+                        <option value="Sarai Kale Khan ISBT (Veer Hakikat Rai ISBT)">Sarai Kale Khan ISBT (Veer Hakikat Rai ISBT)</option>
+                     </select>
+                     <small id="destinationStationError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a Departure Station.</small>
+                  </div>
+
+                  <!-- Arrival Date -->
+                  <div class="col-md-6 mb-3 date" id="busArrivalDate-container" style="display: none">
+                     <label for="busArrivalDate" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">आगमन दिनांक <i><small class="text-secondary text-italic">(Arrival Date) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="busArrivalDate" class="form-control" name="arrival_bus_date" placeholder="YY-MM-DD">
+                     <small id="busArrivalDateError" class="text-danger" style="display: none;font-size: 12px !important;">Please select Arrival Date.</small>
+                  </div>
+
+                  <!-- Arrival Time -->
+                  <!-- <div class="col-md-6 mb-3" id="busArrivalTime-container" style="display: none">
+                     <label for="busArrivalTime" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">आगमन समय <i><small class="text-secondary text-italic">(Arrival Time) </small></i> <span class="text-danger">*</span></label>
+                     <input type="time" id="busArrivalTime" class="form-control" name="arrival_bus_time">
+                     <small id="busArrivalTimeError" class="text-danger" style="display: none;font-size: 12px !important;">Please select Arrival Time.</small>
+                  </div> -->
+               </div>
+
+               <!-- by Self Vehicle Arrival-->
+               <div class="row" id="arrivalModeBySelfVehicle-container" >
+                  <!-- Vehicle Number -->
+                  <div class="col-md-6 mb-3" id="arrivalVehicleNumber-container" style="display: none">
+                     <label for="arrivalVehicleNumber" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">वाहन संख्या <i><small class="text-secondary text-italic">(Vehicle Number) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="arrivalVehicleNumber" class="form-control" placeholder="example: DL01AB1234" name="arrival_vehicle_number"
+                     pattern="^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$" title="Please enter a valid vehicle number (e.g., DL01AB1234)">
+                     <small id="arrivalVehicleNumberError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter Vehicle Number.</small>
+                  </div>
+
+                  <!-- Arrival Date -->
+                  <div class="col-md-6 mb-3 date" id="selfVehicleArrivalDate-container" style="display: none">
+                     <label for="selfVehicleArrivalDate" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">आगमन दिनांक <i><small class="text-secondary text-italic">(Arrival Date) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="selfVehicleArrivalDate" class="form-control" name="arrival_selfVehicle_date" placeholder="YY-MM-DD">
+                     <small id="selfVehicleArrivalDateError" class="text-danger" style="display: none;font-size: 12px !important;">Please select Arrival Date.</small>
+                  </div>
+
+                  <!-- Arrival Time -->
+                  <!-- <div class="col-md-6 mb-3" id="selfVehicleArrivalTime-container" style="display: none">
+                     <label for="selfVehicleArrivalTime" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">आगमन समय <i><small class="text-secondary text-italic">(Arrival Time) </small></i> <span class="text-danger">*</span></label>
+                     <input type="time" id="selfVehicleArrivalTime" class="form-control" name="arrival_selfVehicle_time">
+                     <small id="selfVehicleArrivalTimeError" class="text-danger" style="display: none;font-size: 12px !important;">Please select Arrival Time.</small>
+                  </div> -->
+               </div>
+
+                <!-- Departure Details (Dropdown) -->
+               <h5 class="card-title text-center fw-bold " id="departureHeading" style="display: none;">प्रस्थान जानकारी (Departure Information)</h5>
+               <div class="col-md-6 mb-3" id="departureMode-container" style="display: none">
+                  <label for="departureMode" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">प्रस्थान सूचना <i><small class="text-secondary text-italic">(Departure Details) </small></i> <span class="text-danger">*</span></label>
+                  <select id="departureMode" class="form-select" name="departureMode">
+                     <option value="" selected disabled>Select Departure Mode / प्रस्थान का साधन चुनें</option>
+                     <option value="By AIR / हवाई जहाज़ से">By AIR / हवाई जहाज़ से</option>
+                     <option value="By Train / रेलगाड़ी से">By Train / रेलगाड़ी से</option>
+                     <option value="By Bus / बस से">By Bus / बस से</option>
+                     <option value="By Self Vehicle / अपने वाहन से">By Self Vehicle / अपने वाहन से</option>
+                  </select>
+                  <small id="departureModeError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a Departure Mode.</small>
+               </div>
+
+               <!-- By AIR departure -->
+               <div class="row" id="departureModeByAIR-container" >
+                  <!-- Flight Number -->
+                  <div class="col-md-6 mb-3" id="departureFlight-container" style="display: none">
+                     <label for="departureFlight" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">विमान संख्या <i><small class="text-secondary text-italic">(Flight Number) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="departureFlight" class="form-control" placeholder="example: AI101" name="departure_flight_number">
+                     <small id="departureFlightError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid Flight Number (e.g., AI101).</small>
+                  </div>
+
+                  <!-- Airport Terminal Number (Dropdown) -->
+                  <div class="col-md-6 mb-3" id="departureTerminal-container" style="display: none">
+                     <label for="departureTerminal" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">टर्मिनल क्रमांक <i><small class="text-secondary text-italic">(Terminal Number) </small></i> <span class="text-danger">*</span></label>
+                     <select id="departureTerminal" class="form-select" name="departure_airport_terminal">
+                        <option value="" selected disabled>Select Terminal</option>
+                        <option value="T1 - Terminal 1">T1 - Terminal 1</option>
+                        <option value="T2 - Terminal 2">T2 - Terminal 2</option>
+                        <option value="T3 - Terminal 3">T3 - Terminal 3</option>
+                     </select>
+                     <small id="departureTerminalError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a Terminal.</small>
+                  </div>
+
+                  <!-- Arrival Date -->
+                  <div class="col-md-6 mb-3 date" id="departureDate-container" style="display: none">
+                     <label for="departureDate" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">प्रस्थान दिनांक <i><small class="text-secondary text-italic">(Departure Date) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="departureDate" class="form-control" name="departure_flight_date" placeholder="YY-MM-DD">
+                     <small id="departureDateError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a valid Arrival Date.</small>
+                  </div>
+
+                  <!-- Arrival Time -->
+                  <div class="col-md-6 mb-3 time" id="departureTime-container" style="display: none">
+                     <label for="departureTime" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">प्रस्थान समय <i><small class="text-secondary text-italic">(Departure Time) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="departureTime" class="form-control" name="departure_flight_time" placeholder="HH:MM AM/PM">
+                     <small id="departureTimeError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a valid Arrival Time.</small>
+                  </div>
+               </div>
+
+               <!-- Train departure-->
+               <div class="row" id="departureModeByTrain-container" >
+                  <!-- Train Number -->
+                  <div class="col-md-6 mb-3" id="departureTrainNumber-container" style="display: none">
+                     <label for="departureTrainNumber" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">गाड़ी संख्या <i><small class="text-secondary text-italic">(Train Number) </small></i> </label>
+                     <input type="text" id="departureTrainNumber" class="form-control" placeholder="example: 12301" name="departure_train_number" maxlength="10">
+                     <small id="departureTrainNumberError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid 5-digit Train Number.</small>
+                  </div>
+
+                  <!-- Coach Number -->
+                  <div class="col-md-6 mb-3" id="departureCoachNumber-container" style="display: none">
+                     <label for="departureCoachNumber" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">कोच क्रमांक <i><small class="text-secondary text-italic">(Coach Number) </small></i></label>
+                     <input type="text" id="departureCoachNumber" class="form-control" placeholder="example: A1, B2, S3" name="departure_train_coach">
+                     <small id="departureCoachNumberError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid Coach Number (e.g., A1, B2).</small>
+                  </div>
+
+                  <!-- PNR Number -->
+                  <!-- <div class="col-md-6 mb-3" id="departurePnr-container" style="display: none">
+                     <label for="departurePnr" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">PNR संख्या <i><small class="text-secondary text-italic">(PNR Number) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="departurePnr" class="form-control" placeholder="example: 1234567890" name="departure_pnr" maxlength="20">
+                     <small id="departurePnrError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter a valid 10-digit PNR Number.</small>
+                  </div> -->
+
+                  <!-- Departure Station-->
+                  <div class="col-md-6 mb-3" id="departureStation-container" style="display: none">
+                     <label for="departureStation" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">प्रस्थान का स्टेशन <i><small class="text-secondary text-italic">(Departure Station) </small></i> <span class="text-danger">*</span></label>
+                     <select id="departureStation" class="form-select" name="departure_station">
+                        <option value="" selected disabled>Select Station / स्टेशन चुनें</option>
+                        <option value="New Delhi (NDLS)">New Delhi (NDLS)</option>
+                        <option value="Old Delhi (DLI)">Old Delhi (DLI)</option>
+                        <option value="azrat Nizamuddin (NZM)">Hazrat Nizamuddin (NZM)</option>
+                        <option value="Anand Vihar Terminal (ANVT)">Anand Vihar Terminal (ANVT)</option>
+                        <option value="Delhi Sarai Rohilla (DEE)">Delhi Sarai Rohilla (DEE)</option>
+                        <option value="Delhi Cantt (DEC)">Delhi Cantt (DEC)</option>
+                        <option value="Shakur Basti (SSB)">Shakur Basti (SSB)</option>
+                     </select>
+                     <small id="departureStationError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a Departure Station.</small>
+                  </div>
+
+                  <!-- Departure Date -->
+                  <div class="col-md-6 mb-3 date" id="trainDepartureDate-container" style="display: none">
+                     <label for="trainDepartureDate" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">प्रस्थान दिनांक <i><small class="text-secondary text-italic">(Departure Date) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="trainDepartureDate" class="form-control" name="departure_train_date" placeholder="YY-MM-DD">
+                     <small id="trainDepartureDateError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a valid Departure Date.</small>
+                  </div>
+
+                  <!-- Departure Time -->
+                  <div class="col-md-6 mb-3 time" id="trainDepartureTime-container" style="display: none">
+                     <label for="trainDepartureTime" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">प्रस्थान समय <i><small class="text-secondary text-italic">(Departure Time) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="trainDepartureTime" class="form-control " name="departure_train_time" placeholder="HH:MM AM/PM">
+                     <small id="trainDepartureTimeError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a valid Departure Time.</small>
+                  </div>
+               </div>
+
+               <!-- by road Departure -->
+               <div class="row"  id="departureModeByBus-container" >
+                  <!-- Destination (Alighting) Station -->
+                  <div class="col-md-6 mb-3" id="departureDestinationStation-container" style="display: none">
+                     <label for="departureDestinationStation" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">प्रस्थान का स्टेशन <i><small class="text-secondary text-italic">(Destination Station) </small></i> <span class="text-danger">*</span></label>
+                     <select id="departureDestinationStation" class="form-select" name="bus_boarding_from">
+                        <option value="" selected disabled>Select Station / स्टेशन चुनें</option>
+                        <option value="Kashmere Gate ISBT (Maharana Pratap ISBT)">Kashmere Gate ISBT (Maharana Pratap ISBT)</option>
+                        <option value="Anand Vihar ISBT">Anand Vihar ISBT</option>
+                        <option value="Sarai Kale Khan ISBT (Veer Hakikat Rai ISBT)">Sarai Kale Khan ISBT (Veer Hakikat Rai ISBT)</option>
+                     </select>
+                     <small id="departureDestinationStationError" class="text-danger" style="display: none;font-size: 12px !important;">Please select a Departure Station.</small>
+                  </div>
+
+                  <!-- Departure Date -->
+                  <div class="col-md-6 mb-3 date" id="busDepartureDate-container" style="display: none">
+                     <label for="busDepartureDate" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">प्रस्थान दिनांक <i><small class="text-secondary text-italic">(Departure Date) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="busDepartureDate" class="form-control" name="departure_bus_date" placeholder="YY-MM-DD">
+                     <small id="busDepartureDateError" class="text-danger" style="display: none;font-size: 12px !important;">Please select Arrival Date.</small>
+                  </div>
+               </div>
+
+               <!-- by Own Vehicle Departure -->
+               <div class="row" id="departureModeBySelfVehicle-container" >
+                  <!-- Vehicle Number -->
+                  <div class="col-md-6 mb-3" id="departureVehicleNumber-container" style="display: none">
+                     <label for="departureVehicleNumber" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">वाहन संख्या <i><small class="text-secondary text-italic">(Vehicle Number) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="departureVehicleNumber" class="form-control" placeholder="example: DL01AB1234" name="departure_vehicle_number"
+                     pattern="^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$" title="Please enter a valid vehicle number (e.g., DL01AB1234)">
+                     <small id="departureVehicleNumberError" class="text-danger" style="display: none;font-size: 12px !important;">Please enter Vehicle Number.</small>
+                  </div>
+
+                  <!-- Departure Date -->
+                  <div class="col-md-6 mb-3 date" id="selfVehicleDepartureDate-container" style="display: none">
+                     <label for="selfVehicleDepartureDate" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">प्रस्थान दिनांक <i><small class="text-secondary text-italic">(Departure Date) </small></i> <span class="text-danger">*</span></label>
+                     <input type="text" id="selfVehicleDepartureDate" class="form-control" name="departure_selfVehicle_date" placeholder="YY-MM-DD">
+                     <small id="selfVehicleDepartureDateError" class="text-danger" style="display: none;font-size: 12px !important;">Please select Arrival Date.</small>
+                  </div>
+                  <!-- Departure Time -->
+                  <!-- <div class="col-md-6 mb-3" id="selfVehicleDepartureTime-container" style="display: none">
+                     <label for="selfVehicleDepartureTime" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;">प्रस्थान समय <i><small class="text-secondary text-italic">(Departure Time) </small></i> <span class="text-danger">*</span></label>
+                     <input type="time" id="selfVehicleDepartureTime" class="form-control" name="departure_selfVehicle_time">
+                     <small id="selfVehicleDepartureTimeError" class="text-danger" style="display: none;font-size: 12px !important;">Please select Departure Time.</small>
+                  </div> -->
+               </div>
+
+               <!-- Additional Information Text Area -->
+               <div class="col-md-12 mb-3" id="additionalInfo-container"style="display: none" >
+                  <label for="additionalInfo" class="form-label" style="font-size: 16px !important;font-weight: 700; color: #333;"> कृपया अन्य आवश्यक जानकारी का संकेत करने की कृपा करें जी  <i><small class="text-secondary text-italic">(Please mention any other information you would like to share with us)</small></i> </label>
+                  <textarea id="additionalInfo" class="form-control" name="other_info"  rows="4" placeholder="आप यहाँ कोई अन्य जानकारी लिख सकते हैं / You can write any additional information here"></textarea>
+                  <small id="additionalInfoError" class="text-danger" style="display: none;font-size: 12px !important;">कृपया वैध जानकारी दर्ज करें / Please enter valid information</small>
+               </div>
+
+            </div> 
+         </div>
+      </div>
+
+      <div class="d-flex flex-row flex-md-row justify-content-center align-items-center gap-3 mt-4 py-3">
+         <!-- Submit Button -->
+         <button type="submit" class="btn fw-bold btn-lg px-4 py-2 rounded-pill text-white shadow-sm border-0" style="background: linear-gradient(135deg, #FF9800, #FF9800); transition: all 0.3s ease;min-width: 120px;">
+         <i class="fas fa-arrow-circle-right me-2"></i> Submit
+         </button>
+
+         <!-- Log-Out Button -->
+         <!-- <a href="{% url 'akhilbhartiye:mobile_verification' %}" class="btn btn-outline-danger fw-bold btn-lg px-4 py-2 rounded-pill shadow-sm" style="transition: all 0.3s ease; min-width: 120px;">
+            <i class="fas fa-sign-out-alt me-2"></i> Logout
+         </a> -->
+      </div>
+
+   </form>
+
+    <!--Modal for Preview -->
+      <div id="formModal" class="modal" style="display: none;">
+         <div class="modal-content"
+            style="background-color: #f8f9fa; border-radius: 10px; max-width: 800px; margin: 20px auto; padding: 20px;">
+            <!-- Modal Header -->
+            <div class="modal-header"
+               style=" color: white; border-top-left-radius: 10px; border-top-right-radius: 10px; padding: 15px;">
+               <h2 class="modal-title">पंजीकरण विवरण</h2>
+               <span class="close-modal" style="cursor: pointer; font-size: 24px; color: white;">&times;</span>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body" style="overflow-x: auto;">
+               <!--  Information Section -->
+               <!-- <h3 class="modal-title">व्यक्तिगत जानकारी / Personal Information</h3> -->
+               <table class="table table-bordered" style="width: 100%; margin-bottom: 1rem;">
+                  <tbody>
+                     <tr id="nameModalContainer">
+                        <th style="width: 40%;">नाम</th>
+                        <td><span id="nameModal">N/A</span></td>
+                     </tr>
+                     <tr id="phoneModalContainer">
+                        <th style="width: 40%;">फोन नंबर </th>
+                        <td><span id="phoneModal">N/A</span></td>
+                     </tr>
+                     <tr id="dayitvaModalContainer">
+                        <th style="width: 40%;">दायित्व </th>
+                        <td><span id="dayitvaModal">N/A</span></td>
+                     </tr>
+                     <tr id="activityModalContainer">
+                        <th style="width: 40%;">गतिविधि</th>
+                        <td><span id="activityModal">N/A</span></td>
+                     </tr>
+                     <tr id="organisationModalContainer">
+                        <th style="width: 40%;">संगठन का नाम</th>
+                        <td><span id="organisationModal">N/A</span></td>
+                     </tr>
+                     <tr id="vividhDayitvaModalContainer">
+                        <th style="width: 40%;">संगठन का दायित्व</th>
+                        <td><span id="vividhDayitvaModal">N/A</span></td>
+                     </tr>
+                     <tr id="chetraDayitvaModalContainer">
+                        <th style="width: 40%;">दायित्व (क्षेत्र) </th>
+                        <td><span id="chetraDayitvaModal">N/A</span></td>
+                     </tr>
+                     <tr id="prantChetraModalContainer">
+                        <th style="width: 40%;">क्षेत्र</th>
+                        <td><span id="prantChetraModal">N/A</span></td>
+                     </tr>
+                     <tr id="prantModalContainer">
+                        <th style="width: 40%;">प्रांत</th>
+                        <td><span id="prantModal">N/A</span></td>
+                     </tr>
+                  </tbody>
+               </table>
+
+               <!-- Arrival Details -->
+               <h5 class="modal-title">आगमन जानकारी (Arrival Information)</h5>
+               <table class="table table-bordered" style="width: 100%; margin-bottom: 1rem;">
+                  <tbody>
+                     <!-- Arrival Details --> 
+                     <tr id="arrivalModeModalContainer">
+                        <th style="width: 40%;">आगमन सूचना</th>
+                        <td><span id="arrivalModeModal">N/A</span></td>
+                     </tr>
+                     <!-- Arrival by flight -->
+                     <tr id="flightModalContainer">
+                        <th style="width: 40%;">विमान संख्या</th>
+                        <td><span id="flightModal">N/A</span></td>
+                     </tr>
+                     <tr id="terminalModalContainer">
+                        <th style="width: 40%;">टर्मिनल क्रमांक</th>
+                        <td><span id="terminalModal">N/A</span></td>
+                     </tr>
+                     <tr id="flightArrivalTimeModalContainer">
+                        <th style="width: 40%;">आगमन समय</th>
+                        <td><span id="flightArrivalTimeModal">N/A</span></td>
+                     </tr>
+                     <tr id="flightArrivalDateModalContainer">
+                        <th style="width: 40%;">आगमन दिनांक</th>
+                        <td><span id="flightArrivalDateModal">N/A</span></td>
+                     </tr>
+
+                     <!-- Arrival By Train -->
+                     <tr id="trainNumberModalContainer">
+                        <th style="width: 40%;">गाड़ी संख्या</th>
+                        <td><span id="trainNumberModal">N/A</span></td>
+                     </tr>
+                     <tr id="coachNumberModalContainer">
+                        <th style="width: 40%;">कोच क्रमांक</th>
+                        <td><span id="coachNumberModal">N/A</span></td>
+                     </tr>
+                     <tr id="arrivalStationModalContainer">
+                        <th style="width: 40%;">उतरने का स्टेशन </th>
+                        <td><span id="arrivalStationModal">N/A</span></td>
+                     </tr>
+                     <tr id="trainArrivalTimeModalContainer">
+                        <th style="width: 40%;">आगमन समय</th>
+                        <td><span id="trainArrivalTimeModal">N/A</span></td>
+                     </tr>
+                     <tr id="trainArrivalDateModalContainer">
+                        <th style="width: 40%;">आगमन दिनांक</th>
+                        <td><span id="trainArrivalDateModal">N/A</span></td>
+                     </tr>
+
+                     <!-- Arrival By road -->
+                     <tr id="destinationStationModalContainer">
+                        <th style="width: 40%;">उतरने का स्टेशन </th>
+                        <td><span id="destinationStationModal">N/A</span></td>
+                     </tr>
+                     <tr id="busArrivalDateModalContainer">
+                        <th style="width: 40%;">आगमन दिनांक</th>
+                        <td><span id="busArrivalDateModal">N/A</span></td>
+                     </tr>
+
+                     <!-- Arrival By Self Vehicle -->
+                      <tr id="arrivalVehicleNumberModalContainer">
+                        <th style="width: 40%;">वाहन संख्या</th>
+                        <td><span id="arrivalVehicleNumberModal">N/A</span></td>
+                     </tr>
+                     <tr id="selfVehicleArrivalDateModalContainer">
+                        <th style="width: 40%;">आगमन दिनांक</th>
+                        <td><span id="selfVehicleArrivalDateModal">N/A</span></td>
+                     </tr>
+                     <tr id="selfVehicleArrivalTimeModalContainer">
+                        <th style="width: 40%;">आगमन समय</th>
+                        <td><span id="selfVehicleArrivalTimeModal">N/A</span></td>
+                     </tr>
+                  </tbody>
+               </table>
+
+               <!-- Departure Details -->
+               <h5 class="modal-title">प्रस्थान जानकारी (Departure Information)</h5>
+               <table class="table table-bordered" style="width: 100%; margin-bottom: 1rem;">
+                  <tbody>
+                     <!-- Departure Details -->
+                     <tr id="departureModeModalContainer">
+                        <th style="width: 40%;">प्रस्थान सूचना</th>
+                        <td><span id="departureModeModal">N/A</span></td>
+                     </tr>
+
+                     <!-- Departure By Air -->
+                     <tr id="departureFlightModalContainer">
+                        <th style="width: 40%;">विमान संख्या</th>
+                        <td><span id="departureFlightModal">N/A</span></td>
+                     </tr>
+                     <tr id="departureTerminalModalContainer">
+                        <th style="width: 40%;">टर्मिनल क्रमांक</th>
+                        <td><span id="departureTerminalModal">N/A</span></td>
+                     </tr>
+                     <tr id="departureTimeModalContainer">
+                        <th style="width: 40%;">प्रस्थान समय</th>
+                        <td><span id="departureTimeModal">N/A</span></td>
+                     </tr>
+                     <tr id="departureDateModalContainer">
+                        <th style="width: 40%;">प्रस्थान दिनांक</th>
+                        <td><span id="departureDateModal">N/A</span></td>
+                     </tr>
+
+                     <!-- Departure by train -->       
+                     <tr id="departureTrainNumberModalContainer">
+                        <th style="width: 40%;">गाड़ी संख्या</th>
+                        <td><span id="departureTrainNumberModal">N/A</span></td>
+                     </tr>
+                     <tr id="departureCoachNumberModalContainer">
+                        <th style="width: 40%;">कोच क्रमांक</th>
+                        <td><span id="departureCoachNumberModal">N/A</span></td>
+                     </tr>
+                     <tr id="departureStationModalContainer">
+                        <th style="width: 40%;">प्रस्थान का स्टेशन </th>
+                        <td><span id="departureStationModal">N/A</span></td>
+                     </tr>
+                     <tr id="trainDepartureDateModalContainer">
+                        <th style="width: 40%;">प्रस्थान दिनांक</th>
+                        <td><span id="trainDepartureDateModal">N/A</span></td>
+                     </tr>
+                     <tr id="trainDepartureTimeModalContainer">
+                        <th style="width: 40%;">प्रस्थान समय</th>
+                        <td><span id="trainDepartureTimeModal">N/A</span></td>
+                     </tr>
+
+                     <!-- Departure by road -->
+                     <tr id="departureDestinationStationModalContainer">
+                        <th style="width: 40%;">प्रस्थान का स्टेशन </th>
+                        <td><span id="departureDestinationStationModal">N/A</span></td>
+                     </tr>                           
+                     <tr id="busDepartureDateModalContainer">
+                        <th style="width: 40%;">प्रस्थान दिनांक</th>
+                        <td><span id="busDepartureDateModal">N/A</span></td>
+                     </tr>
+
+                     <!-- Departure By Self Vehicle -->
+                      <tr id="departureVehicleNumberModalContainer">
+                        <th style="width: 40%;">वाहन संख्या</th>
+                        <td><span id="departureVehicleNumberModal">N/A</span></td>
+                     </tr>
+                     <tr id="selfVehicleDepartureDateModalContainer">
+                        <th style="width: 40%;">प्रस्थान दिनांक</th>
+                        <td><span id="selfVehicleDepartureDateModal">N/A</span></td>
+                     </tr>
+                     <tr id="selfVehicleDepartureTimeModalContainer">
+                        <th style="width: 40%;">प्रस्थान समय</th>
+                        <td><span id="selfVehicleDepartureTimeModal">N/A</span></td>
+                     </tr>
+                  </tbody>
+               </table>
+
+               <table class="table table-bordered" style="width: 100%; margin-bottom: 1rem;">
+                  <tbody>
+                     <!-- Departure Details -->
+                     <tr id="additionalInfoModalContainer">
+                        <th style="width: 40%;">कृपया अन्य आवश्यक जानकारी का संकेत करने की कृपा करें जी</th>
+                        <td><span id="additionalInfoModal">N/A</span></td>
+                     </tr>
+                  </tbody>
+               </table>
+         
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer d-flex justify-content-center mt-4"
+               style="background-color: #e9ecef; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; padding: 15px;">
+               <button type="button" class="class-modal btn btn-success btn-sm border border-2 w-auto"
+                  style="margin-right: 10px;">Edit</button>
+               <button id="finalSubmit" class="btn btn-success btn-sm w-auto">Confirm Submit</button>
+            </div>
+         </div>
+      </div>
+   {% endblock %}
+
+   {% block scripts %}
+      <!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
+      <!-- Static Flies JavaScript Link -->
+      <script src="{% static '/register_samautkarsh/assets/js/akhilBhartiya.js' %}"></script>
+   {% endblock%}
+

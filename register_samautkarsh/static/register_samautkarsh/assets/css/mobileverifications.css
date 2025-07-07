@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px 10px;
+    background-image: url('/static/register_samautkarsh/assets/img/bg_img.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Hind", serif;
+}
+
+.form-container {
+    background: white;
+    border: 2px solid #8B0000;
+    border-radius: 12px;
+    box-shadow: 20px 20px 26px rgba(255, 255, 255, 0.5), -20px -20px 26px rgba(255, 255, 255, 0.5);
+    padding: 30px;
+    max-width: 450px;
+    width: 100%;
+    margin: auto;
+    transition: transform 0.3s ease-in-out;
+}
+
+.form-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+}
+
+.required::after {
+    content: " *";
+    color: red;
+}
+
+.form-control {
+    font-size: 10px;
+}
+
+.btn {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+@media (max-width: 768px) {
+    .row .col-md-4 {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+.form-container .form-control {
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form-container .form-control:focus {
+    border-color: #ff9800;
+    box-shadow: 0px 0px 5px rgba(255, 152, 0, 0.75);
+}
+
+.form-container .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.form-container .input-error {
+    border: 1px solid red !important;
+}
+
+#otpVerificationSection .form-control,
+#otpVerificationSection .btn {
+    height: 38px;
+}

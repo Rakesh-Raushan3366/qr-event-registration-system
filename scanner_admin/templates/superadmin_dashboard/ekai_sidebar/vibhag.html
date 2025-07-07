@@ -1,0 +1,277 @@
+{% extends 'superadmin_dashboard/superadmin_dashboard.html' %}
+{% block title %}{{title}}{% endblock %}
+
+
+{% block content %}
+<!-- End Col -->
+<section class="section mt-30">
+    <div class="container-fluid">
+        <div class="col-lg-12">
+            <div class="card-style mb-30">
+                <div class="title d-flex flex-wrap align-items-center justify-content-between p-3 mb-3"
+                    style="background: #f8f9fa; border-radius: 8px; box-shadow: 0px 2px 5px rgba(0,0,0,0.1);">
+
+                    <!-- Left Section: Heading -->
+                    <div class="left">
+                        <h6 class="text-medium mb-0" style="font-size: 18px; font-weight: bold; color: #333;">
+                            अनुमति सम्बन्धी आवेदन (Approval Request)
+                        </h6>
+                    </div>
+
+                    <!-- Right Section: Search Bar and Dropdown -->
+                    <div class="right d-flex flex-wrap align-items-center gap-3">
+
+                        <!-- Search Bar -->
+                        <div class="search-bar">
+                            <input type="text" id="search-input" class="form-control"
+                                style="font-size: 14px; padding: 8px 12px; border-radius: 6px; border: 1px solid #ccc; transition: border 0.3s ease;"
+                                placeholder="Search by Name or ID" onfocus="this.style.borderColor='#007bff';"
+                                onblur="this.style.borderColor='#ccc';">
+                        </div>
+
+                        <!-- Dropdown -->
+                        <div class="select-style-1" style="margin-bottom: 0px !important;">
+                            <div class="select-position select-sm">
+                                <select class="light-bg" id="status-filter">
+                                    <option value="">सभी विभाग</option>
+                                    {% for data in vibhag %}
+                                    <option value="{{ data.vibhag_hindi }}">{{ data.vibhag_hindi }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Title -->
+
+                <div class="table-responsive">
+                    <table class="table top-selling-table">
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    <h6 class="text-sm text-medium">रजिस्ट्रेशन नंबर</h6>
+                                </th>
+                                <th>
+                                    <h6 class="text-sm text-medium">नाम</h6>
+                                </th>
+                                <th>
+                                    <h6 class="text-sm text-medium">मोबाइल नम्बर</h6>
+                                </th>
+                                <th>
+                                    <h6 class="text-sm text-medium">निवास का नगर</h6>
+                                </th>
+                                <th>
+                                    <h6 class="text-sm text-medium">दायित्व की इकाई</h6>
+                                </th>
+                                <th>
+                                    <h6 class="text-sm text-medium">दायित्व</h6>
+                                </th>
+                                <th>
+                                    <h6 class="text-sm text-medium">अनुमति की स्थिति</h6>
+                                </th>
+                                <th>
+                                    <h6 class="text-sm text-medium text-end">अनुमति</h6>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in filtered_vibhag %}
+                            <tr data-id="{{ data.register_id }}">
+                                <td data-label="रजिस्ट्रेशन नंबर" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{ data.register_id }}</p>
+                                </td>
+                                <td data-label="नाम" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{ data.name }}</p>
+                                </td>
+                                <td data-label="मोबाइल नम्बर" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{ data.phone_number }}</p>
+                                </td>
+                                <td data-label="निवास का नगर" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{ data.nagar_address}}</p>
+                                </td>
+                                <td data-label="दायित्व की इकाई" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{ data.ekai }}</p>
+                                </td>
+                                <td data-label="दायित्व" style="font-size: 14px !important;">
+                                    <p class="text-sm">{{ data.dayitv }}</p>
+                                </td>
+
+                                <!-- <td>
+                                    <span class="status-btn active-btn btn-sm">{{ data.status }}</span>
+                                </td> -->
+                                <td data-label="अनुमति की स्थिति" style="font-size: 14px !important;">
+                                    <p class="text-sm status pending">Pending</p>
+                                </td>
+
+                                <td data-label="अनुमति" style="font-size: 14px !important;">
+                                    <div class="actions d-flex gap-5">
+                                        <button class="btn btn-outline-warning btn-xs active"
+                                            style="padding:5px; font-size:12px;font-weight:700;color:#333;"
+                                            onclick="updateStatus(this, 'Pending')">Pending</button>
+                                        <button class="btn btn-outline-success btn-xs"
+                                            style="padding:5px; font-size:12px;font-weight:700;color:#333;"
+                                            onclick="updateStatus(this, 'Approve')">Approve</button>
+                                        <button class="btn btn-outline-danger btn-xs"
+                                            style="padding:5px; font-size:12px;font-weight:700;color:#333;"
+                                            onclick="updateStatus(this, 'Reject')">Reject</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- End Table -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Col -->
+
+<script>
+    // Define updateStatus in the global scope
+    function updateStatus(button, status) {
+        const row = button.closest("tr");
+        const registerId = row.getAttribute("data-id");
+        // alert(registerId);
+        // alert(status);
+
+        // Create a FormData object
+        const formData = new FormData();
+        formData.append('register_id', registerId);
+        formData.append('status', status);
+
+        // Send a POST request to update the status
+        fetch('/vibhag/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),  // Include CSRF token for security
+            },
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Update the UI to reflect the new status
+                    const statusCell = row.querySelector(".status");
+                    statusCell.textContent = status;
+                    statusCell.className = `text-sm status ${status.toLowerCase()}`;
+
+                    // Highlight the selected button
+                    const actionButtons = row.querySelectorAll(".actions button");
+                    actionButtons.forEach((btn) => {
+                        btn.classList.remove("active");
+                        if (btn.textContent.trim() === status) {
+                            btn.classList.add("active");
+                        }
+                    });
+
+                    // Update row background color based on status
+                    switch (status.toLowerCase()) {
+                        case "pending":
+                            row.style.backgroundColor = "#fff3cd"; // Light yellow for waiting
+                            break;
+                        case "approve":
+                            row.style.backgroundColor = "#d4edda"; // Light green for approved
+                            break;
+                        case "reject":
+                            row.style.backgroundColor = "#f8d7da"; // Light red for rejected
+                            break;
+                        default:
+                            row.style.backgroundColor = ""; // Default color
+                    }
+                } else {
+                    alert('Failed to update status.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while updating the status.');
+            });
+    }
+
+    // Function to get the CSRF token from cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    // Other event listeners and functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        var editButtons = document.querySelectorAll('.edit');
+        editButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var row = button.closest('tr');
+                var id = row.getAttribute('data-id');
+                var name = row.querySelector('td:nth-child(2) .text-sm').textContent;
+                var phone = row.querySelector('td:nth-child(3) .text-sm').textContent;
+                var ekai = row.querySelector('td:nth-child(4) .text-sm').textContent;
+
+                document.getElementById('editName').value = name;
+                document.getElementById('editPhone').value = phone;
+                document.getElementById('editEkai').value = ekai;
+
+                // Save changes button functionality
+                document.getElementById('saveChanges').onclick = function () {
+                    // Perform save operation here (e.g., AJAX request)
+                    alert('Changes saved for ID: ' + id);
+                };
+            });
+        });
+
+        // Search Functionality
+        document.getElementById('search-input').addEventListener('input', function () {
+            const searchValue = this.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                const id = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                if (name.includes(searchValue) || id.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Status Filter
+        document.getElementById('status-filter').addEventListener('change', function () {
+            const statusValue = this.value;
+            const rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const status = row.querySelector('td:nth-child(5) .status-btn').textContent;
+                if (statusValue === '' || status === statusValue) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+{% endblock %}
